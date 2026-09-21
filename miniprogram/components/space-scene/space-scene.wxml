@@ -1,0 +1,7 @@
+<view class="scene-shell {{mode}}">
+  <canvas wx:if="{{!fallback}}" hidden="{{covered}}" class="webgl" type="webgl" id="webgl" disable-scroll="true" bindtouchstart="onTouchStart" catchtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindtouchcancel="onTouchCancel"></canvas>
+  <canvas wx:else hidden="{{covered}}" class="fallback" type="2d" id="fallback" disable-scroll="true" bindtouchstart="onFallbackStart" catchtouchmove="onFallbackMove" bindtouchend="onFallbackTap" bindtouchcancel="onFallbackMove"></canvas>
+  <image wx:if="{{covered ? snapshot : ''}}" class="snapshot" src="{{snapshot}}" mode="scaleToFill"></image>
+  <view wx:if="{{loading}}" class="loading"><view class="loader"></view><text>正在构建商业宇宙</text></view>
+  <view wx:if="{{fallback}}" class="fallback-note">节能模式</view>
+</view>

@@ -1,0 +1,2 @@
+.order-list { display: flex; flex-direction: column; gap: 12rpx; }.order { display: flex; min-height: 120rpx; padding: 22rpx; align-items: center; justify-content: space-between; }.order view text { display: block; }.order view text:first-child { color: #f5f7fb; font-size: 23rpx; }.order view text:last-child { margin-top: 8rpx; color: #707b94; font-size: 18rpx; }.order > view:last-child { text-align: right; }.order > view:last-child text:first-child { color: #efd892; }
+

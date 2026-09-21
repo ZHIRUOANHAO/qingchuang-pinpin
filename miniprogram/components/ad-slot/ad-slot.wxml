@@ -1,0 +1,4 @@
+<view wx:if="{{enabled && unitId}}" class="ad-slot" data-placement="{{placement}}" aria-label="推广内容">
+  <text class="ad-label">推广</text>
+  <ad unit-id="{{unitId}}" bindload="onLoad" binderror="onError" bindclose="onClose"></ad>
+</view>

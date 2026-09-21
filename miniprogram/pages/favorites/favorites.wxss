@@ -1,0 +1,2 @@
+.simple-list { display: flex; flex-direction: column; gap: 12rpx; }.simple-item { display: grid; grid-template-columns: 120rpx 1fr auto; min-height: 120rpx; padding: 18rpx; align-items: center; gap: 14rpx; }.simple-item view text { display: block; }.simple-item view text:first-child { color: #f5f7fb; font-size: 23rpx; }.simple-item view text:last-child { margin-top: 7rpx; color: #707b94; font-size: 18rpx; }.simple-item > text { color: #68738b; font-size: 32rpx; }
+

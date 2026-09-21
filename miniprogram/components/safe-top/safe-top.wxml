@@ -1,0 +1,2 @@
+<view class="inset" style="height:{{height}}px" aria-hidden="true"></view>
+<cover-view class="chrome" style="height:{{height}}px" aria-hidden="true"></cover-view>

@@ -1,0 +1,9 @@
+{
+  "name": "qingchuang-pinpin-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "threejs-miniprogram": "0.0.8"
+  }
+}
+

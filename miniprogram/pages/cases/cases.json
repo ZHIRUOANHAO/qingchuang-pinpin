@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "dna-mini": "/components/dna-mini/dna-mini",
+    "safe-top": "/components/safe-top/safe-top"
+  },
+  "enablePullDownRefresh": true
+}

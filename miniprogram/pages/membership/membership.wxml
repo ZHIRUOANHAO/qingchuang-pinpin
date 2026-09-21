@@ -1,0 +1,26 @@
+<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false">
+  <view class="page-shell custom-page member-page">
+    <galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
+    <view class="nav-bar"><button class="icon-button" aria-label="返回" bindtap="back">‹</button><text class="brand">功能开放说明</text><view class="icon-button ghost"></view></view>
+    <view class="member-hero">
+      <text class="tag gold">当前免费体验</text>
+      <text class="hero-title">先走完一个完整案例</text>
+      <text class="hero-note">从目标用户到验证动作，先判断这些拆解能否帮到你。</text>
+    </view>
+    <view class="availability panel">
+      <view class="availability-head"><text class="availability-title">{{caseLibraryMeta.free}} 个免费完整案例</text><text class="status available">现在可用</text></view>
+      <text class="availability-copy">可阅读完整七关拆解、复制公开来源，并将案例加入画布继续验证。</text>
+    </view>
+    <view class="availability panel">
+      <view class="availability-head"><text class="availability-title">先让阅读完整、顺畅</text><text class="status">无广告打断</text></view>
+      <text class="availability-copy">当前不收案例阅读费，也不要求观看广告来解锁正文。真实广告尚未接入。</text>
+    </view>
+    <view class="availability panel">
+      <view class="availability-head"><text class="availability-title">AI 拆解</text><text class="status">本地演示</text></view>
+      <text class="availability-copy">当前使用本地模板演示流程，尚未接入真实 AI 模型，不提供可购买的调用额度。</text>
+    </view>
+    <button class="primary-button full-button explore" bindtap="openFreeCases">先体验 {{caseLibraryMeta.free}} 个免费完整案例</button>
+    <text class="payment-note">此页面不会发起支付。免费体验不代表无限AI调用；实际能力以页面说明为准。</text>
+    <text class="payment-note">案例分析用于形成待验证假设，不构成收益保证。</text>
+  </view>
+</scroll-view>

@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/cases/cases",
+    "pages/ai/ai",
+    "pages/canvas/canvas",
+    "pages/profile/profile",
+    "pages/case-detail/case-detail",
+    "pages/favorites/favorites",
+    "pages/records/records",
+    "pages/schemes/schemes",
+    "pages/validation/validation",
+    "pages/privacy/privacy",
+    "pages/agreement/agreement",
+    "pages/minors/minors",
+    "pages/help/help",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationStyle": "default",
+    "navigationBarTitleText": "青创拼拼",
+    "navigationBarBackgroundColor": "#080d19",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#050812",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#7f8aa6",
+    "selectedColor": "#d9bb72",
+    "backgroundColor": "#080d19",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "星球" },
+      { "pagePath": "pages/cases/cases", "text": "案例" },
+      { "pagePath": "pages/ai/ai", "text": "案例演示" },
+      { "pagePath": "pages/canvas/canvas", "text": "画布" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "usingComponents": {
+    "galaxy-backdrop": "/components/galaxy-backdrop/galaxy-backdrop",
+    "status-view": "/components/status-view/status-view",
+    "privacy-popup": "/components/privacy-popup/privacy-popup",
+    "ad-slot": "/components/ad-slot/ad-slot"
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

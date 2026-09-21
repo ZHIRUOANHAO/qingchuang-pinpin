@@ -1,0 +1,3 @@
+:host { display: block; }
+.inset { width: 100%; }
+.chrome { position: fixed; z-index: 70; top: 0; left: 0; right: 0; background: #050812; pointer-events: none; }

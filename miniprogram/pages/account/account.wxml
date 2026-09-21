@@ -1,0 +1,26 @@
+<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false"><view class="page-shell custom-page account-page"><galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
+  <view class="nav-bar"><button class="icon-button" aria-label="返回" bindtap="back">‹</button><view class="brand-block"><text class="brand">账号与资料</text><text class="brand-sub">管理你的商业基因身份</text></view><view class="icon-button ghost"></view></view>
+
+  <view wx:if="{{!session}}" class="signed-out panel"><view class="avatar-placeholder">Q</view><text class="section-title">尚未连接微信账号</text><text class="section-copy">登录后可以保存个人资料，并为收藏、拆解记录和方案提供账号保护。</text><button class="primary-button full-button" bindtap="login">微信登录</button></view>
+
+  <block wx:else>
+    <view class="profile-form panel">
+      <view class="form-heading"><view><text class="section-title">公开资料</text><text class="section-copy">头像和昵称由你主动选择，仅用于个人中心展示。</text></view><text class="sync-state">已连接</text></view>
+      <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择头像"><image wx:if="{{avatar}}" src="{{avatar}}" mode="aspectFill"></image><text wx:else>{{avatarInitial}}</text><view class="avatar-edit">更换</view></button>
+      <view class="field"><text class="field-label">昵称</text><input type="nickname" maxlength="24" value="{{nickname}}" bindinput="onNicknameInput" placeholder="请输入昵称" placeholder-class="input-placeholder" /></view>
+      <view class="field"><text class="field-label">当前身份</text><view class="role-options"><button wx:for="{{roles}}" wx:key="*this" class="role-option {{role === item ? 'selected' : ''}}" data-role="{{item}}" bindtap="selectRole">{{item}}</button></view></view>
+      <button class="primary-button full-button save-button" loading="{{saving}}" disabled="{{saving || !nickname}}" bindtap="save">保存资料</button>
+    </view>
+
+    <view class="account-state panel">
+      <text class="section-title">账号状态</text>
+      <view class="state-row"><text>账号标识</text><text>{{accountId}}</text></view>
+      <view class="state-row"><text>登录方式</text><text>{{authLabel}}</text></view>
+      <view class="state-row"><text>体验方式</text><text>{{membership}}</text></view>
+      <view class="state-row link-row" bindtap="privacy"><text>隐私保护说明</text><text>查看 ›</text></view>
+    </view>
+
+    <view class="account-actions"><button class="secondary-button full-button" bindtap="logout">退出登录</button><button class="danger-button full-button" bindtap="deleteAccount">注销账号并清除数据</button></view>
+  </block>
+  <view class="spacer-bottom"></view>
+</view></scroll-view>

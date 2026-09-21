@@ -1,0 +1,2 @@
+<view class="page-shell"><view class="nav-bar"><view class="brand-block"><text class="brand">我的收藏</text><text class="brand-sub">{{list.length}} 条商业 DNA</text></view></view><status-view wx:if="{{!list.length}}" type="empty" title="还没有收藏" description="在案例详情点击收藏，方便之后继续拆解"></status-view><view wx:else class="section simple-list"><view wx:for="{{list}}" wx:key="id" class="simple-item panel" data-id="{{item.id}}" bindtap="open"><dna-mini></dna-mini><view><text>{{item.title}}</text><text>{{item.industry}} · 闭环 {{item.score}}</text></view><text>›</text></view></view></view>
+

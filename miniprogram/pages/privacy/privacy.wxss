@@ -1,0 +1,24 @@
+.legal-page { min-height: 100vh; padding: 0 30rpx 96rpx; background: #050812; color: #edf0f7; }
+.legal-header { padding: 52rpx 4rpx 30rpx; border-bottom: 1rpx solid rgba(177, 194, 226, .16); }
+.eyebrow, .brand, .meta, .summary, .alert-title, .preflight-alert text, .section-index, .doc-title, .paragraph, .data-name, .pending-contact { display: block; }
+.eyebrow { color: #d9bb72; font-size: 18rpx; letter-spacing: 3rpx; }
+.brand { margin-top: 12rpx; color: #f5f7fb; font-size: 40rpx; font-weight: 650; line-height: 1.35; }
+.meta { margin-top: 12rpx; color: #7f8aa6; font-size: 20rpx; }
+.summary { margin-top: 22rpx; max-width: 650rpx; color: #aab4c7; font-size: 23rpx; line-height: 1.75; }
+.preflight-alert { margin-top: 24rpx; padding: 24rpx; border: 1rpx solid rgba(239, 125, 131, .42); background: rgba(239, 125, 131, .08); }
+.preflight-alert text { color: #d8b2b6; font-size: 21rpx; line-height: 1.7; }
+.preflight-alert .alert-title { margin-bottom: 8rpx; color: #ffd1d3; font-size: 23rpx; font-weight: 650; }
+.document { padding-top: 6rpx; }
+.section-card { position: relative; padding: 30rpx 4rpx; border-bottom: 1rpx solid rgba(177, 194, 226, .13); }
+.section-index { color: #d9bb72; font-size: 17rpx; letter-spacing: 2rpx; }
+.doc-title { margin-top: 8rpx; color: #f2f4f8; font-size: 28rpx; font-weight: 620; line-height: 1.45; }
+.paragraph { margin-top: 14rpx; color: #aab4c7; font-size: 22rpx; line-height: 1.9; }
+.data-row { margin-top: 22rpx; padding-left: 20rpx; border-left: 3rpx solid rgba(217, 187, 114, .36); }
+.data-name { color: #e3d5a5; font-size: 22rpx; font-weight: 600; }
+.data-row .paragraph { margin-top: 8rpx; }
+.contact-button, .text-link { box-sizing: border-box; min-height: 80rpx; margin: 20rpx 0 0; padding: 16rpx 20rpx; border: 1rpx solid rgba(217, 187, 114, .3); border-radius: 4rpx; background: rgba(217, 187, 114, .07); color: #efd892; font-size: 21rpx; line-height: 1.5; text-align: left; }
+.contact-button::after, .text-link::after { border: 0; }
+.danger-button { box-sizing: border-box; min-height: 80rpx; margin: 20rpx 0 0; padding: 16rpx 20rpx; border: 1rpx solid rgba(239,125,131,.32); border-radius: 4rpx; background: rgba(239,125,131,.07); color: #f2b0b4; font-size: 21rpx; line-height: 1.5; }
+.danger-button::after { border: 0; }
+.pending-contact { margin-top: 16rpx; color: #ef9da1; font-size: 21rpx; line-height: 1.7; }
+@media (max-width: 340px) { .legal-page { padding-right: 22rpx; padding-left: 22rpx; } .brand { font-size: 35rpx; } }

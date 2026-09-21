@@ -1,0 +1,13 @@
+.member-page { padding-bottom:calc(env(safe-area-inset-bottom) + 48rpx); }
+.ghost { opacity:0; }
+.member-hero { position:relative; z-index:2; padding:48rpx 0 32rpx; text-align:left; }
+.hero-title { display:block; margin-top:18rpx; font-size:22px; line-height:1.4; font-weight:650; }
+.hero-note { display:block; margin-top:12rpx; color:#aab4c7; font-size:12px; line-height:1.8; }
+.availability { position:relative; z-index:2; margin-top:16rpx; padding:24rpx; }
+.availability-head { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12rpx; }
+.availability-title { color:#f5f7fb; font-size:14px; line-height:1.6; font-weight:600; }
+.status { padding:6rpx 10rpx; color:#d9bb72; background:#211e17; font-size:11px; line-height:1.6; }
+.status.available { color:#83d6ad; background:#11251e; }
+.availability-copy { display:block; margin-top:14rpx; color:#aab4c7; font-size:12px; line-height:1.8; }
+.explore { position:relative; z-index:2; margin-top:28rpx; }
+.payment-note { position:relative; z-index:2; display:block; margin-top:16rpx; color:#aab4c7; font-size:11px; line-height:1.8; text-align:left; }

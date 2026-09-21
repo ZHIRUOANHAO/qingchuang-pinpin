@@ -1,0 +1,18 @@
+<view class="home-fixed">
+  <galaxy-backdrop></galaxy-backdrop>
+  <safe-top></safe-top>
+  <view class="nav-bar"><view class="brand-block"><text class="brand">青创拼拼</text><text class="brand-sub">看懂商业项目，从卖点到交付验证</text></view><button class="icon-button" aria-label="浏览全部案例" bindtap="openCases">⌕</button></view>
+  <view class="home-intro">
+    <text class="eyebrow">普通人 · 低成本起步优先</text>
+    <text class="home-title">一门生意如何运转？</text>
+    <text class="home-description">卖什么、谁愿意买、为什么买，最后如何交付并验证闭环。</text>
+    <view class="home-actions"><button class="primary-button" bindtap="openStarterCases">先看低成本试做项目</button><button class="secondary-button" bindtap="openFeatured">打开完整案例</button></view>
+    <text class="scope-note">当前 {{caseLibraryMeta.total}} 条样本偏数字产品，尚未覆盖全行业；公开经营资料不等于已核实盈利。</text>
+  </view>
+  <view class="universe-viewport">
+    <space-scene mode="universe" items="{{cases}}" reduced-motion="{{reducedMotion}}" bindselect="selectPlanet"></space-scene>
+    <view class="universe-caption"><text>每颗小星球 = 1 个案例 · 拖动旋转，点击查看</text><text>{{caseLibraryMeta.free}} 个案例全部免费阅读</text></view>
+  </view>
+  <ad-slot enabled="{{adSlot.enabled}}" unit-id="{{adSlot.unitId}}" placement="{{adSlot.placement}}" ad-type="{{adSlot.adType}}"></ad-slot>
+</view>
+<privacy-popup visible="{{showPrivacy}}" bindaccept="acceptPrivacy" binddecline="declinePrivacy"></privacy-popup>

@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "safe-top": "/components/safe-top/safe-top"
+  }
+}

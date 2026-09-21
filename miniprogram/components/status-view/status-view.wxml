@@ -1,0 +1,8 @@
+<view class="status" role="status" aria-live="polite">
+  <view wx:if="{{type === 'loading'}}" class="loader"></view>
+  <view wx:else class="symbol">{{symbols[type] || '·'}}</view>
+  <text class="title">{{title}}</text>
+  <text wx:if="{{description}}" class="description">{{description}}</text>
+  <button wx:if="{{actionText}}" class="action" bindtap="onAction">{{actionText}}</button>
+</view>
+

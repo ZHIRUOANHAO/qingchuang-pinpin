@@ -1,0 +1,50 @@
+<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false">
+  <view class="page-shell custom-page demo-page"><galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
+    <view class="nav-bar"><view class="brand-block"><text class="brand">案例演示</text><text class="brand-sub">{{result ? '已载入七阶段商业 DNA' : '选择一个内置案例查看完整链路'}}</text></view><text class="mode-badge">本地预置</text></view>
+
+    <view wx:if="{{!result && !analyzing}}" class="demo-workspace section">
+      <view class="notice panel" role="note">
+        <text class="notice-title">无需上传任何材料</text>
+        <text>全部内容已预置在安装包内。本页不接收文字、网页、图片或 PDF，不调用外部模型，也不进行智能计算。</text>
+      </view>
+
+      <picker mode="selector" range="{{caseTitles}}" value="{{selectedIndex}}" bindchange="chooseCase">
+        <view class="case-picker panel">
+          <view><text class="picker-label">当前案例</text><text class="picker-title">{{selectedSummary.title}}</text><text class="picker-meta">{{selectedSummary.industry}} · {{selectedSummary.difficultyLabel}}</text></view>
+          <text class="picker-arrow">更换 ›</text>
+        </view>
+      </picker>
+
+      <button class="primary-button full-button load-demo" bindtap="runDemo">载入案例 DNA</button>
+
+      <view class="quick-cases">
+        <text class="section-title">快速选择</text>
+        <button wx:for="{{featured}}" wx:key="id" class="quick-case panel" data-id="{{item.id}}" bindtap="chooseFeatured" aria-label="载入{{item.title}}">
+          <text>{{item.shortTitle}}</text><text>{{item.industry}}</text><text>›</text>
+        </button>
+      </view>
+    </view>
+
+    <view wx:elif="{{analyzing}}" class="analysis-state" aria-busy="true"><view class="pulse"><text>DNA</text></view><text class="analysis-title">正在读取预置案例</text><view class="steps"><text class="done">✓ 读取公开来源与案例正文</text><text>· 组织七阶段资产卡</text><text>· 生成本地可视化</text></view></view>
+
+    <view wx:else class="result section">
+      <view class="result-head"><view><text class="tag safe">预置案例</text><text class="result-title">{{result.title}}</text></view><button class="icon-button" aria-label="重新选择案例" bindtap="reset">↻</button></view>
+      <view class="result-dna"><dna-view items="{{result.displayNodes}}" score="{{0}}" has-score="{{false}}" selected-id="{{selectedNode ? selectedNode.id : ''}}" covered="{{!!selectedNode}}" reduced-motion="{{reducedMotion}}" bindselect="selectNode"></dna-view></view>
+      <view class="fact-grid">
+        <view class="fact panel"><text>7</text><text>固定商业阶段</text></view>
+        <view class="fact panel"><text>公开</text><text>来源可核对</text></view>
+        <view class="fact panel"><text>本地</text><text>无外部请求</text></view>
+      </view>
+      <view class="blueprint-grid">
+        <view><text>卖什么</text><text>{{result.offer}}</text></view>
+        <view><text>谁付钱</text><text>{{result.payer}}</text></view>
+        <view><text>如何交付</text><text>{{result.delivery}}</text></view>
+        <view><text>风险边界</text><text>{{result.compliance}}</text></view>
+      </view>
+      <view class="source-panel panel"><text class="section-title">依据与边界</text><text>公开资料仅用于商业认知与结构化学习，不代表项目可复制、已盈利或适合所有人。</text><button wx:for="{{result.sourceUrls}}" wx:key="*this" data-index="{{index}}" bindtap="copySource">复制来源 {{index + 1}}</button></view>
+      <view class="result-actions"><button class="secondary-button" bindtap="saveResult">保存到本机</button><button class="secondary-button" bindtap="openCase">查看完整案例</button><button class="primary-button" bindtap="continueCanvas">进入画布拼装</button></view>
+      <view class="spacer-bottom"></view>
+    </view>
+  </view>
+</scroll-view>
+<node-detail-sheet node="{{selectedNode}}" bindclose="closeNode"></node-detail-sheet>

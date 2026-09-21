@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "safe-top": "/components/safe-top/safe-top",
+    "dna-view": "/components/dna-view/dna-view",
+    "node-detail-sheet": "/components/node-detail-sheet/node-detail-sheet"
+  },
+  "navigationStyle": "custom"
+}

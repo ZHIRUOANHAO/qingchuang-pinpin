@@ -1,0 +1,27 @@
+.mask { position: fixed; z-index: 80; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: flex-end; background: rgba(2,4,10,.68); }
+.sheet { box-sizing: border-box; width: 100%; max-height: 76vh; padding: 12px 20px calc(env(safe-area-inset-bottom) + 16px); border-top: 1px solid rgba(177,194,226,.22); background: #0a101b; color: #f5f7fb; }
+.handle { width: 36px; height: 3px; margin: 0 auto 16px; border-radius: 3px; background: rgba(177,194,226,.25); }
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.heading { min-width: 0; }
+.eyebrow, .title, .field-label, .field-value, .metric-value { display: block; }
+.eyebrow { color: #d9bb72; font-size: 11px; line-height: 1.5; }
+.title { margin-top: 6px; font-size: 20px; line-height: 1.4; font-weight: 650; overflow-wrap: anywhere; }
+.close { box-sizing: border-box; display: flex; width: 42px; height: 42px; flex-shrink: 0; margin: 0; padding: 0; align-items: center; justify-content: center; border: 1px solid rgba(177,194,226,.2); border-radius: 4px; background: #111a28; color: #c6cedd; font-size: 26px; line-height: 1; }
+.close::after { border: 0; }
+.close-image { display: block; width: 20px; height: 20px; pointer-events: none; }
+.content { height: 46vh; margin-top: 16px; }
+.field { padding: 14px 0; border-top: 1px solid rgba(177,194,226,.12); }
+.field-label { color: #96a0b8; font-size: 11px; line-height: 1.5; }
+.field-value { margin-top: 8px; color: #dce1eb; font-size: 13px; line-height: 1.8; }
+.triples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 14px 0; border-top: 1px solid rgba(177,194,226,.12); }
+.metric { min-width: 0; }
+.metric-value { margin-top: 8px; color: #f5f7fb; font-size: 17px; overflow-wrap: anywhere; }
+.asset-groups { display: grid; gap: 10px; padding: 14px 0; border-top: 1px solid rgba(177,194,226,.12); }
+.asset-group { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.asset-group .field-label { width: 100%; }
+.asset-chip { max-width: 100%; padding: 6px 8px; border: 1px solid rgba(98,199,217,.18); background: rgba(98,199,217,.06); color: #b9dce1; font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; }
+.sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 0 2px; }
+.sheet-actions button { min-height: 42px; margin: 0; border-radius: 4px; font-size: 13px; }
+.sheet-actions button::after { border: 0; }
+.save { border: 1px solid rgba(217,187,114,.3); background: #d9bb72; color: #111522; }
+.dismiss { border: 1px solid rgba(177,194,226,.2); background: #111a28; color: #cbd3e1; }

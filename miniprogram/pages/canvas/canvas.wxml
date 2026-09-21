@@ -1,0 +1,13 @@
+<view class="canvas-page"><galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
+  <view class="topbar"><view class="brand-block"><text class="brand">{{title}}</text><text class="brand-sub">{{sourceLabel}} · {{nodes.length}} 个节点</text></view><button class="icon-button" aria-label="重置画布" bindtap="reset">↻</button></view>
+  <scroll-view class="module-bar" scroll-x enhanced show-scrollbar="false"><view class="module-row"><button wx:for="{{modules}}" wx:key="id" class="module {{item.added ? 'added' : ''}}" data-id="{{item.id}}" bindtap="toggleModule" aria-label="{{item.added ? '移除' : '添加'}}{{item.name}}"><view class="module-dot" style="background:{{item.color}}"></view><text>{{item.name}}</text><text>{{item.added ? '−' : '+'}}</text></button></view></scroll-view>
+  <dna-view items="{{nodes}}" score="{{metrics.completeness}}" selected-id="{{selectedNode ? selectedNode.id : ''}}" covered="{{!!selectedNode}}" reduced-motion="{{reducedMotion}}" bindselect="selectNode"></dna-view>
+  <view class="data-drawer">
+    <button class="drawer-head" bindtap="toggleDrawer" aria-label="{{drawerOpen ? '收起验算详情' : '展开验算详情'}}"><text class="section-title">实时验算</text><text>{{drawerOpen ? '−' : '+'}}</text></button>
+    <view class="metrics-line"><view><text class="metric-number">{{metrics.completeness}}%</text><text class="metric-name">环节覆盖</text></view><view><text class="metric-number">{{hasCaseNodes ? '待评估' : metrics.risk}}</text><text class="metric-name">{{hasCaseNodes ? '实际风险' : '模板风险示例'}}</text></view><view><text class="metric-number">{{hasCaseNodes ? '待核算' : '¥' + metrics.startupCost}}</text><text class="metric-name">{{hasCaseNodes ? '整案成本' : '模板成本示例'}}</text></view><view><text class="metric-number">{{metrics.difficulty}}/5</text><text class="metric-name">参考难度</text></view></view>
+    <text class="advice">环节覆盖不代表盈利概率；案例成本未逐节点核算，请按实际试验补充证据。</text>
+    <view wx:if="{{drawerOpen}}" class="drawer-content"><view class="progress-track"><view class="progress-fill" style="width:{{metrics.completeness}}%"></view></view><text class="advice">{{metrics.advice}}</text><text wx:if="{{metrics.missing.length}}" class="missing">缺少：{{missingText}}</text></view>
+    <view class="two-buttons"><button class="secondary-button" bindtap="save">保存方案</button><button class="primary-button" bindtap="openValidation">生成验证方案</button></view>
+  </view>
+  <node-detail-sheet node="{{selectedNode}}" bindclose="closeNode"></node-detail-sheet>
+</view>

@@ -1,0 +1,10 @@
+node_modules/
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
+cloudfunctions/*/node_modules/
+project.private.config.json
+.env
+.env.*
+!.env.example
+output/
+

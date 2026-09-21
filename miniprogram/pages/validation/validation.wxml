@@ -1,0 +1,54 @@
+<view wx:if="{{workflow}}" class="validation-page">
+  <galaxy-backdrop></galaxy-backdrop>
+  <view class="page-shell validation-shell">
+    <view class="nav-bar validation-head">
+      <view class="brand-block"><text class="brand">{{workflow.title}}</text><text class="brand-sub">7 天低成本验证 · {{decisionLabels[plan.decision]}}</text></view>
+      <button class="icon-button" aria-label="返回画布" bindtap="backCanvas">‹</button>
+    </view>
+
+    <view class="progress-panel panel">
+      <view><text>验证进度</text><text>{{progress.completed}} / {{progress.total}}</text></view>
+      <view class="progress-track"><view class="progress-fill" style="width: {{progress.percent}}%"></view></view>
+      <text>先验证是否有人需要，再决定是否继续投入。</text>
+    </view>
+
+    <view class="section">
+      <view class="section-heading"><text class="section-title">四个核心答案</text><text class="section-note">来自拆解与画布验算</text></view>
+      <view class="answer-grid">
+        <view><text>目标用户</text><text>{{plan.audience}}</text></view>
+        <view><text>最小交付</text><text>{{plan.minimumDeliverable}}</text></view>
+        <view><text>测试价格</text><text>{{plan.testPrice}}</text></view>
+        <view><text>第一步</text><text>{{plan.firstAction}}</text></view>
+      </view>
+    </view>
+
+    <view class="metric-strip panel">
+      <view><text>{{workflow.metrics.completeness || 0}}%</text><text>闭环完整度</text></view>
+      <view><text>{{workflow.metrics.risk || 0}}</text><text>风险评分</text></view>
+      <view><text>¥{{workflow.metrics.startupCost || 0}}</text><text>启动成本</text></view>
+    </view>
+
+    <view class="section">
+      <view class="section-heading"><text class="section-title">7 天验证关卡</text><text class="section-note">每天只推进一件事</text></view>
+      <view class="day-list">
+        <view wx:for="{{plan.days}}" wx:key="id" class="day-item {{item.done ? 'done' : ''}}">
+          <view class="day-main" data-index="{{index}}" bindtap="toggleDay">
+            <view class="day-check">{{item.done ? '✓' : index + 1}}</view>
+            <view><text>第 {{index + 1}} 天 · {{item.checkpoint}}</text><text>{{item.action}}</text></view>
+          </view>
+          <textarea data-index="{{index}}" value="{{item.result}}" maxlength="120" placeholder="记录人数、反馈、报价或证据" bindinput="recordResult"></textarea>
+        </view>
+      </view>
+    </view>
+
+    <view class="boundary panel"><text>本轮不做</text><text>{{plan.notDoing}}</text><text>风险边界</text><text>{{plan.riskBoundary}}</text></view>
+
+    <view class="section decision-section">
+      <view class="section-heading"><text class="section-title">阶段复盘</text><text class="section-note">根据证据做决定</text></view>
+      <view class="criteria"><view><text>继续</text><text>{{plan.criteria.continue}}</text></view><view><text>调整</text><text>{{plan.criteria.adjust}}</text></view><view><text>暂停</text><text>{{plan.criteria.pause}}</text></view></view>
+      <view class="decision-buttons"><button class="{{plan.decision === 'continue' ? 'active' : ''}}" data-value="continue" bindtap="setDecision">继续</button><button class="{{plan.decision === 'adjust' ? 'active' : ''}}" data-value="adjust" bindtap="setDecision">调整</button><button class="{{plan.decision === 'pause' ? 'active' : ''}}" data-value="pause" bindtap="setDecision">暂停</button></view>
+    </view>
+
+    <view class="validation-actions"><button class="secondary-button" bindtap="copySummary">复制摘要</button><button class="primary-button" bindtap="saveProgress">保存进度</button></view>
+  </view>
+</view>

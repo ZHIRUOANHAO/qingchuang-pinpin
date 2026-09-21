@@ -1,0 +1,24 @@
+{
+  "name": "qingchuang-pinpin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "青创拼拼原生微信小程序与浏览器验收预览",
+  "scripts": {
+    "test": "node tests/validate-structure.mjs && node tests/case-library.mjs && node tests/experience.mjs",
+    "test:browser": "node tests/browser-acceptance.mjs",
+    "test:preview": "node tests/preview-launcher.mjs",
+    "test:dna": "node tests/dna-theme.mjs",
+    "test:native-dna": "node tests/native-dna-browser.mjs",
+    "test:native-ui": "node tests/native-ui.mjs",
+    "test:cases": "node tests/case-library.mjs",
+    "test:experience": "node tests/experience.mjs",
+    "check:release": "node scripts/release-preflight.mjs",
+    "sync:cases": "node scripts/import-case-library.mjs",
+    "preview": "node scripts/serve-preview.mjs"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "playwright": "^1.55.0",
+    "three": "^0.180.0"
+  }
+}

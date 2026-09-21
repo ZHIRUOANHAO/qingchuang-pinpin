@@ -1,0 +1,11 @@
+.mask { position: fixed; z-index: 99; inset: 0; display: flex; padding: 32rpx; align-items: flex-end; background: rgba(2,4,10,.74); }
+.dialog { width: 100%; padding: 34rpx; border: 1rpx solid rgba(177,194,226,.18); border-radius: 8rpx; background: rgba(13,20,38,.97); }
+.title { display: block; color: #f5f7fb; font-size: 30rpx; font-weight: 650; }
+.body { display: block; margin-top: 18rpx; color: #b1bad0; font-size: 23rpx; line-height: 1.7; }
+.links { margin-top: 16rpx; color: #d9bb72; font-size: 22rpx; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 14rpx; margin-top: 28rpx; }
+.actions button { border-radius: 8rpx; font-size: 23rpx; }
+.actions button::after { border: 0; }
+.cancel { border: 1rpx solid rgba(177,194,226,.18); background: transparent; color: #c5ccda; }
+.accept { background: #d9bb72; color: #15130d; }
+
