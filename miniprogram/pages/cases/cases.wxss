@@ -1,7 +1,7 @@
 .cases-page { display:flex; flex-direction:column; box-sizing:border-box; height:100vh; padding-bottom:0; overflow:hidden; }.search { flex-shrink:0; position: relative; z-index: 3; display: grid; grid-template-columns: 40rpx 1fr 56rpx; align-items: center; height: 78rpx; margin-top: 20rpx; padding: 0 18rpx; color: #aab4c7; }
 .search input { min-width: 0; color: #f5f7fb; font-size: 23rpx; }.search button { width: 54rpx; height: 54rpx; padding: 0; background: transparent; color: #7f8aa6; }.search button::after { border: 0; }
-.filters { position: relative; z-index: 3; width: calc(100% + 56rpx); margin: 18rpx -28rpx 0; }.chip-row { padding: 0 28rpx 14rpx; }
-.list { position:relative; z-index:2; flex:1; min-height:0; height:0; margin-top:6rpx; }.case-list { display: flex; flex-direction: column; gap: 14rpx; padding: 10rpx 0 130rpx; }
+.filters { position: relative; z-index: 3; width: 100%; margin: 18rpx 0 0; }.chip-row { padding: 0 28rpx 14rpx; }
+.list { position:relative; z-index:2; flex:1; min-height:0; height:0; margin-top:6rpx; }.case-list { display: flex; flex-direction: column; align-items: stretch; gap: 14rpx; width: 100%; padding: 10rpx 0 calc(env(safe-area-inset-bottom) + 24rpx); }
 .cases-page > safe-top, .cases-page > .nav-bar, .filters { flex-shrink:0; }
 .access-filters { position:relative; z-index:3; display:flex; flex-shrink:0; gap:12rpx; margin-top:18rpx; }
 .access-filters button { margin:0; padding:8px 10px; min-height:40px; color:#aab4c7; background:#101826; font-size:12px; line-height:24px; }
@@ -9,6 +9,6 @@
 .access-filters .active { color:#17140d; background:#d9bb72; }
 .access-filters .reset-filter { margin-left:auto; background:transparent; color:#8cdcea; }
 .access-note { position:relative; z-index:3; flex-shrink:0; display:block; margin-top:14rpx; color:#aab4c7; font-size:11px; line-height:1.7; }
-.case-item { display: grid; grid-template-columns: 134rpx minmax(0, 1fr); gap: 18rpx; width: 100%; min-height: 230rpx; padding: 22rpx; color: inherit; text-align: left; line-height: 1.4; }.case-item::after { border: 0; }.visual { display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1rpx solid rgba(177,194,226,.1); }
+.case-item { display: grid; grid-template-columns: 134rpx minmax(0, 1fr); gap: 18rpx; box-sizing: border-box; width: 100% !important; max-width: none; margin-left: 0; margin-right: 0; min-height: 230rpx; padding: 22rpx; color: inherit; text-align: left; line-height: 1.4; }.case-item::after { border: 0; }.visual { display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1rpx solid rgba(177,194,226,.1); }
 .case-body { min-width: 0; }.case-head { display: flex; align-items: flex-start; gap: 16rpx; }.case-title { min-width: 0; color: #f5f7fb; font-size: 26rpx; font-weight: 600; overflow-wrap: anywhere; }.access-label { display:block; margin-top:8rpx; color:#65c799; font-size:11px; line-height:1.6; }.access-label.paid { color:#d9bb72; }
 .industry, .cost { display: block; margin-top: 8rpx; color: #6f7a93; font-size: 18rpx; }.cost { color: #8d97ac; }.value { display: -webkit-box; margin-top: 13rpx; overflow: hidden; color: #9aa4ba; font-size: 21rpx; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }.tag-row { display: flex; gap: 8rpx; margin-top: 14rpx; overflow: hidden; }.loading-more { display: block; padding: 18rpx; color: #69748d; font-size: 19rpx; text-align: center; }

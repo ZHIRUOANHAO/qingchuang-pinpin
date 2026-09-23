@@ -21,12 +21,17 @@ view, text, button, input, textarea, scroll-view, canvas, image {
   box-sizing: border-box;
 }
 
+/* WeChat gives <button> a default auto side margin, which centres a
+   width:100% button and squeezes it into a narrow strip instead of letting
+   it fill the row. Reset it so buttons obey their own width. */
+button { margin-left: 0; margin-right: 0; }
+
 button::after { border: 0; }
 
 .page-shell {
   position: relative;
   min-height: 100vh;
-  padding: calc(env(safe-area-inset-top) + 24rpx) 28rpx calc(env(safe-area-inset-bottom) + 32rpx);
+  padding: calc(env(safe-area-inset-top) + 24rpx) 0 calc(env(safe-area-inset-bottom) + 32rpx);
   overflow: hidden;
 }
 

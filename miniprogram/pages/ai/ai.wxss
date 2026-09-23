@@ -9,9 +9,12 @@
 .picker-meta { margin-top: 8rpx; color: #78849c; font-size: 18rpx; }
 .picker-arrow { flex-shrink: 0; color: #aeb8cb; font-size: 20rpx; }
 .load-demo { margin-top: 20rpx; }
-.quick-cases { margin-top: 34rpx; }
-.quick-cases .section-title { display: block; margin-bottom: 14rpx; }
-.quick-case { display: grid; width: 100%; min-height: 84rpx; margin: 10rpx 0; padding: 0 20rpx; grid-template-columns: minmax(0,1fr) auto auto; align-items: center; gap: 14rpx; text-align: left; }
+/* Let the picker list absorb the leftover height so the page never ends in a
+   slab of dead space when a short case list renders. */
+.demo-workspace { display: flex; flex-direction: column; min-height: calc(100vh - 220rpx); }
+.quick-cases { display: flex; flex-direction: column; align-items: stretch; flex: 1; min-height: 0; width: 100%; margin-top: 34rpx; }
+.quick-cases .section-title { display: block; flex: none; margin-bottom: 14rpx; }
+.quick-case { display: grid; box-sizing: border-box; flex: 1; width: 100% !important; max-width: none; margin: 10rpx 0; padding: 0 20rpx; grid-template-columns: minmax(0,1fr) auto auto; align-items: center; gap: 14rpx; text-align: left; }
 .quick-case text:first-child { overflow: hidden; color: #dfe5ef; font-size: 21rpx; text-overflow: ellipsis; white-space: nowrap; }
 .quick-case text:nth-child(2) { color: #718099; font-size: 17rpx; }
 .quick-case text:last-child { color: #d9bb72; }
@@ -25,7 +28,7 @@
 .result-head { display: flex; align-items: center; justify-content: space-between; gap: 20rpx; }
 .result-head > view { min-width: 0; }
 .result-title { display: block; margin-top: 12rpx; color: #eef2f7; font-size: 29rpx; font-weight: 600; overflow-wrap: anywhere; }
-.result-dna { margin: 20px -28rpx; }
+.result-dna { margin: 20px 0; }
 .fact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10rpx; }
 .fact { min-width: 0; padding: 18rpx 10rpx; text-align: center; }
 .fact text { display: block; }
