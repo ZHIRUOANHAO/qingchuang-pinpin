@@ -9,6 +9,9 @@ import * as experience from '../preview/case-experience.js';
 const require = createRequire(import.meta.url);
 const service = require('../miniprogram/services/cases');
 const mini = require('../miniprogram/data/cases');
+const { businessStages } = require('../miniprogram/config/business-stages');
+const { calculate, CORE_TYPES } = require('../miniprogram/utils/scoring');
+const { buildValidationPlan, missingLabels, summaryText } = require('../miniprogram/utils/validation');
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 const storage = () => {
   const values = new Map();
@@ -36,6 +39,37 @@ test('mini filters match web counts and pagination without overlap', async () =>
   const found = await service.list({ keyword: ` ${cases[0].title} `, access: 'free', tag: cases[0].tags[0] });
   assert.equal(found.total, 1);
   assert.equal((await service.list({ keyword: 'missing-unique-xyz' })).total, 0);
+});
+
+test('mini case service returns synchronous local data and isolates tag lists', () => {
+  const first = service.list({ keyword: cases[0].title, page: 1, pageSize: 1 });
+  assert.equal(typeof first.then, 'undefined');
+  assert.equal(first.total, 1);
+  assert.equal(service.list({ keyword: cases[0].title, page: 2, pageSize: 1 }).list.length, 0);
+  assert.equal(service.detail(cases[0].id).id, cases[0].id);
+  assert.equal(service.detail('missing-id'), null);
+  const tags = service.availableTags();
+  tags.push('外部改动');
+  assert.ok(!service.availableTags().includes('外部改动'));
+});
+
+test('canvas coverage uses the seven business stages and never counts extra modules', () => {
+  assert.deepEqual(CORE_TYPES, businessStages.map(stage => stage.id));
+  const business = calculate(mini.cases[0].businessNodes);
+  assert.equal(business.completeness, 100);
+  assert.deepEqual(business.missing, []);
+  assert.equal(business.canExport, false, 'unverified case costs and risks cannot be treated as cleared');
+  assert.match(readFileSync(new URL('../miniprogram/pages/canvas/canvas.js', import.meta.url), 'utf8'), /按实际条件测算成本、风险与效果/);
+  assert.ok(Number.isFinite(business.difficulty));
+  assert.match(business.advice, /证据、成本和风险仍需逐项核实/);
+  const templates = require('../miniprogram/data/modules').modules;
+  assert.equal(calculate(templates).completeness, 100);
+  assert.equal(calculate([...templates, { id: 'unrelated', type: 'unrelated' }]).completeness, 100);
+  const oldCaseNodes = calculate(mini.cases[0].nodes);
+  assert.equal(oldCaseNodes.completeness, 86);
+  assert.deepEqual(oldCaseNodes.missing, ['retention']);
+  assert.deepEqual(missingLabels(oldCaseNodes.missing), ['复购裂变']);
+  assert.match(buildValidationPlan({ nodes: mini.cases[0].businessNodes }).testPrice, /9\.9 元/);
 });
 
 test('case nodes retain exact methods, reuse and unique case identity in mixed canvas', () => {
@@ -138,14 +172,56 @@ test('mini case-to-canvas merges with the current draft instead of overwriting i
   });
   const existingNode = { id: 'custom_existing', type: 'exposure', name: '已有节点', cost: 0, risk: 0, difficulty: 1 };
   const { createWorkflow } = require('../miniprogram/utils/validation');
-  values.set('canvasNodes', [existingNode]);
-  values.set('activeWorkflow', createWorkflow({ title: '我的现有草案', nodes: [existingNode] }));
+  values.set('canvasNodes', [existingNode, mini.cases[0].nodes[0]]);
+  values.set('activeWorkflow', createWorkflow({ title: '我的现有草案', nodes: [existingNode, mini.cases[0].nodes[0]] }));
   const page = { ...specification, data: { item: mini.cases[0] } };
   const workflow = page.activateWorkflow();
   assert.equal(workflow.title, '我的现有草案');
   assert.equal(values.get('canvasNodes').length, 8);
   assert.equal(values.get('canvasNodes')[0].id, existingNode.id);
-  assert.ok(values.get('canvasNodes').some(node => node.id === mini.cases[0].nodes[0].id));
+  assert.ok(values.get('canvasNodes').some(node => node.id === mini.cases[0].businessNodes[0].id));
+  assert.ok(!values.get('canvasNodes').some(node => node.id === mini.cases[0].nodes[0].id));
+  assert.equal(workflow.metrics.completeness, 100);
+});
+
+test('case demo saves the seven visible business nodes to the local canvas', () => {
+  let specification;
+  let savedRecord;
+  const values = new Map();
+  const filename = new URL('../miniprogram/pages/ai/ai.js', import.meta.url);
+  const realRequire = createRequire(filename);
+  const storageMock = { appendUnique: (_key, value) => { savedRecord = value; }, write: (key, value) => values.set(key, value) };
+  vm.runInNewContext(read('../miniprogram/pages/ai/ai.js'), {
+    require: path => path === '../../utils/storage' ? storageMock : realRequire(path),
+    Page: value => { specification = value; }, wx: { showToast() {}, switchTab() {} },
+  });
+  const page = { ...specification, data: { result: { ...mini.cases[0], displayNodes: mini.cases[0].businessNodes } } };
+  page.saveResult();
+  assert.equal(savedRecord.nodes[0].id, mini.cases[0].businessNodes[0].id);
+  assert.equal(savedRecord.metrics.completeness, 100);
+  page.continueCanvas();
+  assert.equal(values.get('canvasNodes')[0].id, mini.cases[0].businessNodes[0].id);
+  assert.equal(values.get('activeWorkflow').metrics.completeness, 100);
+});
+
+test('validation recalculates old scores and does not show unknown case risk as zero', () => {
+  let specification;
+  const filename = new URL('../miniprogram/pages/validation/validation.js', import.meta.url);
+  const realRequire = createRequire(filename);
+  const current = { id: 'old-draft', nodes: mini.cases[0].businessNodes, metrics: { completeness: 25, risk: 0, startupCost: 0 } };
+  vm.runInNewContext(read('../miniprogram/pages/validation/validation.js'), {
+    require: path => path === '../../utils/storage' ? { read: () => current } : realRequire(path),
+    Page: value => { specification = value; }, wx: {},
+  });
+  const page = { ...specification, data: { ...specification.data }, setData(update) { Object.assign(this.data, update); } };
+  page.loadWorkflow();
+  assert.equal(page.data.workflow.metrics.completeness, 100);
+  assert.equal(page.data.hasCaseNodes, true);
+  assert.match(summaryText(page.data.workflow), /结构环节覆盖：100%｜风险：待评估｜启动成本：待核算/);
+  const markup = read('../miniprogram/pages/validation/validation.wxml');
+  assert.match(markup, /结构环节覆盖/);
+  assert.match(markup, /hasCaseNodes \? '待评估'/);
+  assert.match(markup, /hasCaseNodes \? '待核算'/);
 });
 
 test('web controller renders real data and persists case-to-canvas without a browser', () => {
@@ -171,7 +247,9 @@ test('web controller renders real data and persists case-to-canvas without a bro
   assert.equal(run('state.caseAccess'), 'all');
   assert.ok(!app.innerHTML.includes('data-access='));
   run('openCase("real_001")');
-  assert.ok(app.innerHTML.includes('依据与实验边界'));
+  assert.ok(app.innerHTML.includes('这条案例的公开证据'));
+  assert.ok(app.innerHTML.includes('官方公开页面记录 · 2026-09-13'));
+  assert.ok(!app.innerHTML.includes('证据状态</span><strong>E1'));
   assert.ok(app.innerHTML.includes('case-to-canvas'));
   const before = run('state.canvasNodes.length');
   listeners.click({ target: { closest: selector => selector === '[data-action]' ? { dataset: { action: 'case-to-canvas' } } : null } });

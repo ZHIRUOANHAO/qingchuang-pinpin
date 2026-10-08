@@ -1,0 +1,221 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Promo CJK";
+      src: url("assets/fonts/promo-cjk.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: block;
+    }
+    #root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Promo CJK";
+      color: #243E3B;
+    }
+    #f03-offer-ground, #f03-offer-stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #f03-offer-ground { background: #FFF9EF; }
+    #f03-offer-stage { overflow: hidden; }
+    #f03-offer-stage * { box-sizing: border-box; }
+    #f03-offer-label {
+      position: absolute;
+      top: 3.7cqh;
+      left: 6cqw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2.4cqw;
+      height: 3cqh;
+      border: 3px solid #243E3B;
+      border-radius: 50px;
+      background: #2E7770;
+      color: #FFFFFF;
+      box-shadow: 0.37037cqw 0.37037cqw 0 #243E3B;
+      font-size: 3.703704cqw;
+      font-weight: 600;
+      line-height: 1.3;
+      white-space: nowrap;
+      z-index: 3;
+    }
+    #f03-offer-title {
+      position: absolute;
+      top: 8cqh;
+      left: 6cqw;
+      width: 88cqw;
+      margin: 0;
+      text-align: center;
+      font-size: 7.777778cqw;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      z-index: 3;
+    }
+    #f03-offer-provenance {
+      position: absolute;
+      top: 14.2cqh;
+      left: 5cqw;
+      width: 90cqw;
+      margin: 0;
+      text-align: center;
+      font-size: 3.148148cqw;
+      font-weight: 500;
+      line-height: 1.45;
+      white-space: nowrap;
+      z-index: 3;
+    }
+    #f03-offer-reading-window {
+      position: absolute;
+      top: 17.65cqh;
+      left: 15cqw;
+      width: 70cqw;
+      height: 49cqh;
+      overflow: hidden;
+      border: 3px solid #243E3B;
+      border-radius: 28px;
+      background: #FFFFFF;
+      box-shadow: 0.555556cqw 0.555556cqw 0 #243E3B;
+      z-index: 2;
+    }
+    #f03-offer-captured-page {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: none;
+    }
+    #f03-offer-problem {
+      position: absolute;
+      top: 68.5cqh;
+      left: 10cqw;
+      width: 80cqw;
+      min-height: 6cqh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8cqw;
+      padding: 1cqh 2cqw;
+      border: 3px solid #243E3B;
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: 0.37037cqw 0.37037cqw 0 #243E3B;
+      font-size: 4.074074cqw;
+      font-weight: 600;
+      line-height: 1.5;
+      white-space: nowrap;
+      z-index: 3;
+    }
+    #f03-offer-problem-dot {
+      flex: 0 0 auto;
+      width: 1.851852cqw;
+      height: 1.851852cqw;
+      border: 2px solid #243E3B;
+      border-radius: 50%;
+      background: #2E7770;
+    }
+    #f03-offer-value {
+      position: absolute;
+      top: 76.1cqh;
+      left: 6cqw;
+      width: 88cqw;
+      height: 5.4cqh;
+      margin: 0;
+      text-align: center;
+      font-size: 8.148148cqw;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      z-index: 3;
+    }
+    #f03-offer-value-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    #f03-offer-value-text { position: relative; z-index: 1; }
+    #f03-offer-marker {
+      position: absolute;
+      left: -0.6cqw;
+      right: -0.6cqw;
+      bottom: 0.35cqh;
+      height: 1.4cqh;
+      border-radius: 20px;
+      background: #E2B953;
+      transform-origin: left center;
+      z-index: 0;
+    }
+    [class~="f03-offer-ornament"] {
+      position: absolute;
+      display: block;
+      overflow: visible;
+      z-index: 1;
+      stroke: #243E3B;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #f03-offer-top-star { left: 90cqw; top: 8.1cqh; width: 9cqw; height: 9cqw; }
+    #f03-offer-side-cloud { left: -1cqw; top: 51cqh; width: 13cqw; height: 10cqw; }
+    #f03-offer-bottom-star { left: 90cqw; top: 71cqh; width: 11cqw; height: 11cqw; }
+  </style>
+  <div data-hf-id="hf-t5bx" id="root" data-composition-id="03-offer" data-duration="7.066667" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-r01w" id="f03-offer-ground" class="clip" data-start="0" data-duration="7.066667" data-track-index="0"></div>
+    <div data-hf-id="hf-priq" id="f03-offer-stage" class="clip" data-start="0" data-duration="7.066667" data-track-index="1">
+      <svg data-hf-id="hf-n84n" id="f03-offer-top-star" class="f03-offer-ornament" viewBox="0 0 100 100" aria-hidden="true"><path data-hf-id="hf-eek0" d="M51 7 62 35 93 40 69 60 73 91 48 74 20 87 25 56 5 34 37 32Z" fill="#AEE0DB" /></svg>
+      <svg data-hf-id="hf-xxyt" id="f03-offer-side-cloud" class="f03-offer-ornament" viewBox="0 0 130 100" aria-hidden="true"><path data-hf-id="hf-xx3g" d="M13 68C-2 52 8 29 28 30 28 12 53 5 67 22 84 8 110 21 109 42 132 46 132 73 111 78L31 79Q19 80 13 68Z" fill="#FFFFFF" /></svg>
+      <svg data-hf-id="hf-psmn" id="f03-offer-bottom-star" class="f03-offer-ornament" viewBox="0 0 100 100" aria-hidden="true"><path data-hf-id="hf-68c7" d="M48 7 60 34 90 39 68 58 74 87 49 73 22 87 27 57 8 35 37 32Z" fill="#EFD89E" /></svg>
+      <div data-hf-id="hf-si31" id="f03-offer-label">01 / 卖点</div>
+      <h2 data-hf-id="hf-ykgv" id="f03-offer-title">原创任务模板</h2>
+      <p data-hf-id="hf-57ax" id="f03-offer-provenance">公开资料示例 · 不代表盈利证明</p>
+      <div data-hf-id="hf-gix9" id="f03-offer-reading-window">
+        <img data-hf-id="hf-pizw" id="f03-offer-captured-page" src="assets/02-case-source-and-business.png" alt="Easlo模板案例真实界面，保留公开来源URL、模板交付物与付费者说明">
+      </div>
+      <div data-hf-id="hf-veox" id="f03-offer-problem"><span data-hf-id="hf-gjll" id="f03-offer-problem-dot" aria-hidden="true"></span><span data-hf-id="hf-toji">任务与笔记分散</span></div>
+      <h3 data-hf-id="hf-tn4r" id="f03-offer-value"><span data-hf-id="hf-y2wj" id="f03-offer-value-wrap"><span data-hf-id="hf-2gm0" id="f03-offer-marker" aria-hidden="true"></span><span data-hf-id="hf-ch44" id="f03-offer-value-text">省搭建时间</span></span></h3>
+    </div>
+  </div>
+  <script src="assets/gsap.min.js"></script>
+  <script>
+    (() => {
+      const DURATION = 7.066667;
+      const BASE_DURATION = 0.6;
+      const SEC_PER_CHAR = 0.04;
+      // Content-length pacing is reduced once. Reading holds respect the fixed
+      // upstream voice windows: 0–1.8, 1.8–4.4, 4.4–7.066667.
+      const CONTENT = [
+        { title: "原创任务模板", body: "原创任务模板", window: 1.8 },
+        { title: "任务与笔记分散", body: "任务与笔记分散", window: 2.6 },
+        { title: "省搭建时间", body: "省搭建时间", window: DURATION - 4.4 }
+      ];
+      let cumulative = 0;
+      const TIMELINE = CONTENT.map(entry => {
+        const reading = BASE_DURATION + entry.body.length * SEC_PER_CHAR;
+        const hold = entry.window - reading;
+        const duration = reading + hold;
+        const start = cumulative;
+        cumulative += duration;
+        return { ...entry, hold, start, end: cumulative };
+      });
+      const el = id => document.getElementById(`f03-offer-${id}`);
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["03-offer"] = tl;
+      const clock = { t: 0 };
+      tl.to(clock, { t: DURATION, duration: DURATION, ease: "none" }, 0);
+      tl.fromTo(el("reading-window"), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: "power2.out" }, TIMELINE[0].start);
+      tl.fromTo(el("label"), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }, 0.04);
+      tl.fromTo(el("title"), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power2.out" }, 0.1);
+      tl.fromTo(el("provenance"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 0.18);
+      tl.fromTo(el("problem"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.48, ease: "power2.out" }, TIMELINE[1].start);
+      tl.fromTo(el("value"), { x: 92, opacity: 0 }, { x: 0, opacity: 1, duration: 0.46, ease: "power3.out" }, TIMELINE[2].start);
+      // MarkerHighlight highlight mode: a left-origin gold bar sweeps under the
+      // keyword while the real screenshot stays perfectly still and uncovered.
+      tl.fromTo(el("marker"), { scaleX: 0 }, { scaleX: 1, duration: 0.72, ease: "power2.out" }, TIMELINE[2].start + 0.58);
+    })();
+  </script>
+</template>

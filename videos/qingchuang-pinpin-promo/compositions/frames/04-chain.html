@@ -1,0 +1,111 @@
+<template>
+  <style>
+    @font-face { font-family: "Promo CJK"; src: url("assets/fonts/promo-cjk.ttf") format("truetype"); font-weight: 100 900; font-style: normal; font-display: block; }
+    #root { position: absolute; inset: 0; width: 100%; height: 100%; container-type: size; color: #243E3B; font-family: "Promo CJK"; overflow: hidden; }
+    #root * { box-sizing: border-box; }
+    #f04-chain-ground { position: absolute; inset: 0; background: #FFF9EF; }
+    #f04-chain-content { position: absolute; inset: 0; }
+    #f04-chain-ornaments { position: absolute; inset: 0; width: 1080px; height: 1920px; pointer-events: none; }
+    #f04-chain-section { position: absolute; left: 88px; top: 82px; padding: 14px 26px; border: 3px solid #243E3B; border-radius: 50px; background: #2E7770; color: #FFFFFF; font-size: 38px; line-height: 1.2; box-shadow: 4px 4px 0 #243E3B; white-space: nowrap; }
+    #f04-chain-heading { position: absolute; left: 88px; top: 195px; margin: 0; font-size: 84px; font-weight: 700; line-height: 1.15; letter-spacing: .02em; }
+    #f04-chain-window { position: absolute; left: 88px; top: 330px; width: 900px; height: 690px; border: 3px solid #243E3B; border-radius: 28px; background: #FFFFFF; box-shadow: 6px 6px 0 #243E3B; overflow: hidden; }
+    #f04-chain-capture { display: block; width: 100%; height: auto; transform-origin: 50% 22%; }
+    #f04-chain-source { position: absolute; left: 108px; top: 1043px; font-size: 34px; line-height: 1.2; font-weight: 600; }
+    [class~="f04-chain-paper"] { position: absolute; top: 1130px; height: 278px; border: 3px solid #243E3B; border-radius: 20px; background: #FFFFFF; box-shadow: 6px 6px 0 #243E3B; }
+    #f04-chain-entry { left: 88px; width: 392px; }
+    #f04-chain-delivery { left: 606px; width: 382px; }
+    [class~="f04-chain-paper-title"] { margin: 0; padding: 20px 24px 14px; border-bottom: 3px solid #243E3B; border-radius: 17px 17px 0 0; background: #AEE0DB; font-size: 40px; font-weight: 700; line-height: 1.2; }
+    [class~="f04-chain-chip"] { position: absolute; left: 26px; width: 334px; min-height: 43px; border: 2px solid #243E3B; border-radius: 50px; background: #FFF9EF; text-align: center; font-size: 34px; line-height: 43px; }
+    #f04-chain-tutorial { top: 99px; }
+    #f04-chain-blog { top: 153px; }
+    #f04-chain-free { top: 207px; }
+    #f04-chain-template { position: absolute; left: 27px; top: 107px; font-size: 58px; line-height: 1.1; font-weight: 700; }
+    #f04-chain-instructions { position: absolute; left: 27px; top: 188px; font-size: 44px; line-height: 1.2; font-weight: 600; }
+    #f04-chain-marker { position: absolute; left: 30px; top: 169px; width: 163px; height: 9px; border-radius: 5px; background: #E2B953; transform-origin: left center; }
+    #f04-chain-connector { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+    #f04-chain-route { fill: none; stroke: #243E3B; stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; }
+    #f04-chain-arrow { fill: none; stroke: #243E3B; stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; }
+    #f04-chain-note { position: absolute; left: 88px; top: 1470px; margin: 0; padding-left: 32px; font-size: 38px; line-height: 1.25; font-weight: 600; }
+    #f04-chain-note::before { content: ""; position: absolute; left: 0; top: 11px; width: 18px; height: 18px; border: 2px solid #243E3B; border-radius: 50%; background: #E2B953; }
+  </style>
+  <div data-hf-id="hf-n9iy" id="root" data-composition-id="04-chain" data-duration="6.866667" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-3og9" id="f04-chain-ground" class="clip" data-start="0" data-duration="6.866667" data-track-index="0"></div>
+    <div data-hf-id="hf-ua1w" id="f04-chain-content" class="clip" data-start="0" data-duration="6.866667" data-track-index="1">
+      <svg data-hf-id="hf-fbur" id="f04-chain-ornaments" viewBox="0 0 1080 1920" aria-hidden="true">
+        <g data-hf-id="hf-pven" data-layout-allow-overflow="true" fill="#F6E9C9" stroke="#243E3B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path data-hf-id="hf-xudj" d="M973 71 L985 95 L1010 103 L986 116 L981 144 L965 121 L938 123 L951 102 L947 78 Z" />
+          <path data-hf-id="hf-nipt" d="M26 466 C7 457 6 430 24 421 C26 397 60 392 74 411 C99 409 111 435 97 452 C89 467 57 465 26 466 Z" fill="#BDE6E2" />
+          <path data-hf-id="hf-ur2w" d="M1043 981 L1057 1006 L1086 1011 L1064 1033 L1067 1061 L1041 1048 L1018 1063 L1021 1035 L1001 1018 L1029 1011 Z" fill="#EFD89E" />
+        </g>
+      </svg>
+      <div data-hf-id="hf-l8x9" id="f04-chain-section">02 / 获客与交付</div>
+      <h2 data-hf-id="hf-q5dh" id="f04-chain-heading">从入口到交付</h2>
+      <div data-hf-id="hf-qtv6" id="f04-chain-window">
+        <img data-hf-id="hf-qhpq" id="f04-chain-capture" src="assets/03-dna.png" alt="真实商业 DNA 页面截图">
+      </div>
+      <div data-hf-id="hf-k4tp" id="f04-chain-source">真实商业 DNA</div>
+      <div data-hf-id="hf-l306" id="f04-chain-entry" class="f04-chain-paper">
+        <h3 data-hf-id="hf-6s88" class="f04-chain-paper-title">认识入口</h3>
+        <div data-hf-id="hf-cmfi" id="f04-chain-tutorial" class="f04-chain-chip">教程</div>
+        <div data-hf-id="hf-zpcs" id="f04-chain-blog" class="f04-chain-chip">博客</div>
+        <div data-hf-id="hf-ttlg" id="f04-chain-free" class="f04-chain-chip">免费资源</div>
+      </div>
+      <svg data-hf-id="hf-md7d" id="f04-chain-connector" viewBox="0 0 1080 1920" aria-label="截图外的入口与交付说明连接线">
+        <path data-hf-id="hf-ldh4" id="f04-chain-route" d="M480 1270 C522 1238 564 1238 606 1270" />
+        <path data-hf-id="hf-f2gk" id="f04-chain-arrow" d="M585 1263 L606 1270 L598 1248" />
+      </svg>
+      <div data-hf-id="hf-il4u" id="f04-chain-delivery" class="f04-chain-paper">
+        <h3 data-hf-id="hf-ow81" class="f04-chain-paper-title">拿到交付</h3>
+        <div data-hf-id="hf-56jc" id="f04-chain-template">模板</div>
+        <div data-hf-id="hf-bcdz" id="f04-chain-marker" aria-hidden="true"></div>
+        <div data-hf-id="hf-u82r" id="f04-chain-instructions">＋ 使用说明</div>
+      </div>
+      <p data-hf-id="hf-vblz" id="f04-chain-note">入口≠成交保证</p>
+    </div>
+  </div>
+  <script src="assets/gsap.min.js"></script>
+  <script>
+    (() => {
+      const el = suffix => document.getElementById("f04-chain-" + suffix);
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["04-chain"] = tl;
+
+      tl.fromTo(el("section"), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .25, ease: "power2.out" }, 0);
+      tl.fromTo(el("heading"), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .34, ease: "power2.out" }, .04);
+      tl.fromTo(el("window"), { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: .38, ease: "power2.out" }, .08);
+      tl.fromTo(el("capture"), { scale: 1 }, { scale: 1.014, duration: .95, ease: "power2.out" }, .18);
+      tl.fromTo(el("source"), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .25, ease: "power1.out" }, .3);
+      tl.fromTo(el("entry"), { y: 28, rotation: -2, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: .38, ease: "power2.out" }, .28);
+
+      // Content-length sequencing is reduced once; each named entrance is retained.
+      const CONTENT = [
+        { target: "tutorial", body: "教程", hold: .05 },
+        { target: "blog", body: "博客", hold: .05 },
+        { target: "free", body: "免费资源", hold: .16 }
+      ];
+      let cumulative = .62;
+      const TIMELINE = CONTENT.map(entry => {
+        const start = cumulative;
+        const duration = .48 + entry.body.length * .05 + entry.hold;
+        cumulative += duration;
+        return { ...entry, start, end: cumulative };
+      });
+      TIMELINE.forEach(entry => {
+        tl.fromTo(el(entry.target), { x: -28, y: 8, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: .3, ease: "power2.out" }, entry.start);
+      });
+
+      tl.fromTo(el("delivery"), { x: 24, y: 18, rotation: 2, opacity: 0 }, { x: 0, y: 0, rotation: 0, opacity: 1, duration: .4, ease: "power2.out" }, 3.2);
+      [el("route"), el("arrow")].forEach(path => {
+        const length = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+      });
+      tl.to(el("route"), { strokeDashoffset: 0, duration: .65, ease: "power2.out" }, 3.25);
+      tl.to(el("arrow"), { strokeDashoffset: 0, duration: .24, ease: "power2.out" }, 3.74);
+      tl.fromTo(el("template"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .34, ease: "power2.out" }, 5.057875);
+      tl.fromTo(el("instructions"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .34, ease: "power2.out" }, 5.567125);
+      tl.fromTo(el("note"), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power1.out" }, 5.46);
+      tl.fromTo(el("marker"), { scaleX: 0 }, { scaleX: 1, duration: .55, ease: "power2.out" }, 5.73);
+    })();
+  </script>
+</template>

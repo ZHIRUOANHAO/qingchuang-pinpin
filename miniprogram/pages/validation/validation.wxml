@@ -23,9 +23,9 @@
     </view>
 
     <view class="metric-strip panel">
-      <view><text>{{workflow.metrics.completeness || 0}}%</text><text>闭环完整度</text></view>
-      <view><text>{{workflow.metrics.risk || 0}}</text><text>风险评分</text></view>
-      <view><text>¥{{workflow.metrics.startupCost || 0}}</text><text>启动成本</text></view>
+      <view><text>{{workflow.metrics.completeness || 0}}%</text><text>结构环节覆盖</text></view>
+      <view><text>{{hasCaseNodes ? '待评估' : workflow.metrics.risk}}</text><text>{{hasCaseNodes ? '实际风险' : '模板风险示例'}}</text></view>
+      <view><text>{{hasCaseNodes ? '待核算' : '¥' + workflow.metrics.startupCost}}</text><text>{{hasCaseNodes ? '整案成本' : '模板成本示例'}}</text></view>
     </view>
 
     <view class="section">

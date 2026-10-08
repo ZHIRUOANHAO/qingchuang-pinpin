@@ -1,0 +1,17 @@
+{"id":"image_001","type":"image","path":"assets/01-home.png","source":"existing","description":"01 home","provenance":{"provider":"local","adopted":true}}
+{"id":"image_002","type":"image","path":"assets/02-case-source-and-business.png","source":"existing","description":"02 case source and business","provenance":{"provider":"local","adopted":true}}
+{"id":"image_003","type":"image","path":"assets/03-dna.png","source":"existing","description":"03 dna","provenance":{"provider":"local","adopted":true}}
+{"id":"image_004","type":"image","path":"assets/04-canvas.png","source":"existing","description":"04 canvas","provenance":{"provider":"local","adopted":true}}
+{"id":"image_005","type":"image","path":"assets/06-plan-saved.png","source":"existing","description":"06 plan saved","provenance":{"provider":"local","adopted":true}}
+{"id":"icon_001","type":"icon","path":"assets/brand-mark.svg","source":"existing","description":"brand mark","provenance":{"provider":"local","adopted":true}}
+{"id":"image_006","type":"image","path":"assets/story-atlas.png","source":"existing","description":"story atlas","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_001","type":"voice","path":"assets/voice/01-hook.mp3","source":"existing","description":"01 hook","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_002","type":"voice","path":"assets/voice/02-product.mp3","source":"existing","description":"02 product","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_003","type":"voice","path":"assets/voice/03-offer.mp3","source":"existing","description":"03 offer","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_004","type":"voice","path":"assets/voice/04-chain.mp3","source":"existing","description":"04 chain","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_005","type":"voice","path":"assets/voice/05-canvas.mp3","source":"existing","description":"05 canvas","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_006","type":"voice","path":"assets/voice/06-experiment.mp3","source":"existing","description":"06 experiment","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_007","type":"voice","path":"assets/voice/07-record.mp3","source":"existing","description":"07 record","provenance":{"provider":"local","adopted":true}}
+{"id":"voice_008","type":"voice","path":"assets/voice/08-close.mp3","source":"existing","description":"08 close","provenance":{"provider":"local","adopted":true}}
+{"id":"sfx_001","type":"sfx","path":".media/audio/sfx/sfx_001.mp3","source":"bundled","description":"Quiet short click — low-key UI tap / soft selection. Short accent, sync exactly to the on-screen action.","duration":0.4,"provenance":{"provider":"bundled.sfx","prompt":"click-soft","library_key":"click-soft"}}
+{"id":"sfx_002","type":"sfx","path":".media/audio/sfx/sfx_002.mp3","source":"bundled","description":"Soft melodic chime — gentle positive beat: success/confirmation or a lighthearted transition. Sync to the visual moment.","duration":2.5,"provenance":{"provider":"bundled.sfx","prompt":"chime","library_key":"chime"}}

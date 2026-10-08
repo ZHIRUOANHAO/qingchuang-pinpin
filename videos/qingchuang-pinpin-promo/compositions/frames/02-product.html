@@ -1,0 +1,283 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Promo CJK";
+      src: url("assets/fonts/promo-cjk.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      container-type: size;
+      overflow: hidden;
+      color: #243E3B;
+      font-family: "Promo CJK";
+    }
+    #root * { box-sizing: border-box; }
+    #f02-product-ground {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #FFF9EF;
+      z-index: 0;
+    }
+    [class~="f02-product-ornament"] {
+      position: absolute;
+      z-index: 1;
+      fill: #AEE0DB;
+      stroke: #243E3B;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #f02-product-sun { left: 85cqw; top: 2.8cqh; width: 12cqw; height: 12cqw; }
+    #f02-product-star-left { left: -2.5cqw; top: 24.6cqh; width: 12cqw; height: 12cqw; }
+    #f02-product-cloud { left: 89cqw; top: 62.6cqh; width: 17cqw; height: 11cqw; }
+    #f02-product-star-bottom { left: 1.5cqw; top: 74.5cqh; width: 9cqw; height: 9cqw; }
+    #f02-product-brand {
+      position: absolute;
+      z-index: 3;
+      left: 7.4cqw;
+      top: 4cqh;
+      margin: 0;
+      font-size: 8.52cqw;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    #f02-product-copy-slot {
+      position: absolute;
+      z-index: 3;
+      left: 7.4cqw;
+      top: 12.45cqh;
+      width: 60cqw;
+      min-height: 5.8cqh;
+      white-space: nowrap;
+    }
+    #f02-product-sequence {
+      display: inline-block;
+      min-width: 56cqw;
+      min-height: 5.4cqh;
+      font-size: 7.22cqw;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+    #f02-product-strike {
+      position: absolute;
+      left: 0;
+      top: 2.4cqh;
+      width: 31.7cqw;
+      height: .7cqh;
+      stroke: #243E3B;
+      stroke-width: 4;
+      fill: none;
+      pointer-events: none;
+    }
+    #f02-product-headline {
+      position: absolute;
+      left: 0;
+      top: 0;
+      margin: 0;
+      font-size: 7.78cqw;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    #f02-product-stamp {
+      position: absolute;
+      z-index: 4;
+      left: 64.3cqw;
+      top: 15cqh;
+      width: 28.7cqw;
+      height: 3cqh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #243E3B;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #243E3B;
+      background: #2E7770;
+      color: #FFFFFF;
+      font-size: 3.15cqw;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    #f02-product-reader {
+      position: absolute;
+      z-index: 3;
+      left: 10.74cqw;
+      top: 18.75cqh;
+      width: 78.52cqw;
+      height: 52.08cqh;
+      margin: 0;
+      border: 3px solid #243E3B;
+      border-radius: 28px;
+      box-shadow: 6px 6px 0 #243E3B;
+      background: #FFFFFF;
+      overflow: hidden;
+      transform-origin: 50% 0;
+    }
+    #f02-product-home {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: none;
+      transform-origin: 50% 0;
+    }
+    #f02-product-caption {
+      position: absolute;
+      z-index: 3;
+      left: 10.74cqw;
+      top: 72.3cqh;
+      width: 78.52cqw;
+      min-height: 3cqh;
+      margin: 0;
+      text-align: center;
+      font-size: 3.52cqw;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    #f02-product-steps {
+      position: absolute;
+      z-index: 3;
+      left: 10.74cqw;
+      top: 77.3cqh;
+      width: 78.52cqw;
+      height: 4cqh;
+      display: grid;
+      grid-template-columns: 1fr 5cqw 1fr 5cqw 1fr;
+      align-items: center;
+    }
+    [class~="f02-product-step"] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 4cqh;
+      background: #FFFFFF;
+      border: 3px solid #243E3B;
+      border-radius: 50px;
+      box-shadow: 4px 4px 0 #243E3B;
+      font-size: 3.7cqw;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    [class~="f02-product-arrow"] {
+      font-size: 4.45cqw;
+      font-weight: 600;
+      line-height: 1;
+      text-align: center;
+    }
+  </style>
+
+  <div data-hf-id="hf-thk3" id="root" data-composition-id="02-product" data-duration="5.9" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-8blt" id="f02-product-ground" class="clip" data-start="0" data-duration="5.9" data-track-index="0" aria-hidden="true"></div>
+    <svg data-hf-id="hf-afqf" id="f02-product-sun" class="f02-product-ornament" viewBox="0 0 100 100" aria-hidden="true">
+      <path data-hf-id="hf-sf5o" d="M50 5v10M50 85v10M5 50h10M85 50h10M18 18l8 8M74 74l8 8M18 82l8-8M74 26l8-8" fill="none" />
+      <circle data-hf-id="hf-1d11" cx="50" cy="50" r="25" />
+      <circle data-hf-id="hf-nj7f" cx="43" cy="44" r="3" fill="#243E3B" stroke="none" />
+      <circle data-hf-id="hf-6phv" cx="58" cy="44" r="3" fill="#243E3B" stroke="none" />
+      <path data-hf-id="hf-xq4h" d="M41 58q9 9 18 0" fill="none" />
+    </svg>
+    <svg data-hf-id="hf-7j1j" id="f02-product-star-left" class="f02-product-ornament" viewBox="0 0 100 100" aria-hidden="true">
+      <path data-hf-id="hf-w8zc" d="M50 5L60 36 93 39 67 59 74 91 50 73 23 91 31 59 7 39 39 36Z" />
+    </svg>
+    <svg data-hf-id="hf-lsf2" id="f02-product-cloud" class="f02-product-ornament" viewBox="0 0 150 95" aria-hidden="true">
+      <path data-hf-id="hf-qcxx" d="M22 76C-2 74 0 40 27 38 28 11 65 6 79 28 101 11 129 29 124 49 148 45 158 76 135 81L22 81Z" />
+    </svg>
+    <svg data-hf-id="hf-fkod" id="f02-product-star-bottom" class="f02-product-ornament" viewBox="0 0 100 100" aria-hidden="true">
+      <path data-hf-id="hf-i20n" d="M50 7L59 36 91 43 66 62 71 91 48 74 20 91 27 61 6 39 38 36Z" fill="#F6E9C9" />
+    </svg>
+
+    <h1 data-hf-id="hf-il3p" id="f02-product-brand">轻创拼拼</h1>
+    <div data-hf-id="hf-9c0u" id="f02-product-copy-slot">
+      <span data-hf-id="hf-z0fi" id="f02-product-sequence"></span>
+      <svg data-hf-id="hf-wlhy" id="f02-product-strike" viewBox="0 0 342 13" aria-hidden="true"><path data-hf-id="hf-e8er" d="M1 10L340 3" /></svg>
+      <h2 data-hf-id="hf-0qq4" id="f02-product-headline">看懂一门生意</h2>
+    </div>
+    <div data-hf-id="hf-3bl1" id="f02-product-stamp">本地产品演示</div>
+    <figure data-hf-id="hf-jckc" id="f02-product-reader" aria-describedby="f02-product-caption">
+      <img data-hf-id="hf-o47w" id="f02-product-home" src="assets/01-home.png" alt="轻创拼拼真实本地主页截图，包含案例入口与商业星球">
+    </figure>
+    <p data-hf-id="hf-o0vd" id="f02-product-caption">本地产品演示</p>
+    <div data-hf-id="hf-a5li" id="f02-product-steps" aria-label="选择案例、拆清链路、尝试验证">
+      <span data-hf-id="hf-b3wl" id="f02-product-step-1" class="f02-product-step">选案例</span>
+      <span data-hf-id="hf-6k48" id="f02-product-arrow-1" class="f02-product-arrow" aria-hidden="true">→</span>
+      <span data-hf-id="hf-b5fb" id="f02-product-step-2" class="f02-product-step">拆链路</span>
+      <span data-hf-id="hf-wnxd" id="f02-product-arrow-2" class="f02-product-arrow" aria-hidden="true">→</span>
+      <span data-hf-id="hf-b3c5" id="f02-product-step-3" class="f02-product-step">试验证</span>
+    </div>
+  </div>
+
+  <script src="assets/gsap.min.js"></script>
+  <script>
+    (function () {
+      const DURATION = 5.9;
+      const selector = name => '[id="f02-product-' + name + '"]';
+      const tl = gsap.timeline({ paused: true });
+
+      tl.fromTo(selector('brand'), { x: -72, opacity: 0 }, { x: 0, opacity: 1, duration: .34, ease: 'power3.out' }, 0);
+      tl.fromTo(selector('reader'), { y: 36, scale: .98, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .42, ease: 'power3.out' }, .08);
+      tl.fromTo(selector('stamp'), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .3, ease: 'power3.out' }, .32);
+      tl.fromTo(selector('caption'), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .3, ease: 'power3.out' }, .48);
+      tl.fromTo(selector('home'), { y: 0 }, { y: -170, duration: 5.35, ease: 'none' }, .5);
+
+      const STATES = [
+        { t: 0, text: '', strike: false },
+        { t: 1.8, text: '只看结果', strike: true },
+        { t: 2.65, text: '看清过程', strike: false },
+        { t: 3.6, text: '', strike: false }
+      ];
+      const sequenceEl = document.getElementById('f02-product-sequence');
+      const strikeEl = document.getElementById('f02-product-strike');
+      const driver = { t: 0 };
+      let previousState = -1;
+      function updateText() {
+        let stateIndex = 0;
+        for (let index = STATES.length - 1; index >= 0; index--) {
+          if (driver.t >= STATES[index].t) { stateIndex = index; break; }
+        }
+        if (stateIndex !== previousState) {
+          sequenceEl.textContent = STATES[stateIndex].text;
+          strikeEl.style.opacity = STATES[stateIndex].strike ? '1' : '0';
+          previousState = stateIndex;
+        }
+      }
+      updateText();
+      tl.to(driver, { t: DURATION, duration: DURATION, ease: 'none', onUpdate: updateText }, 0);
+      tl.fromTo(selector('headline'), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .34, ease: 'power3.out' }, 3.6);
+
+      const CONTENT = [
+        { id: 'step-1', text: '选案例', arrow: null },
+        { id: 'step-2', text: '拆链路', arrow: 'arrow-1' },
+        { id: 'step-3', text: '试验证', arrow: 'arrow-2' }
+      ];
+      const BASE_DURATION = .6;
+      const SEC_PER_CHAR = .04;
+      let cumulative = 3.66;
+      const TIMELINE = CONTENT.map(entry => {
+        const duration = BASE_DURATION + entry.text.length * SEC_PER_CHAR;
+        const start = cumulative;
+        cumulative += duration;
+        return { ...entry, start, end: cumulative };
+      });
+      TIMELINE.forEach(entry => {
+        tl.fromTo(selector(entry.id), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .28, ease: 'power3.out' }, entry.start);
+        if (entry.arrow) {
+          tl.fromTo(selector(entry.arrow), { x: -10, opacity: 0 }, { x: 0, opacity: 1, duration: .22, ease: 'power3.out' }, entry.start);
+        }
+      });
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['02-product'] = tl;
+    })();
+  </script>
+</template>

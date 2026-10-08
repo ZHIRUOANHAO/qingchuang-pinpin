@@ -21,8 +21,8 @@ Page({
   selectNodeFromIndex(event) { const node = this.data.nodeIndex.find(entry => entry.id === event.currentTarget.dataset.id); if (node) this.setData({ selectedNode: node }) },
   closeNode() { this.setData({ selectedNode: null }) },
   copySource(event) {
-    const url = this.data.item.sourceUrls[Number(event.currentTarget.dataset.index)]
-    if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) return
+    const url = this.data.item.proofSources[Number(event.currentTarget.dataset.index)]?.url
+    if (typeof url !== 'string' || !/^https:\/\//i.test(url)) return
     wx.setClipboardData({ data: url })
   },
   toggleFavorite() {
@@ -33,9 +33,10 @@ Page({
   },
   activateWorkflow() {
     const item = this.data.item
-    if (!item || !item.nodes.length) { wx.showToast({ title: '案例正文暂不可用', icon: 'none' }); return null }
-    const previousNodes = storage.read('canvasNodes', [])
-    const nodesById = new Map(previousNodes.concat(item.nodes || []).map(node => [node.id, node]))
+    const caseNodes = item && (item.businessNodes?.length ? item.businessNodes : item.nodes)
+    if (!caseNodes?.length) { wx.showToast({ title: '案例正文暂不可用', icon: 'none' }); return null }
+    const previousNodes = storage.read('canvasNodes', []).filter(node => !String(node.id || '').startsWith(`${item.id}_stage_`))
+    const nodesById = new Map(previousNodes.concat(caseNodes).map(node => [node.id, node]))
     const nodes = [...nodesById.values()]
     const existing = storage.read('activeWorkflow', null)
     const workflow = previousNodes.length && existing

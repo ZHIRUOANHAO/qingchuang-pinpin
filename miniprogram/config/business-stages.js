@@ -11,6 +11,26 @@ const businessStages = [
   { id: 'retention', number: 7, name: '复购裂变', chain: 'private', chainLabel: '私域经营链', themeStage: 'operations', color: '#65c799', sourceQuestions: [] },
 ]
 
+const stageIds = new Set(businessStages.map(stage => stage.id))
+const legacyModuleStages = {
+  exposure: 'positioning', traffic: 'acquisition', nurture: 'nurture',
+  conversion: 'conversion', transaction: 'payment', delivery: 'delivery',
+  retention: 'retention', referral: 'retention'
+}
+const legacyCaseQuestionStages = [
+  'positioning', 'conversion', 'nurture', 'acquisition',
+  'conversion', 'delivery', 'payment'
+]
+
+function stageIdForNode(node = {}) {
+  const explicit = node.businessStage || node.businessStageId || node.canvasModuleId
+  if (stageIds.has(explicit)) return explicit
+  const legacyQuestion = node.sourceCaseId && /_stage_([1-7])$/.exec(String(node.id || ''))
+  if (legacyQuestion) return legacyCaseQuestionStages[Number(legacyQuestion[1]) - 1]
+  const type = node.type || node.id
+  return stageIds.has(type) ? type : legacyModuleStages[type] || null
+}
+
 const text = value => String(value || '').trim()
 const unique = values => [...new Set(values.map(text).filter(Boolean))]
 
@@ -85,8 +105,8 @@ function composeBusinessStages(source = {}) {
   return businessStages.map(stage => ({ ...stage, sourceQuestionNames: stage.sourceQuestions.map(number => text(questions[number - 1]?.name)).filter(Boolean), assetCard: assetCard(stage, source, questions) }))
 }
 
-function buildBusinessNodes(source = {}) {
-  return composeBusinessStages(source).map(stage => ({
+function buildBusinessNodes(source = {}, stages = composeBusinessStages(source)) {
+  return stages.map(stage => ({
     id: `${source.id || 'case'}_business_${stage.id}`,
     name: stage.name,
     type: stage.id,
@@ -114,4 +134,4 @@ function buildBusinessNodes(source = {}) {
   }))
 }
 
-module.exports = { businessStages, composeBusinessStages, buildBusinessNodes }
+module.exports = { businessStages, composeBusinessStages, buildBusinessNodes, stageIdForNode }

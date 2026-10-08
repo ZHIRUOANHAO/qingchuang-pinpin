@@ -166,7 +166,7 @@ Component({
         new THREE.IcosahedronGeometry(1.55, 3),
         new THREE.MeshStandardMaterial({ color: colorForThree(THREE, '#23304a'), metalness: .34, roughness: .44 })
       )
-      core.userData = { id: 'core', title: '青创拼拼' }
+      core.userData = { id: 'core', title: '轻创拼拼' }
       this.root.add(core)
 
       const wire = new THREE.Mesh(
@@ -281,7 +281,7 @@ Component({
     onTouchStart(event) {
       const touches = event.touches || []
       this.touching = true
-      if (touches.length === 1 && !this.pinching) { this.gestureMoved = false; this.gestureTravel = 0 }
+      if (touches.length === 1 && !this.pinching) { this.gestureMoved = false; this.gestureTravel = 0; this.gestureAxis = null }
       this.touchStart = touches[0] ? { x: touches[0].x, y: touches[0].y } : null
       this.lastTouch = this.touchStart
       if (touches.length === 2) {
@@ -305,16 +305,26 @@ Component({
       }
       const point = touches[0]
       if (!point || !this.lastTouch) return
-      this.gestureTravel = (this.gestureTravel || 0) + Math.hypot(point.x - this.lastTouch.x, point.y - this.lastTouch.y)
+      const deltaX = point.x - this.lastTouch.x
+      const deltaY = point.y - this.lastTouch.y
+      this.gestureTravel = (this.gestureTravel || 0) + Math.hypot(deltaX, deltaY)
       if (this.gestureTravel > 12) this.gestureMoved = true
-      this.root.rotation.y += (point.x - this.lastTouch.x) * .012
-      this.root.rotation.x = Math.max(-.7, Math.min(.7, this.root.rotation.x + (point.y - this.lastTouch.y) * .008))
+      if (this.data.mode === 'dna') {
+        // dna 页面由页面级滚动承载：第一帧定方向，竖向手势让给页面滚动，横向手势才旋转模型。
+        // 不做这个锁定的话，上下滑页面时模型会跟着乱转，两个手势互相打架。
+        if (!this.gestureAxis && (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2)) {
+          this.gestureAxis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y'
+        }
+        if (this.gestureAxis === 'y') { this.lastTouch = { x: point.x, y: point.y }; return }
+      }
+      this.root.rotation.y += deltaX * .012
+      this.root.rotation.x = Math.max(-.7, Math.min(.7, this.root.rotation.x + deltaY * .008))
       this.lastTouch = { x: point.x, y: point.y }
     },
     onTouchEnd(event) {
       this.touching = Boolean(event.touches && event.touches.length)
       if (this.pinching) {
-        this.touchStart = null; this.lastTouch = null; this.pinchStart = null
+        this.touchStart = null; this.lastTouch = null; this.pinchStart = null; this.gestureAxis = null
         if (!this.touching) this.pinching = false
         return
       }
@@ -322,9 +332,9 @@ Component({
       if (!changed || !this.touchStart) return
       const moved = Math.hypot(changed.x - this.touchStart.x, changed.y - this.touchStart.y)
       if (!this.gestureMoved && moved < 12) this.pick(changed.x, changed.y)
-      this.touchStart = null; this.lastTouch = null; this.pinchStart = null
+      this.touchStart = null; this.lastTouch = null; this.pinchStart = null; this.gestureAxis = null
     },
-    onTouchCancel() { this.touching = false; this.pinching = false; this.gestureMoved = false; this.gestureTravel = 0; this.touchStart = null; this.lastTouch = null; this.pinchStart = null },
+    onTouchCancel() { this.touching = false; this.pinching = false; this.gestureMoved = false; this.gestureTravel = 0; this.touchStart = null; this.lastTouch = null; this.pinchStart = null; this.gestureAxis = null },
     onFallbackStart() { this.fallbackMoved = false },
     onFallbackMove() { this.fallbackMoved = true },
     distance(a, b) { return Math.hypot(a.x - b.x, a.y - b.y) },

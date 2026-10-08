@@ -21,6 +21,6 @@
     </view>
     <button class="primary-button full-button explore" bindtap="openFreeCases">先体验 {{caseLibraryMeta.free}} 个免费完整案例</button>
     <text class="payment-note">此页面不会发起支付。免费体验不代表无限AI调用；实际能力以页面说明为准。</text>
-    <text class="payment-note">案例分析用于形成待验证假设，不构成收益保证。</text>
+    <text class="payment-note">案例所依据的公开来源有核验记录；商业分析供学习参考，不构成收益保证。</text>
   </view>
 </scroll-view>

@@ -24,6 +24,6 @@ Page({
   openStarterCases() { wx.setStorageSync('caseAccess', 'starter'); wx.switchTab({ url: '/pages/cases/cases' }) },
   acceptPrivacy() { this.setData({ showPrivacy: false }) },
   declinePrivacy() { this.setData({ showPrivacy: false }); wx.showToast({ title: '可继续浏览，受限功能会再次提示', icon: 'none' }) },
-  onShareAppMessage() { return share.pageMessage('青创拼拼：100 条轻创业案例与商业 DNA', '/pages/home/home') },
+  onShareAppMessage() { return share.pageMessage('轻创拼拼：100 条轻创业案例与商业 DNA', '/pages/home/home') },
   onShareTimeline() { return share.timelineMessage('看懂商业结构，从公开案例开始验证') }
 })

@@ -14,7 +14,12 @@ test('home bounds the planet within one viewport and prevents page scrolling', (
   assert.equal(config.enablePullDownRefresh, false);
   assert.doesNotMatch(read('pages/home/home.wxml'), /<scroll-view/);
   assert.match(read('pages/home/home.wxss'), /height:100vh/);
-  assert.match(read('components/space-scene/space-scene.wxml'), /catchtouchmove="onTouchMove"/);
+  const sceneMarkup = read('components/space-scene/space-scene.wxml');
+  assert.match(read('pages/home/home.wxml'), /<space-scene mode="universe"/);
+  assert.match(read('components/dna-view/dna-view.wxml'), /<space-scene[^>]*mode="dna"/);
+  assert.equal((sceneMarkup.match(/disable-scroll="{{mode !== 'dna'}}"/g) || []).length, 2);
+  assert.match(sceneMarkup, /bindtouchmove="onTouchMove"/);
+  assert.doesNotMatch(sceneMarkup, /catchtouchmove=/);
   assert.doesNotMatch(read('components/space-scene/space-scene.js'), /baseY \+ Math.sin/);
 });
 
@@ -53,6 +58,24 @@ test('plain trading explanations precede native DNA and include the payment endp
   assert.match(markup, /从卖点到交付、收钱/);
 });
 
+test('native case pages show source verification without calling the cases unverified', () => {
+  const pages = [
+    'pages/home/home.wxml',
+    'pages/cases/cases.wxml',
+    'pages/case-detail/case-detail.wxml',
+    'pages/ai/ai.wxml',
+    'pages/membership/membership.wxml',
+    'pages/minors/minors.wxml',
+    'components/dna-view/dna-view.wxml',
+  ];
+  for (const path of pages) assert.doesNotMatch(read(path), /未验证|待验证/, `${path}: source-checked cases should not be labeled unverified`);
+  assert.match(read('pages/cases/cases.wxml'), /\{\{item\.sourceStatusLabel\}\} · \{\{item\.evidenceCheckedOn\}\}/);
+  assert.match(read('pages/case-detail/case-detail.wxml'), /item\.proofSources/);
+  assert.match(read('pages/case-detail/case-detail.wxml'), /复制原始链接/);
+  assert.match(read('pages/ai/ai.wxml'), /\{\{result\.sourceStatusLabel\}\} · \{\{result\.evidenceCheckedOn\}\}/);
+  assert.match(read('components/dna-view/dna-view.wxml'), /不设评分/);
+});
+
 test('native starter route clears stale search and paid filters', () => {
   let page;
   const values = new Map([['caseSearch', ''], ['caseAccess', 'starter']]);
@@ -86,6 +109,21 @@ test('old paid routes reopen the full library without payment or ad gates', () =
   const ads = require('../miniprogram/config/ads');
   assert.equal(ads.enabled, false);
   assert.ok(Object.keys(ads.slots).every(name => !ads.getSlot(name).enabled && !ads.getSlot(name).unitId));
+});
+
+test('case library keeps text in bounds and decorative DNA inside scrolling cards', () => {
+  const markup = read('pages/cases/cases.wxml');
+  const style = read('pages/cases/cases.wxss');
+  const miniMarkup = read('components/dna-mini/dna-mini.wxml');
+  const mini = component('components/dna-mini/dna-mini.js');
+  assert.match(style, /\.cases-page\s*\{[^}]*padding:\s*0 24rpx/s);
+  assert.match(style, /\.cases-page \.brand-block text\s*\{\s*display:\s*block/);
+  assert.match(style, /\.case-item\s*\{[^}]*width:\s*100%/s);
+  assert.match(markup, /<view class="access-filters"><text class="access-note">[^<]*<\/text><button/);
+  assert.doesNotMatch(miniMarkup, /<canvas\b/);
+  assert.match(miniMarkup, /wx:for="{{rungs}}"/);
+  assert.equal(mini.data.rungs.length, 10);
+  assert.ok(mini.data.rungs.every(rung => Number.isFinite(rung.first) && Number.isFinite(rung.second)));
 });
 function component(path) {
   let specification;
@@ -135,6 +173,22 @@ test('universe pinch gesture never ends as an accidental planet tap', () => {
   scene.onTouchEnd({ touches: [], changedTouches: [{ x: 21, y: 20 }] });
   assert.deepEqual(picks, []);
   assert.equal(scene.pinching, false);
+});
+
+test('DNA vertical drag yields to page scroll while horizontal drag rotates the model', () => {
+  const specification = component('components/space-scene/space-scene.js');
+  const scene = { ...specification.methods, data: { mode: 'dna' }, root: { rotation: { x: 0, y: 0 } } };
+  scene.onTouchStart({ touches: [{ x: 20, y: 20 }] });
+  scene.onTouchMove({ touches: [{ x: 21, y: 50 }] });
+  scene.onTouchMove({ touches: [{ x: 50, y: 50 }] });
+  assert.equal(scene.gestureAxis, 'y');
+  assert.deepEqual(scene.root.rotation, { x: 0, y: 0 });
+  scene.onTouchCancel();
+  assert.equal(scene.gestureAxis, null);
+  scene.onTouchStart({ touches: [{ x: 20, y: 20 }] });
+  scene.onTouchMove({ touches: [{ x: 50, y: 21 }] });
+  assert.equal(scene.gestureAxis, 'x');
+  assert.ok(scene.root.rotation.y > 0);
 });
 
 test('energy-saving canvas drag and cancellation never select a case', () => {

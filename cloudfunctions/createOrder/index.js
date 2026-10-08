@@ -7,7 +7,7 @@ const ORDER_COLLECTION = 'orders'
 const PAYMENT_MODES = new Set(['mock', 'wechat'])
 const DEFAULT_MOCK_CATALOG = {
   'demo-analysis': {
-    name: '青创拼拼分析服务演示订单',
+    name: '轻创拼拼分析服务演示订单',
     amount: 1
   }
 }

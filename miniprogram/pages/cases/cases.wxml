@@ -1,19 +1,18 @@
 <view class="page-shell custom-page cases-page">
   <galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
   <view class="nav-bar"><view class="brand-block"><text class="brand">轻创业案例库</text><text class="brand-sub">{{loading ? '正在筛选…' : '找到 ' + total + ' 个案例'}} · 看懂买家、卖点、交付与验证</text></view></view>
-  <view class="search panel"><text>⌕</text><input value="{{keyword}}" placeholder="搜索案例或行业" placeholder-class="placeholder" bindinput="onSearch" /><button wx:if="{{keyword}}" aria-label="清空搜索" bindtap="clearSearch">×</button></view>
-  <view class="access-filters"><button class="reset-filter" bindtap="resetFilters">重置筛选</button></view>
-  <text class="access-note">当前案例全部免费，可直接阅读完整七关与公开来源。</text>
+  <view class="search panel"><text class="search-icon">⌕</text><input value="{{keyword}}" placeholder="搜索案例或行业" placeholder-class="placeholder" bindinput="onSearch" /><button wx:if="{{keyword}}" aria-label="清空搜索" bindtap="clearSearch">×</button></view>
+  <view class="access-filters"><text class="access-note">全库免费 · 逐条展示来源与核对日期；索引线索单独标识，经营成效未经独立审计</text><button class="reset-filter" bindtap="resetFilters">重置筛选</button></view>
   <scroll-view class="filters" scroll-x enhanced show-scrollbar="false"><view class="chip-row"><view wx:for="{{tags}}" wx:key="*this" class="chip {{tag === item ? 'active' : ''}}" data-tag="{{item}}" bindtap="selectTag">{{item}}</view></view></scroll-view>
 
   <scroll-view class="list" scroll-y enhanced show-scrollbar="false" refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="refresh" bindscrolltolower="loadMore">
     <status-view wx:if="{{loading}}" type="loading" title="正在读取案例宇宙"></status-view>
-    <status-view wx:elif="{{error}}" type="error" title="案例读取失败" description="请检查网络后重试" action-text="重新加载" bindaction="refresh"></status-view>
+    <status-view wx:elif="{{error}}" type="error" title="案例读取失败" description="请重试，或重新打开本页" action-text="重新加载" bindaction="refresh"></status-view>
     <status-view wx:elif="{{!list.length}}" type="empty" title="没有匹配的案例" description="试试缩短关键词，或重置全部筛选" action-text="查看全部案例" bindaction="resetFilters"></status-view>
     <view wx:else class="case-list">
       <button wx:for="{{list}}" wx:key="id" class="case-item panel" data-id="{{item.id}}" bindtap="openCase" aria-label="打开{{item.title}}，免费全文">
         <view class="visual"><dna-mini tone="{{index % 2 ? 'violet' : 'gold'}}"></dna-mini></view>
-        <view class="case-body"><view class="case-head"><text class="case-title">{{item.title}}</text></view><text class="access-label free">免费全文</text><text class="industry">{{item.industry}} · {{item.difficultyLabel}}</text><text class="cost">{{item.costLabel}}</text><text class="value">卖什么：{{item.offer}}</text><text class="value">谁付钱：{{item.payer}}</text><view class="tag-row"><text wx:for="{{item.tags}}" wx:for-item="label" wx:key="*this" class="tag">{{label}}</text></view></view>
+        <view class="case-body"><view class="case-head"><text class="case-title">{{item.title}}</text></view><text class="access-label free">免费全文</text><text class="evidence-label {{item.sourceTier === 'official_index' ? 'is-index' : ''}}">{{item.sourceStatusLabel}} · {{item.evidenceCheckedOn}}</text><text class="industry">{{item.industry}} · {{item.difficultyLabel}}</text><text class="cost">{{item.costLabel}}</text><text class="value">卖什么：{{item.offer}}</text><text class="value">谁付钱：{{item.payer}}</text><view class="tag-row"><text wx:for="{{item.tags}}" wx:for-item="label" wx:key="*this" class="tag">{{label}}</text></view></view>
       </button>
       <ad-slot enabled="{{adSlot.enabled}}" unit-id="{{adSlot.unitId}}" placement="{{adSlot.placement}}" ad-type="{{adSlot.adType}}"></ad-slot>
       <text wx:if="{{list.length < total}}" class="loading-more">{{loadingMore ? '正在加载…' : '继续上滑加载'}}</text>

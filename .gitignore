@@ -7,4 +7,7 @@ project.private.config.json
 .env.*
 !.env.example
 output/
+/项目资料/文档与案例工作区/
+/项目资料/知识库记录/
+/项目资料/录屏/
 

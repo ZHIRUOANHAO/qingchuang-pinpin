@@ -2,18 +2,13 @@
   <view class="page-shell legal-page">
     <view class="legal-header">
       <text class="eyebrow">PRIVACY NOTICE</text>
-      <text class="brand">青创拼拼隐私保护指引</text>
+      <text class="brand">轻创拼拼隐私保护指引</text>
       <text class="meta">版本 {{policyVersion}} · 更新于 {{updatedAt}}</text>
       <text class="summary">本指引说明预置案例、收藏、画布和验证记录功能如何处理信息。</text>
     </view>
 
-    <view wx:if="{{!supportReady}}" class="preflight-alert" role="alert">
-      <text class="alert-title">上线前仍需运营者补充</text>
-      <text>正式注册主体名称与有效联系邮箱尚未配置。补齐并与微信公众平台的隐私保护指引逐项一致前，不应把本页作为最终审核文本提交。</text>
-    </view>
-
     <view class="document">
-      <view class="section-card"><text class="section-index">01</text><text class="doc-title">适用范围与处理者</text><text class="paragraph">本指引适用于青创拼拼小程序。个人信息处理者以微信公众平台公示的正式注册主体为准；上线前必须填写与登记一致的主体名称和联系方式。</text></view>
+      <view class="section-card"><text class="section-index">01</text><text class="doc-title">适用范围与处理者</text><text class="paragraph">本指引适用于轻创拼拼小程序。个人信息处理者以微信公众平台公示的正式注册主体为准，联系方式以本页第 07 节公示的邮箱为准。</text></view>
 
       <view class="section-card"><text class="section-index">02</text><text class="doc-title">当前版本无需登录</text><text class="paragraph">你可以直接浏览全部预置案例、使用案例演示和画布。当前版本不要求手机号、微信头像或昵称，不接收项目文字、网页、图片或 PDF，也不把用户材料发送给外部模型。</text></view>
 
@@ -29,7 +24,7 @@
 
       <view class="section-card"><text class="section-index">08</text><text class="doc-title">未成年人保护</text><text class="paragraph">未成年人应在监护人指导下使用。不满十四周岁的用户不应提交个人信息；若未来需要处理其个人信息，运营者须另行取得监护人同意并制定专门规则。</text><button class="text-link" bindtap="openMinors">查看《未成年人保护说明》</button></view>
 
-      <view class="section-card"><text class="section-index">09</text><text class="doc-title">规则更新</text><text class="paragraph">功能或数据处理方式发生实质变化时，我们会更新版本与日期，并在需要时重新征得同意。</text><button class="text-link" bindtap="openAgreement">查看《青创拼拼用户协议》</button></view>
+      <view class="section-card"><text class="section-index">09</text><text class="doc-title">规则更新</text><text class="paragraph">功能或数据处理方式发生实质变化时，我们会更新版本与日期，并在需要时重新征得同意。</text><button class="text-link" bindtap="openAgreement">查看《轻创拼拼用户协议》</button></view>
     </view>
   </view>
 </scroll-view>

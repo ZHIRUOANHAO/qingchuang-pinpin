@@ -1,0 +1,41 @@
+<template>
+ <style>
+ @font-face{font-family:'Promo CJK';src:url('assets/fonts/promo-cjk.ttf') format('truetype');font-weight:400 900;font-display:block}
+ #root{position:relative;width:100%;height:100%;overflow:hidden;container-type:size;font-family:'Promo CJK';color:#243E3B}
+ #root *{box-sizing:border-box}
+ .f8-ground{position:absolute;inset:0;background:#FFF9EF}
+ .f8-stage{position:absolute;inset:0}
+ .f8-tag{position:absolute;left:7.4cqw;top:3.8cqh;padding:1.2cqw 2.2cqw;border:3px solid #243E3B;border-radius:100px;background:#2E7770;color:white;font-size:3.7cqw;line-height:1.2}
+ .f8-title{position:absolute;left:7.4cqw;top:8.5cqh;margin:0;font-size:7.8cqw;line-height:1.15;font-weight:700;letter-spacing:.015em}
+ .f8-provenance{position:absolute;left:7.4cqw;top:14.4cqh;margin:0;font-size:3.15cqw;line-height:1.25;color:#536D68}
+ .f8-reader{position:absolute;overflow:hidden;border:3px solid #243E3B;border-radius:28px;background:#091019;box-shadow:6px 6px 0 #243E3B}
+ .f8-reader img{display:block;width:100%;height:auto;max-width:none}
+ .f8-paper{border:3px solid #243E3B;border-radius:20px;background:#F6E9C9;box-shadow:5px 5px 0 #243E3B}
+ .f8-art{position:absolute;left:8.3cqw;top:18cqh;width:83.4cqw;height:83.4cqw;border:3px solid #243E3B;border-radius:28px;overflow:hidden;box-shadow:6px 6px 0 #243E3B}
+ .f8-atlas{position:absolute;top:0;width:300%;max-width:none;height:100%;object-fit:fill}
+ .f8-marker{position:absolute;left:-1cqw;bottom:0;width:calc(100% + 2cqw);height:2.3cqw;background:#E2B953;z-index: 0;transform-origin:left center;border-radius:4px}
+ .f8-star{position:absolute;right:2.4cqw;top:4cqh;width:8.5cqw;height:8.5cqw}
+ .f8-brand{position:absolute;left:17cqw;top:4.5cqh;display:flex;gap:2.8cqw;align-items:center}.f8-brand img{width:10cqw;height:10cqw}.f8-brand h1{font-size:8.8cqw;line-height:1.1;margin:0}
+ .f8-art{top:14cqh}
+ .f8-select{position:absolute;left:28cqw;top:65cqh;font-size:6.1cqw;line-height:1.2}
+ .f8-next{position:absolute;left:17cqw;top:70.8cqh;width:66cqw;text-align:center;padding:2cqw;font-size:7cqw;line-height:1.25;background:#E2B953;transform:rotate(-2deg)}
+ .f8-disclaimer{position:absolute;left:8cqw;top:79.8cqh;margin:0;font-size:3.1cqw;line-height:1.25}</style>
+ <div data-hf-id="hf-vbsl" id="root" data-composition-id="08-close" data-duration="4.9" data-width="1080" data-height="1920">
+ <div data-hf-id="hf-x7ui" id="f08-close-ground" class="clip f8-ground" data-start="0" data-duration="4.9" data-track-index="0"></div>
+ <div data-hf-id="hf-9plb" id="f08-close-stage" class="clip f8-stage" data-start="0" data-duration="4.9" data-track-index="1">
+ <svg data-hf-id="hf-xk00" class="f8-star" viewBox="0 0 100 100" aria-hidden="true"><path data-hf-id="hf-a424" d="M50 8Q55 43 92 50Q57 56 50 92Q44 57 8 50Q44 44 50 8Z" fill="#AEE0DB" stroke="#243E3B" stroke-width="3" /></svg>
+ 
+ <div data-hf-id="hf-1gw9" id="f08-close-brand" class="f8-brand"><img data-hf-id="hf-op9f" src="assets/brand-mark.svg" alt="轻创拼拼品牌标记"><h1 data-hf-id="hf-jc0o">轻创拼拼</h1></div>
+ <div data-hf-id="hf-karp" id="f08-close-art" class="f8-art"><img data-hf-id="hf-keoc" class="f8-atlas" style="left:-200%" src="assets/story-atlas.png" alt="同一人物微笑展示原创纸张，准备下一步"></div>
+ <div data-hf-id="hf-62dt" id="f08-close-select" class="f8-select">选一个案例</div>
+ <div data-hf-id="hf-lu7c" id="f08-close-next" class="f8-next f8-paper">拼出下一步</div>
+ <p data-hf-id="hf-bjj3" class="f8-disclaimer">产品演示 · 案例学习不构成收益承诺</p>
+ </div></div>
+ <script src="assets/gsap.min.js"></script>
+ <script>(function(){
+ const tl=gsap.timeline({paused:true});
+ const el=name=>document.getElementById('f08-close-'+name);
+ const enter=(name,time,dx=0)=>tl.fromTo(el(name),{opacity:0,x:dx,y:20},{opacity:1,x:0,y:0,duration:.32,ease:'power3.out'},time);
+ enter('brand',0);enter('art',.12);enter('select',1.76);enter('next',3.18,-28);
+ window.__timelines=window.__timelines||{};window.__timelines['08-close']=tl;
+ })();</script></template>

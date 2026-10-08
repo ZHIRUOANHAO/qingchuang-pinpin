@@ -65,8 +65,8 @@ function bookmarkMarkup(item) {
 }
 
 function sourcesMarkup(item) {
-  const urls = item.sourceUrls.map(safeSourceUrl).filter(Boolean);
-  return `<section class="source-panel"><h2>依据与实验边界</h2><p>${escapeHtml(item.originalEvidence || item.evidenceLabel)}</p><p>来源核验记录：${escapeHtml(item.evidenceCheckedOn)}；内容结构更新：${escapeHtml(caseLibraryMeta.lastUpdated)}。经营资料不等于成交或盈利证明，购买动机与七关是编辑分析，不是客户访谈结论。</p><p>实验成本：${escapeHtml(item.costLabel)}。这是整案实验口径，不是原企业成本或每个节点的独立报价。</p>${urls.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">来源 ${index + 1} · ${escapeHtml(new URL(url).hostname)} ↗</a>`).join('') || '<p>暂无可打开的来源链接，请先补充依据。</p>'}</section>`;
+  const sources = item.proofSources.map(source => ({ ...source, safeUrl: safeSourceUrl(source.url) })).filter(source => source.safeUrl);
+  return `<section class="source-panel" aria-label="这条案例的公开证据"><div class="source-panel-head"><h2>这条案例的公开证据</h2><span>${escapeHtml(item.sourceStatusLabel)} · ${escapeHtml(item.evidenceCheckedOn)}</span></div><p><strong>当时核对到：</strong>${escapeHtml(item.originalEvidence)}</p><div class="proof-list">${sources.map((source, index) => `<div class="proof-source"><strong>来源 ${index + 1}：${escapeHtml(source.label)}</strong><small>${escapeHtml(source.publisher)} · ${escapeHtml(source.access)} · ${escapeHtml(source.checkedOn)}</small><a href="${escapeHtml(source.safeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.safeUrl)} ↗</a></div>`).join('') || '<p>暂无可打开的来源链接，请先补充依据。</p>'}</div><p class="proof-boundary">证明范围：公开页面可见的产品或服务信息；不等于独立审计过的成交、利润或复购。购买动机与七关是编辑分析。索引线索不等同于已直接打开官方页面。</p></section>`;
 }
 
 function businessBriefMarkup(item) {
@@ -120,7 +120,7 @@ function pageHeader(title, subtitle, action = '') {
 function renderHome() {
   app.innerHTML = `
     <section class="page home-page">
-      ${pageHeader('青创拼拼', '看懂商业项目，从卖点到交付收款')}
+      ${pageHeader('轻创拼拼', '看懂商业项目，从卖点到交付收款')}
       <div class="home-stage">
         <section class="hero-thesis" aria-label="项目探索入口">
           <p class="eyebrow">普通人 · 低成本起步优先</p>
@@ -154,7 +154,7 @@ function renderCases() {
     <section class="page cases-page">
       ${pageHeader('商业项目案例库', `${caseLibraryMeta.total}个目录 · 看清买家、卖点、交付和收款`)}
       <button class="filter-chip" data-action="starter-cases">低成本试做优先</button>
-      <p class="case-access-note">当前 ${caseLibraryMeta.free} 个案例全部免费，可直接阅读完整七关与公开来源。</p>
+      <p class="case-access-note">当前 ${caseLibraryMeta.free} 个案例全部免费；${caseLibraryMeta.officialPageCount} 条有官方公开页面记录，${caseLibraryMeta.indexOnlyCount} 条仅有官方页面索引线索。详情可查原始来源；经营结果未经独立审计。</p>
       <div class="case-search"><label for="case-search">搜索名称、行业或价值主张<input id="case-search" type="search" value="${escapeHtml(state.caseKeyword)}" placeholder="例如：内容、社区、工具" autocomplete="off" /></label><button class="quiet-action" data-action="reset-cases">重置筛选</button></div>
       <div class="filter-bar" role="group" aria-label="收藏筛选">
         <button class="filter-chip ${state.savedOnly ? 'active' : ''}" data-action="saved-cases" aria-pressed="${state.savedOnly}">我的收藏 (${state.favorites.length})</button>
@@ -171,7 +171,7 @@ function renderCases() {
           <p class="eyebrow">FREE CASE / SEVEN-STAGE DNA</p>
           <h2>${featuredCase.title}</h2>
           <p>${featuredCase.value}</p>
-          <div class="tag-row"><span>${featuredCase.industry}</span><span>${featuredCase.accessLabel}</span><span>${featuredCase.evidenceLabel}</span></div>
+          <div class="tag-row"><span>${featuredCase.industry}</span><span>${featuredCase.accessLabel}</span><span>${escapeHtml(featuredCase.sourceStatusLabel)} · ${escapeHtml(featuredCase.evidenceCheckedOn)}</span></div>
           <button class="primary-button" data-case-id="${featuredCase.id}">查看七关 DNA ${icon('chevron-right')}</button>
         </div>
         <div class="score-seal"><strong>${caseLibraryMeta.free}</strong><small>免费全文</small></div>
@@ -185,6 +185,7 @@ function renderCases() {
               <span class="case-card-index">${String(index + 1).padStart(2, '0')}</span>
               <div class="case-card-head"><span>${item.industry}</span><strong>免费全文</strong></div>
               <h3>${item.title}</h3>
+              <span class="case-evidence ${item.sourceTier === 'official_index' ? 'is-index' : ''}">${escapeHtml(item.sourceStatusLabel)} · ${escapeHtml(item.evidenceCheckedOn)}</span>
               <p class="case-offer"><b>卖什么</b> ${escapeHtml(item.offer)}</p>
               <p class="case-payer"><b>谁付钱</b> ${escapeHtml(item.payer)}</p>
               <div class="case-card-foot"><span>查看七关拆解</span><span>${item.difficultyLabel.split('：')[0]}</span>${icon('chevron-right')}</div>
@@ -247,8 +248,9 @@ function renderCaseDetail() {
         <div><p class="eyebrow">CASE / ${item.id.toUpperCase()}</p><h1>${item.title}</h1></div>
         ${bookmarkMarkup(item)}
       </header>
+      ${sourcesMarkup(item)}
       ${businessBriefMarkup(item)}
-      <section class="trade-summary" aria-label="交付与收钱"><h2>最后交付什么，钱怎么收？</h2><dl><div><dt>交付物</dt><dd>${escapeHtml(item.delivery)}</dd></div><div><dt>收费方式</dt><dd>${escapeHtml(item.chargingModel)}</dd></div><div><dt>钱的去向</dt><dd>${escapeHtml(item.moneyFlow)}</dd></div><div><dt>起步需要的能力</dt><dd>${escapeHtml(item.entryRequirements)}</dd></div></dl><p>低成本不等于零技能。以下是经营结构分析；收款时点、实际到账与净利润尚未独立核实。</p></section>
+      <section class="trade-summary" aria-label="交付与收钱"><h2>最后交付什么，钱怎么收？</h2><dl><div><dt>交付物</dt><dd>${escapeHtml(item.delivery)}</dd></div><div><dt>收费方式</dt><dd>${escapeHtml(item.chargingModel)}</dd></div><div><dt>钱的去向</dt><dd>${escapeHtml(item.moneyFlow)}</dd></div><div><dt>起步需要的能力</dt><dd>${escapeHtml(item.entryRequirements)}</dd></div></dl><p>低成本不等于零技能。以下是经营结构分析；收款时点、实际到账与净利润应以原企业账目为准。</p></section>
       <section class="transaction-story" aria-label="从卖点到收款的完整过程"><h2>从卖点到交付、收款</h2><ol>${editorialNodes.map(node => `<li><h3>${escapeHtml(node.name)}</h3><p>${escapeHtml(node.method)}</p></li>`).join('')}</ol></section>
       <h2 class="dna-heading">商业 DNA · 辅助理解，不代替案例正文</h2>
       <div class="dna-layout">
@@ -260,7 +262,7 @@ function renderCaseDetail() {
             <button class="icon-button" data-dna="in" aria-label="放大" title="放大">${icon('zoom-in')}</button>
             <button class="icon-button" data-dna="out" aria-label="缩小" title="缩小">${icon('zoom-out')}</button>
           </div>
-          <div class="dna-score"><span>证据状态</span><strong>E1</strong><small>公开运营依据</small></div>
+          <div class="dna-score"><span>公开资料</span><strong>${escapeHtml(item.sourceStatusLabel)}</strong><small>经营结果以实际账目为准</small></div>
         </section>
         <aside class="case-intel">
           <p class="eyebrow">SEVEN-STAGE BUSINESS SEQUENCE</p>
@@ -277,7 +279,6 @@ function renderCaseDetail() {
           ${nodes.map((node, index) => `<button data-node-id="${node.id}"><i style="--node-color:${stageForNode(node).color}"></i><span>${String(index + 1).padStart(2, '0')}</span><strong>${node.name}</strong></button>`).join('')}
         </div>
       </section>
-      ${sourcesMarkup(item)}
       <div class="detail-next"><button class="primary-button" data-action="case-to-canvas">把这份案例的七关加入画布 ${icon('nodes')}</button><button class="secondary-button" data-tab="canvas">查看我的画布</button></div>
       <div id="node-sheet"></div>
     </section>
@@ -466,7 +467,7 @@ function renderCanvas() {
       ${pageHeader('商业画布', '保留案例方法与来源，组合自己的验证路径')}
       <p class="local-note">保存在当前浏览器，不跨设备同步。完整度仅表示环节覆盖；演示评分不代表盈利概率。案例节点的成本与风险需要另行核算。</p>
       <div class="canvas-summary">
-        <div class="score-gauge" style="--score:${metrics.score * 3.6}deg"><div><strong>${metrics.sourced ? '—' : metrics.score}</strong><span>${metrics.sourced ? '待验证' : '演示分'}</span></div></div>
+        <div class="score-gauge" style="--score:${metrics.score * 3.6}deg"><div><strong>${metrics.sourced ? '—' : metrics.score}</strong><span>${metrics.sourced ? '方案待实测' : '演示分'}</span></div></div>
         <div class="canvas-metrics"><span><small>环节覆盖</small><strong>${metrics.completeness}%</strong></span><span><small>${metrics.sourced ? '整案成本' : '模板成本示例'}</small><strong>${metrics.cost}</strong></span><span><small>${metrics.sourced ? '实际风险' : '模板风险示例'}</small><strong>${metrics.risk}</strong></span></div>
         <div class="canvas-diagnosis"><p class="eyebrow">NEXT EXPERIMENT</p><strong>先核实需求，再验证首次成交</strong><p>节点齐全不等于业务成立。请检查目标用户、交付边界与现实成本。</p><button class="primary-button" data-action="open-validation">打开 7 天验证清单 ${icon('chevron-right')}</button></div>
       </div>

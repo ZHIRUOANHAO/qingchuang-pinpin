@@ -38,7 +38,7 @@ Page({
     if (this.data.metrics.canExport) return open()
     wx.showModal({
       title: '验证前仍有缺口',
-      content: this.data.metrics.missing.length ? `建议先补齐：${this.data.missingText}。也可以先查看验证草案。` : '当前风险评分过高，建议先收紧承诺和合规边界。',
+      content: this.data.hasCaseNodes ? '案例公开来源有核验记录。用于自己的方案前，请按实际条件测算成本、风险与效果；不要把别人的案例当成自己的经营结果。' : this.data.metrics.missing.length ? `建议先补齐：${this.data.missingText}。也可以先查看验证草案。` : '当前风险评分过高，建议先收紧承诺和合规边界。',
       confirmText: '查看草案',
       cancelText: '继续完善',
       success: res => { if (res.confirm) open() }

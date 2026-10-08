@@ -195,6 +195,8 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .case-card-head span { color: var(--cyan); font-size: 10px; }
 .case-card-head strong { padding: 4px 7px; border: 1px solid var(--line); border-radius: 4px; color: var(--gold-pale); font: 500 12px/1.5 var(--font-display); }
 .case-card h3 { margin: 18px 0 10px; font: 620 17px/1.35 var(--font-display); }
+.case-evidence { display: block; margin-bottom: 10px; color: var(--cyan); font-size: 10px; line-height: 1.5; }
+.case-evidence.is-index { color: var(--gold-pale); }
 .case-card p { display: -webkit-box; margin: 0; overflow: hidden; color: var(--muted); font-size: 11px; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .case-card-foot { display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 12px; margin-top: auto; color: var(--dim); font-size: 9px; }
 .case-card-foot .icon { justify-self: end; width: 15px; }
@@ -202,6 +204,21 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .detail-header { display: grid; grid-template-columns: 42px minmax(0,1fr) 42px; align-items: center; gap: 18px; min-height: 78px; }
 .detail-header > div { min-width: 0; }
 .detail-header h1 { margin: 4px 0 0; overflow: hidden; font: 620 clamp(20px, 2.2vw, 30px) var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.evidence-summary { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 18px; padding: 13px 16px; border-left: 2px solid var(--cyan); background: rgba(98,199,217,.08); }
+.evidence-summary strong { color: var(--cyan); font-size: 12px; line-height: 1.5; }
+.evidence-summary span { color: var(--muted); font-size: 11px; line-height: 1.6; }
+.source-panel { margin: 0 0 22px; padding: clamp(18px, 3vw, 28px); border: 1px solid rgba(98,199,217,.32); background: rgba(9,20,31,.94); }
+.source-panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 18px; }
+.source-panel h2 { margin: 0; font: 620 18px/1.4 var(--font-display); }
+.source-panel-head span { color: var(--cyan); font-size: 12px; }
+.source-panel p { margin: 14px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.source-panel p strong { color: var(--text); }
+.proof-list { display: grid; gap: 12px; margin-top: 16px; }
+.proof-source { display: grid; gap: 5px; padding: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.025); }
+.proof-source strong { color: var(--text); font-size: 13px; line-height: 1.5; }
+.proof-source small { color: var(--cyan); font-size: 11px; line-height: 1.6; }
+.proof-source a { color: var(--gold-pale); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; word-break: break-all; }
+.proof-source a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 .dna-layout { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(300px,.7fr); min-height: min(680px, 74vh); margin-top: 18px; border: 1px solid var(--line); }
 .dna-stage { position: relative; min-height: 540px; overflow: hidden; background: radial-gradient(circle at 50% 50%, rgba(34,50,78,.24), rgba(5,7,13,.5) 52%, #03050a 92%); }
 .dna-stage::before { content: ""; position: absolute; z-index: 1; inset: 22px; border: 1px solid rgba(177,194,226,.06); pointer-events: none; }
@@ -214,10 +231,10 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .dna-stage-legend i { width: 11px; height: 11px; border-radius: 50%; }
 .dna-controls { position: absolute; z-index: 3; right: 24px; bottom: 24px; display: flex; gap: 6px; }
 .dna-score { position: absolute; z-index: 2; left: 28px; bottom: 26px; pointer-events: none; }
-.dna-score span, .dna-score strong, .dna-score small { display: inline-block; }
+.dna-score span, .dna-score strong, .dna-score small { display: block; }
 .dna-score span { width: 100%; color: var(--muted); font-size: 9px; }
-.dna-score strong { margin-top: 4px; color: var(--gold-pale); font: 600 34px var(--font-display); }
-.dna-score small { color: var(--dim); font-size: 10px; }
+.dna-score strong { display: block; margin-top: 4px; color: var(--gold-pale); font: 600 17px/1.5 var(--font-display); }
+.dna-score small { display: block; color: var(--dim); font-size: 10px; line-height: 1.5; }
 .case-intel { display: flex; flex-direction: column; padding: 40px 34px; border-left: 1px solid var(--line); background: rgba(9,13,22,.82); }
 .case-intel h2 { margin: 8px 0 14px; font: 620 24px var(--font-display); }
 .case-value { margin: 0 0 28px; color: var(--muted); font-size: 12px; line-height: 1.8; }

@@ -1,0 +1,22 @@
+{
+  "version": "0.1",
+  "last_updated": "2026-10-08",
+  "desktop": "C:\\Users\\qq345\\Desktop\\视频成品\\轻创拼拼-宣传片.mp4",
+  "desktop_bytes": 14359400,
+  "desktop_sha256": "ED47964B7CCAB6874DCC14341BAF49B2FB056D16F3ADE66D562F4F14BEE2B2E7",
+  "reviewed_shots": [
+    {
+      "time": 2.8,
+      "name": "encoded-hook.png",
+      "reference": "frame-00-at-2.8s.png",
+      "ssim": 0.981894
+    },
+    {
+      "time": 48.8,
+      "name": "encoded-close.png",
+      "reference": "frame-22-at-48.792s.png",
+      "ssim": 0.983096
+    }
+  ],
+  "accepted": true
+}

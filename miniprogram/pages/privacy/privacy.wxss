@@ -1,13 +1,10 @@
 .legal-page { min-height: 100vh; padding: 0 30rpx 96rpx; background: #050812; color: #edf0f7; }
 .legal-header { padding: 52rpx 4rpx 30rpx; border-bottom: 1rpx solid rgba(177, 194, 226, .16); }
-.eyebrow, .brand, .meta, .summary, .alert-title, .preflight-alert text, .section-index, .doc-title, .paragraph, .data-name, .pending-contact { display: block; }
+.eyebrow, .brand, .meta, .summary, .section-index, .doc-title, .paragraph, .data-name, .pending-contact { display: block; }
 .eyebrow { color: #d9bb72; font-size: 18rpx; letter-spacing: 3rpx; }
 .brand { margin-top: 12rpx; color: #f5f7fb; font-size: 40rpx; font-weight: 650; line-height: 1.35; }
 .meta { margin-top: 12rpx; color: #7f8aa6; font-size: 20rpx; }
 .summary { margin-top: 22rpx; max-width: 650rpx; color: #aab4c7; font-size: 23rpx; line-height: 1.75; }
-.preflight-alert { margin-top: 24rpx; padding: 24rpx; border: 1rpx solid rgba(239, 125, 131, .42); background: rgba(239, 125, 131, .08); }
-.preflight-alert text { color: #d8b2b6; font-size: 21rpx; line-height: 1.7; }
-.preflight-alert .alert-title { margin-bottom: 8rpx; color: #ffd1d3; font-size: 23rpx; font-weight: 650; }
 .document { padding-top: 6rpx; }
 .section-card { position: relative; padding: 30rpx 4rpx; border-bottom: 1rpx solid rgba(177, 194, 226, .13); }
 .section-index { color: #d9bb72; font-size: 17rpx; letter-spacing: 2rpx; }

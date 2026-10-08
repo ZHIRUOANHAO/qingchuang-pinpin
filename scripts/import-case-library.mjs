@@ -4,7 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const defaultWorkbench = path.resolve(root, '..', '..', 'Documents', '轻创拼拼', '轻创拼拼项目工作台')
+const defaultWorkbench = path.join(root, '项目资料', '文档与案例工作区', '轻创拼拼项目工作台')
 const workbench = process.argv[2] ? path.resolve(process.argv[2]) : defaultWorkbench
 const sourceDir = path.join(workbench, '02_轻资产案例库', '数据')
 const outputDir = path.join(root, 'miniprogram', 'data')
@@ -50,13 +50,42 @@ const accessPolicy = readJson('案例访问规则.json')
 function pick(value, keys) {
   return Object.fromEntries(keys.filter(key => Object.hasOwn(value, key)).map(key => [key, value[key]]))
 }
-const catalog = catalogDocument.cases.map(item => pick(item, ['id', 'name', 'industry', 'tags', 'difficulty', 'cost', 'valueProposition', 'offer', 'payer', 'purchaseReason', 'evidenceCheckedOn', 'access', 'accessLabel', 'complianceHint', 'sourceUrls', 'publicationStatus']))
+const detailById = new Map(freeDocument.cases.map(item => [item.id, item]))
+function publicSources(item, catalogItem) {
+  assert.ok(Array.isArray(item.factualBasis?.sources) && item.factualBasis.sources.length, `${item.id}: public proof sources are required`)
+  assert.equal(item.factualBasis.checkedOn, catalogItem.evidenceCheckedOn, `${item.id}: evidence dates must agree`)
+  return item.factualBasis.sources.map((source, index) => {
+    const url = new URL(source.url)
+    assert.equal(url.protocol, 'https:', `${item.id}: evidence URL must use HTTPS`)
+    assert.ok(!url.username && !url.password, `${item.id}: evidence URL must not include credentials`)
+    assert.ok(catalogItem.sourceUrls.includes(source.url), `${item.id}: evidence URL must appear in the public catalog`)
+    assert.equal(source.checked_on, item.factualBasis.checkedOn, `${item.id}: source and observation dates must agree`)
+    assert.ok(source.access && source.publisher, `${item.id}: source type and publisher are required`)
+    return {
+      label: source.title || source.name || `来源 ${index + 1}`,
+      url: source.url,
+      host: url.hostname.replace(/^www\./, ''),
+      checkedOn: source.checked_on,
+      access: source.access,
+      publisher: source.publisher
+    }
+  })
+}
+const catalog = catalogDocument.cases.map(item => {
+  const detail = detailById.get(item.id)
+  assert.ok(detail, `${item.id}: public detail is required`)
+  const sources = publicSources(detail, item)
+  return {
+    ...pick(item, ['id', 'name', 'industry', 'tags', 'difficulty', 'cost', 'valueProposition', 'offer', 'payer', 'purchaseReason', 'evidenceCheckedOn', 'access', 'accessLabel', 'complianceHint', 'sourceUrls', 'publicationStatus']),
+    sourceTier: sources.some(source => source.access === '官方公开页面') ? 'official_page' : 'official_index'
+  }
+})
 const freeDetails = freeDocument.cases.map(item => ({
   ...pick(item, ['id', 'name', 'industry', 'difficulty', 'cost', 'access', 'accessLabel', 'chainSummary', 'complianceHint', 'delivery', 'chargingModel', 'moneyFlow', 'principle']),
   startupCost: pick(item.startupCost, ['experimentCashCNY']),
   acquisition: pick(item.acquisition, ['visibleChannels']),
   requirements: pick(item.requirements, ['skills']),
-  factualBasis: pick(item.factualBasis, ['observation', 'checkedOn']),
+  factualBasis: { ...pick(item.factualBasis, ['observation', 'checkedOn']), sources: publicSources(item, catalog.find(entry => entry.id === item.id)) },
   validation: pick(item.validation, ['firstAction', 'budgetType', 'measure', 'stopCondition']),
   stages: item.stages.map(stage => pick(stage, ['number', 'name', 'type', 'action', 'transformation', 'reusableUnit', 'epistemicStatus']))
 }))
@@ -81,6 +110,8 @@ const metadata = {
   version: catalogDocument.version,
   lastUpdated: catalogDocument.last_updated,
   total: catalog.length,
+  officialPageCount: catalog.filter(item => item.sourceTier === 'official_page').length,
+  indexOnlyCount: catalog.filter(item => item.sourceTier === 'official_index').length,
   free: freeDetails.length,
   paid: catalog.filter(item => item.access === 'paid').length,
   paidFullTextBundled: false,

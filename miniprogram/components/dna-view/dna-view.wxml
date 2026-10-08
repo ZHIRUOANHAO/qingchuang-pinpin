@@ -5,7 +5,7 @@
     <view wx:else class="empty"><text class="empty-title">暂无商业节点</text></view>
   </view>
   <view class="toolbar">
-    <view class="score"><text class="score-label">闭环评分</text><view><text class="score-value">{{hasScore ? score : '待验证'}}</text><text wx:if="{{hasScore}}" class="score-total"> / 100</text></view></view>
+    <view class="score"><text class="score-label">{{hasScore ? '闭环评分' : '经营评分'}}</text><view><text class="score-value">{{hasScore ? score : '不设评分'}}</text><text wx:if="{{hasScore}}" class="score-total"> / 100</text></view></view>
     <view class="controls {{!items.length ? 'disabled' : ''}}"><button size="mini" class="tool" aria-label="重置视角" bindtap="resetView" disabled="{{!items.length}}"><image class="tool-image" src="/assets/icons/rotate.png"></image></button><button size="mini" class="tool" aria-label="放大" bindtap="zoomIn" disabled="{{!items.length}}"><image class="tool-image" src="/assets/icons/zoom-in.png"></image></button><button size="mini" class="tool" aria-label="缩小" bindtap="zoomOut" disabled="{{!items.length}}"><image class="tool-image" src="/assets/icons/zoom-out.png"></image></button></view>
   </view>
   <view class="legend"><view wx:for="{{stages}}" wx:key="label" class="legend-item"><view class="dot" style="background:{{item.color}}"></view><text class="legend-label">{{item.label}}</text></view></view>

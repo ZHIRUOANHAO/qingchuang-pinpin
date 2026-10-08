@@ -1,0 +1,44 @@
+<template>
+ <style>
+ @font-face{font-family:'Promo CJK';src:url('assets/fonts/promo-cjk.ttf') format('truetype');font-weight:400 900;font-display:block}
+ #root{position:relative;width:100%;height:100%;overflow:hidden;container-type:size;font-family:'Promo CJK';color:#243E3B}
+ #root *{box-sizing:border-box}
+ .f5-ground{position:absolute;inset:0;background:#FFF9EF}
+ .f5-stage{position:absolute;inset:0}
+ .f5-tag{position:absolute;left:7.4cqw;top:3.8cqh;padding:1.2cqw 2.2cqw;border:3px solid #243E3B;border-radius:100px;background:#2E7770;color:white;font-size:3.7cqw;line-height:1.2}
+ .f5-title{position:absolute;left:7.4cqw;top:8.5cqh;margin:0;font-size:7.8cqw;line-height:1.15;font-weight:700;letter-spacing:.015em}
+ .f5-provenance{position:absolute;left:7.4cqw;top:14.4cqh;margin:0;font-size:3.15cqw;line-height:1.25;color:#536D68}
+ .f5-reader{position:absolute;overflow:hidden;border:3px solid #243E3B;border-radius:28px;background:#091019;box-shadow:6px 6px 0 #243E3B}
+ .f5-reader img{display:block;width:100%;height:auto;max-width:none}
+ .f5-paper{border:3px solid #243E3B;border-radius:20px;background:#F6E9C9;box-shadow:5px 5px 0 #243E3B}
+ .f5-art{position:absolute;left:8.3cqw;top:18cqh;width:83.4cqw;height:83.4cqw;border:3px solid #243E3B;border-radius:28px;overflow:hidden;box-shadow:6px 6px 0 #243E3B}
+ .f5-atlas{position:absolute;top:0;width:300%;max-width:none;height:100%;object-fit:fill}
+ .f5-marker{position:absolute;left:-1cqw;bottom:0;width:calc(100% + 2cqw);height:2.3cqw;background:#E2B953;z-index: 0;transform-origin:left center;border-radius:4px}
+ .f5-star{position:absolute;right:2.4cqw;top:4cqh;width:8.5cqw;height:8.5cqw}
+ .f5-reader{left:16.7cqw;top:18cqh;width:66.6cqw;height:49.8cqh}
+ .f5-lines{position:absolute;left:10cqw;top:69cqh;width:80cqw;height:10cqw;overflow:visible}.f5-lines path{fill:none;stroke:#2E7770;stroke-width:6;stroke-linecap:round}
+ .f5-chip{position:absolute;top:69cqh;width:20cqw;height:10cqw;display:grid;place-items:center;font-size:4.6cqw}.f5-a{left:10cqw}.f5-b{left:40cqw}.f5-c{left:70cqw}
+ .f5-note{position:absolute;left:26cqw;top:77cqh;font-size:5cqw;line-height:1.25}.f5-question{display:inline-grid;place-items:center;width:6.5cqw;height:6.5cqw;background:#E2B953;border-radius:50%;border:3px solid #243E3B;font-size:4.5cqw}</style>
+ <div data-hf-id="hf-j4go" id="root" data-composition-id="05-canvas" data-duration="5.8" data-width="1080" data-height="1920">
+ <div data-hf-id="hf-ewj6" id="f05-canvas-ground" class="clip f5-ground" data-start="0" data-duration="5.8" data-track-index="0"></div>
+ <div data-hf-id="hf-h2i1" id="f05-canvas-stage" class="clip f5-stage" data-start="0" data-duration="5.8" data-track-index="1">
+ <svg data-hf-id="hf-p3b7" class="f5-star" viewBox="0 0 100 100" aria-hidden="true"><path data-hf-id="hf-a424" d="M50 8Q55 43 92 50Q57 56 50 92Q44 57 8 50Q44 44 50 8Z" fill="#AEE0DB" stroke="#243E3B" stroke-width="3" /></svg>
+ 
+ <div data-hf-id="hf-j3ne" class="f5-tag">03 / 画布</div><h1 data-hf-id="hf-51aq" class="f5-title" id="f05-canvas-title">加入画布</h1>
+ <p data-hf-id="hf-nl8l" class="f5-provenance">本地产品演示 · 从案例到方案</p>
+ <div data-hf-id="hf-itrt" id="f05-canvas-reader" class="f5-reader"><img data-hf-id="hf-wjtu" src="assets/04-canvas.png" alt="实际商业画布，七个节点与待实测状态"></div>
+ <svg data-hf-id="hf-1y9p" id="f05-canvas-lines" class="f5-lines" viewBox="0 0 870 110" aria-hidden="true"><path data-hf-id="hf-1nbt" id="f05-canvas-line-a" d="M230 55H330" /><path data-hf-id="hf-lxfs" id="f05-canvas-line-b" d="M540 55H640" /></svg>
+ <div data-hf-id="hf-0xkx" id="f05-canvas-offer" class="f5-chip f5-a f5-paper">卖点</div><div data-hf-id="hf-amxe" id="f05-canvas-acquire" class="f5-chip f5-b f5-paper">获客</div><div data-hf-id="hf-ouuz" id="f05-canvas-deliver" class="f5-chip f5-c f5-paper">交付</div>
+ <div data-hf-id="hf-rgzm" id="f05-canvas-note" class="f5-note">方案待实测 <span data-hf-id="hf-o2n4" class="f5-question">?</span></div>
+ </div></div>
+ <script src="assets/gsap.min.js"></script>
+ <script>(function(){
+ const tl=gsap.timeline({paused:true});
+ const el=name=>document.getElementById('f05-canvas-'+name);
+ const enter=(name,time,dx=0)=>tl.fromTo(el(name),{opacity:0,x:dx,y:20},{opacity:1,x:0,y:0,duration:.32,ease:'power3.out'},time);
+ enter('title',0);enter('reader',.12);
+ enter('offer',2.349541,-25);enter('acquire',3.113416,-25);enter('deliver',3.680541,-25);
+ ['line-a','line-b'].forEach((name,i)=>{const p=el(name),l=p.getTotalLength();p.style.strokeDasharray=l;tl.fromTo(p,{strokeDashoffset:l},{strokeDashoffset:0,duration:.32,ease:'power2.out'},i===0?3.1:3.67)});
+ enter('note',4.34);
+ window.__timelines=window.__timelines||{};window.__timelines['05-canvas']=tl;
+ })();</script></template>

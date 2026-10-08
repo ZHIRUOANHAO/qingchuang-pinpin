@@ -1,0 +1,13 @@
+{
+  "version":"0.1","last_updated":"2026-10-08","voice":"zh-CN-YunxiNeural",
+  "scenes":[
+    {"frame":1,"id":"01-hook","text":"又收藏一个创业案例。很心动。可第一步，到底做什么？","rate":"+3%","pitch":"+3Hz","volume":"+0%","delivery":"前半好奇，问句留呼吸，疑惑而非喊叫"},
+    {"frame":2,"id":"02-product","text":"打开轻创拼拼。别只看别人做成了什么，先拆清这门生意怎么运转。","rate":"+8%","pitch":"+1Hz","volume":"+0%","delivery":"转为清楚、带一点发现的兴奋"},
+    {"frame":3,"id":"03-offer","text":"比如原创任务模板。卖点不是一个文件，而是帮任务分散的人，省下搭建系统的时间。","rate":"+10%","pitch":"+0Hz","volume":"+0%","delivery":"解释具体价值，省时间处加重"},
+    {"frame":4,"id":"04-chain","text":"客户从教程、博客、免费资源认识它。拿到的，是模板和使用说明。","rate":"+8%","pitch":"+1Hz","volume":"+0%","delivery":"分清入口与交付，停顿干净"},
+    {"frame":5,"id":"05-canvas","text":"点一下，加入画布。把卖点、获客和交付，放到一条链上。","rate":"+8%","pitch":"+2Hz","volume":"+0%","delivery":"动作利落，三个词逐个落地"},
+    {"frame":6,"id":"06-experiment","text":"先做一页原创样张。请三个人试填，记录耗时、卡点和原话。","rate":"+5%","pitch":"+2Hz","volume":"+0%","delivery":"像给朋友一条可执行建议，温暖"},
+    {"frame":7,"id":"07-record","text":"把计划保存下来。试过以后，再决定继续，还是调整。不是先砸钱，是先找证据。","rate":"+8%","pitch":"+0Hz","volume":"+0%","delivery":"沉稳强调先找证据，不作收益承诺"},
+    {"frame":8,"id":"08-close","text":"轻创拼拼。选一个案例，拼出你的下一步。","rate":"+0%","pitch":"+2Hz","volume":"+0%","delivery":"舒展坚定，品牌与下一步各停一拍"}
+  ]
+}

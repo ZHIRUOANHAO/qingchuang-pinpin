@@ -1,5 +1,6 @@
 const storage = require('../../utils/storage')
 const { dateTime } = require('../../utils/format')
+const { calculate } = require('../../utils/scoring')
 const { createWorkflow } = require('../../utils/validation')
 
 Page({
@@ -7,7 +8,7 @@ Page({
   onShow() { this.setData({ list: storage.read('analysisRecords', []).map(item => ({ ...item, time: dateTime(item.createdAt) })) }) },
   activate(index) {
     const record = this.data.list[index]
-    const workflow = createWorkflow({ ...record, sourceType: 'demo', sourceId: record.id })
+    const workflow = createWorkflow({ ...record, metrics: calculate(record.nodes || []), sourceType: 'demo', sourceId: record.id })
     storage.write('activeWorkflow', workflow)
     storage.write('canvasNodes', workflow.nodes)
   },

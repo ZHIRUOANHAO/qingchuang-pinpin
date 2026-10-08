@@ -1,11 +1,16 @@
+const { stageIdForNode } = require('../config/business-stages')
+
 const TYPE_LABELS = {
   exposure: '曝光',
   traffic: '引流',
-  nurture: '种草',
-  conversion: '转化',
+  positioning: '卖点定位',
+  acquisition: '引流获客',
+  nurture: '种草教育',
+  conversion: '转化成交',
   transaction: '成交',
-  delivery: '交付',
-  retention: '复购',
+  payment: '收款',
+  delivery: '产品交付',
+  retention: '复购裂变',
   referral: '裂变',
   profit: '利润',
   risk: '风控'
@@ -22,18 +27,18 @@ const DAY_TEMPLATES = [
 ]
 
 function nodeTypes(nodes = []) {
-  return nodes.map(node => node.type || node.id)
+  return nodes.map(stageIdForNode).filter(Boolean)
 }
 
 function inferAnswers(workflow = {}) {
   const types = nodeTypes(workflow.nodes)
   const hasDelivery = types.includes('delivery')
-  const hasTransaction = types.includes('transaction')
+  const hasPayment = types.includes('payment')
   return {
     audience: workflow.audience || '有明确问题、愿意用小额成本换取时间与清晰方案的人',
     painPoint: workflow.painPoint || '想法很多，但缺少可执行的商业链路和真实反馈',
     minimumDeliverable: workflow.minimumDeliverable || (hasDelivery ? '1 页可直接试用的样张或最小模板' : '先补齐可被用户实际使用的最小交付物'),
-    testPrice: workflow.testPrice || (hasTransaction ? '9.9 元体验样张 / 49 元轻定制' : '先完成访谈，再设置小额真实报价'),
+    testPrice: workflow.testPrice || (hasPayment ? '9.9 元体验样张 / 49 元轻定制' : '先完成访谈，再设置小额真实报价'),
     firstAction: workflow.firstAction || '把主线讲给 3 位目标用户，请他们复述并询问付费意愿',
     notDoing: workflow.notDoing || '不先开发完整产品，不承诺流量、成交或收入结果'
   }
@@ -114,6 +119,7 @@ function planProgress(plan = {}) {
 function summaryText(workflow = {}) {
   const plan = workflow.validation || buildValidationPlan(workflow)
   const metrics = workflow.metrics || {}
+  const hasCaseNodes = (workflow.nodes || []).some(node => node.costStatus === 'not_individually_estimated')
   return [
     `《${workflow.title || '商业验证方案'}》`,
     `目标用户：${plan.audience}`,
@@ -121,7 +127,7 @@ function summaryText(workflow = {}) {
     `测试价格：${plan.testPrice}`,
     `首个动作：${plan.firstAction}`,
     `风险边界：${plan.riskBoundary}`,
-    `闭环完整度：${metrics.completeness || 0}%｜风险：${metrics.risk || 0}｜启动成本：¥${metrics.startupCost || 0}`
+    `结构环节覆盖：${metrics.completeness || 0}%｜风险：${hasCaseNodes ? '待评估' : metrics.risk || 0}｜启动成本：${hasCaseNodes ? '待核算' : `¥${metrics.startupCost || 0}`}`
   ].join('\n')
 }
 

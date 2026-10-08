@@ -10,6 +10,6 @@
     <view class="menu-item" bindtap="shareMini"><text class="menu-symbol">↗</text><view><text>分享小程序</text><text>使用微信原生分享发送给好友</text></view><text>›</text></view>
     <view class="menu-item" data-url="/pages/privacy/privacy" bindtap="openMenu"><text class="menu-symbol">◎</text><view><text>隐私与权限</text><text>查看数据使用与权限说明</text></view><text>›</text></view>
     <view class="menu-item" data-url="/pages/help/help" bindtap="openMenu"><text class="menu-symbol">?</text><view><text>帮助中心</text><text>常见问题与使用支持</text></view><text>›</text></view>
-    <view class="menu-item" data-url="/pages/about/about" bindtap="openMenu"><text class="menu-symbol">i</text><view><text>关于青创拼拼</text><text>产品理念、合规边界与版本</text></view><text>›</text></view>
+    <view class="menu-item" data-url="/pages/about/about" bindtap="openMenu"><text class="menu-symbol">i</text><view><text>关于轻创拼拼</text><text>产品理念、合规边界与版本</text></view><text>›</text></view>
   </view><view class="spacer-bottom"></view>
 </view></scroll-view>

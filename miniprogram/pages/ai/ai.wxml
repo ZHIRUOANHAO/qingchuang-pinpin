@@ -10,7 +10,7 @@
 
       <picker mode="selector" range="{{caseTitles}}" value="{{selectedIndex}}" bindchange="chooseCase">
         <view class="case-picker panel">
-          <view><text class="picker-label">当前案例</text><text class="picker-title">{{selectedSummary.title}}</text><text class="picker-meta">{{selectedSummary.industry}} · {{selectedSummary.difficultyLabel}}</text></view>
+          <view><text class="picker-label">当前案例 · {{selectedSummary.sourceStatusLabel}}</text><text class="picker-title">{{selectedSummary.title}}</text><text class="picker-meta">{{selectedSummary.industry}} · {{selectedSummary.difficultyLabel}} · 记录于 {{selectedSummary.evidenceCheckedOn}}</text></view>
           <text class="picker-arrow">更换 ›</text>
         </view>
       </picker>
@@ -28,7 +28,8 @@
     <view wx:elif="{{analyzing}}" class="analysis-state" aria-busy="true"><view class="pulse"><text>DNA</text></view><text class="analysis-title">正在读取预置案例</text><view class="steps"><text class="done">✓ 读取公开来源与案例正文</text><text>· 组织七阶段资产卡</text><text>· 生成本地可视化</text></view></view>
 
     <view wx:else class="result section">
-      <view class="result-head"><view><text class="tag safe">预置案例</text><text class="result-title">{{result.title}}</text></view><button class="icon-button" aria-label="重新选择案例" bindtap="reset">↻</button></view>
+      <view class="result-head"><view><text class="tag safe">{{result.sourceStatusLabel}} · {{result.evidenceCheckedOn}}</text><text class="result-title">{{result.title}}</text></view><button class="icon-button" aria-label="重新选择案例" bindtap="reset">↻</button></view>
+      <view class="source-panel panel"><text class="section-title">公开证据 · {{result.sourceStatusLabel}}</text><text>当时核对到：{{result.originalEvidence}}</text><view wx:for="{{result.proofSources}}" wx:key="url"><text>{{item.label}} · {{item.access}} · {{item.checkedOn}}</text><text selectable="true">{{item.url}}</text><button data-index="{{index}}" bindtap="copySource">复制原始链接</button></view><text>公开资料不等于经审计的成交或盈利证明；索引线索也不等同于直接打开官方页面。</text></view>
       <view class="result-dna"><dna-view items="{{result.displayNodes}}" score="{{0}}" has-score="{{false}}" selected-id="{{selectedNode ? selectedNode.id : ''}}" covered="{{!!selectedNode}}" reduced-motion="{{reducedMotion}}" bindselect="selectNode"></dna-view></view>
       <view class="fact-grid">
         <view class="fact panel"><text>7</text><text>固定商业阶段</text></view>
@@ -41,7 +42,6 @@
         <view><text>如何交付</text><text>{{result.delivery}}</text></view>
         <view><text>风险边界</text><text>{{result.compliance}}</text></view>
       </view>
-      <view class="source-panel panel"><text class="section-title">依据与边界</text><text>公开资料仅用于商业认知与结构化学习，不代表项目可复制、已盈利或适合所有人。</text><button wx:for="{{result.sourceUrls}}" wx:key="*this" data-index="{{index}}" bindtap="copySource">复制来源 {{index + 1}}</button></view>
       <view class="result-actions"><button class="secondary-button" bindtap="saveResult">保存到本机</button><button class="secondary-button" bindtap="openCase">查看完整案例</button><button class="primary-button" bindtap="continueCanvas">进入画布拼装</button></view>
       <view class="spacer-bottom"></view>
     </view>

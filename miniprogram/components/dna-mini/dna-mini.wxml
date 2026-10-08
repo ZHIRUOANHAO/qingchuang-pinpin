@@ -1,2 +1,8 @@
-<canvas class="dna" type="2d" id="mini" aria-label="DNA双螺旋缩略图"></canvas>
+<view class="dna {{tone}}" aria-hidden="true">
+  <view wx:for="{{rungs}}" wx:key="id" class="rung" style="left:{{item.left}}%">
+    <view class="bridge" style="top:{{item.bridgeTop}}%;height:{{item.bridgeHeight}}%"></view>
+    <view class="dot first" style="top:{{item.first}}%"></view>
+    <view class="dot second" style="top:{{item.second}}%"></view>
+  </view>
+</view>
 

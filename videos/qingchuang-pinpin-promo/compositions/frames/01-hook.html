@@ -1,0 +1,251 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Promo CJK";
+      src: url("assets/fonts/promo-cjk.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+    }
+    #root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+      color: #243E3B;
+      font-family: "Promo CJK", sans-serif;
+    }
+    #root * { box-sizing: border-box; }
+    [class~="f01-hook-ground"] {
+      position: absolute;
+      inset: 0;
+      background: #FFF9EF;
+    }
+    [class~="f01-hook-ornament"] {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #f01-hook-sun { left: 2.4cqw; top: 8.85cqh; width: 10cqw; height: 10cqw; }
+    #f01-hook-star { right: 2cqw; top: 7.65cqh; width: 10cqw; height: 10cqw; }
+    #f01-hook-cloud { left: -2.6cqw; top: 71.1cqh; width: 14.8cqw; height: 8cqw; }
+    [class~="f01-hook-brand"] {
+      position: absolute;
+      z-index: 3;
+      left: 33cqw;
+      top: 4.25cqh;
+      width: 34cqw;
+      height: 7cqw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #243E3B;
+      border-radius: 50px;
+      background: #2E7770;
+      color: #FFFFFF;
+      box-shadow: 4px 4px 0 #243E3B;
+      font-size: 4.1cqw;
+      line-height: 1;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    [class~="f01-hook-picture"] {
+      position: absolute;
+      left: 6.85cqw;
+      top: 12cqh;
+      width: 86.3cqw;
+      height: 86.3cqw;
+      overflow: hidden;
+      z-index: 2;
+      border: 3px solid #243E3B;
+      border-radius: 28px;
+      background: #FFFFFF;
+      box-shadow: 6px 6px 0 #243E3B;
+    }
+    [class~="f01-hook-camera-outer"],
+    [class~="f01-hook-camera-inner"],
+    [class~="f01-hook-left-panel"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    [class~="f01-hook-camera-outer"] { transform-origin: 50% 50%; }
+    [class~="f01-hook-left-panel"] { overflow: hidden; }
+    [class~="f01-hook-atlas"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 300%;
+      height: 100%;
+      max-width: none;
+      display: block;
+    }
+    [class~="f01-hook-focus-target"] {
+      position: absolute;
+      left: 48%;
+      top: 49%;
+      width: 6%;
+      height: 6%;
+      pointer-events: none;
+    }
+    [class~="f01-hook-note"] {
+      position: absolute;
+      z-index: 4;
+      width: 22.4cqw;
+      height: 10.4cqw;
+      border: 3px solid #243E3B;
+      border-radius: 20px;
+      background: #F6E9C9;
+      box-shadow: 4px 4px 0 #243E3B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.8cqw;
+      line-height: 1.1;
+      transform-origin: 50% 70%;
+      white-space: nowrap;
+    }
+    #f01-hook-note-one { left: 12cqw; top: 59.4cqh; z-index: 6; }
+    #f01-hook-note-two { left: 27cqw; top: 60.2cqh; z-index: 5; }
+    #f01-hook-note-three { left: 42cqw; top: 60.7cqh; z-index: 4; }
+    [class~="f01-hook-feeling"] {
+      position: absolute;
+      left: 8.1cqw;
+      top: 66.85cqh;
+      width: 19cqw;
+      height: 7.2cqw;
+      z-index: 5;
+      border: 3px solid #243E3B;
+      border-radius: 50px;
+      background: #2E7770;
+      color: #FFFFFF;
+      box-shadow: 4px 4px 0 #243E3B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.7cqw;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    [class~="f01-hook-first-step"] {
+      left: 62.2cqw;
+      top: 63.9cqh;
+      width: 28.3cqw;
+      height: 10.8cqw;
+      z-index: 7;
+      background: #FFFFFF;
+      font-size: 4.6cqw;
+      transform-origin: 8% 50%;
+    }
+    [class~="f01-hook-title"] {
+      position: absolute;
+      left: 7cqw;
+      top: 73.9cqh;
+      width: 86cqw;
+      height: 11.4cqw;
+      z-index: 5;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.05cqw;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    [class~="f01-hook-word"] {
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+    }
+    [class~="f01-hook-marker"] {
+      position: absolute;
+      left: -.4cqw;
+      right: -.5cqw;
+      bottom: .35cqw;
+      height: 2.65cqw;
+      border-radius: 3px;
+      background: #E2B953;
+      opacity: .65;
+      transform-origin: left center;
+      z-index: 0;
+    }
+  </style>
+  <div data-hf-id="hf-0s5p" id="root" data-composition-id="01-hook" data-duration="5.6" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-vzr1" id="f01-hook-ground" class="clip f01-hook-ground" data-start="0" data-duration="5.6" data-track-index="0"></div>
+    <svg data-hf-id="hf-hfnf" id="f01-hook-sun" class="f01-hook-ornament" viewBox="0 0 108 108" aria-hidden="true">
+      <g data-hf-id="hf-pqjj" fill="none" stroke="#243E3B" stroke-width="2.1" stroke-linecap="round">
+        <circle data-hf-id="hf-eab3" cx="54" cy="54" r="23" fill="#EFD89E" />
+        <path data-hf-id="hf-7wmu" d="M54 6 L54 18 M54 90 L54 102 M6 54 L18 54 M90 54 L102 54 M20 20 L29 29 M79 79 L88 88 M20 88 L29 79 M79 29 L88 20" />
+      </g>
+    </svg>
+    <svg data-hf-id="hf-72w9" id="f01-hook-star" class="f01-hook-ornament" viewBox="0 0 108 108" aria-hidden="true">
+      <path data-hf-id="hf-kab6" d="M54 10 Q57 43 94 54 Q62 59 54 96 Q48 65 13 54 Q47 48 54 10Z" fill="#BDE6E2" stroke="#243E3B" stroke-width="2.1" stroke-linejoin="round" />
+    </svg>
+    <svg data-hf-id="hf-4bso" id="f01-hook-cloud" class="f01-hook-ornament" viewBox="0 0 160 88" aria-hidden="true" data-layout-allow-overflow="true">
+      <path data-hf-id="hf-a0d4" d="M27 66 C7 66 7 40 27 38 C29 13 57 11 69 30 C87 12 116 22 117 43 C145 36 154 67 130 70 L27 66Z" fill="#BDE6E2" stroke="#243E3B" stroke-width="2.1" stroke-linejoin="round" />
+    </svg>
+    <div data-hf-id="hf-w7mg" id="f01-hook-brand" class="f01-hook-brand">轻创拼拼</div>
+    <div data-hf-id="hf-n9ly" id="f01-hook-picture" class="f01-hook-picture">
+      <div data-hf-id="hf-ced4" id="f01-hook-camera-outer" class="f01-hook-camera-outer">
+        <div data-hf-id="hf-qo6m" id="f01-hook-camera-inner" class="f01-hook-camera-inner">
+          <div data-hf-id="hf-z728" class="f01-hook-left-panel">
+            <img data-hf-id="hf-m2bd" class="f01-hook-atlas" src="assets/story-atlas.png" alt="同一卡通人物坐在暖黄色书桌前看手机，神情困惑">
+          </div>
+          <div data-hf-id="hf-8rp3" id="f01-hook-focus-target" class="f01-hook-focus-target" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div data-hf-id="hf-nnz0" id="f01-hook-note-three" class="f01-hook-note">案例</div>
+    <div data-hf-id="hf-qadm" id="f01-hook-note-two" class="f01-hook-note">案例</div>
+    <div data-hf-id="hf-2l0o" id="f01-hook-note-one" class="f01-hook-note">案例</div>
+    <div data-hf-id="hf-krg9" id="f01-hook-feeling" class="f01-hook-feeling">心动</div>
+    <div data-hf-id="hf-lor6" id="f01-hook-first-step" class="f01-hook-note f01-hook-first-step">第一步？</div>
+    <h1 data-hf-id="hf-ri9o" id="f01-hook-title" class="f01-hook-title"><span data-hf-id="hf-y995" class="f01-hook-word">然后<span data-hf-id="hf-kl54" id="f01-hook-marker" class="f01-hook-marker" aria-hidden="true"></span></span><span data-hf-id="hf-eahe">呢？</span></h1>
+  </div>
+  <script src="assets/gsap.min.js"></script>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const outer = document.getElementById('f01-hook-camera-outer');
+      const inner = document.getElementById('f01-hook-camera-inner');
+      const focus = document.getElementById('f01-hook-focus-target');
+      const view = document.getElementById('f01-hook-picture');
+      const viewRect = view.getBoundingClientRect();
+      const focusRect = focus.getBoundingClientRect();
+      const offsetX = focusRect.left + focusRect.width / 2 - (viewRect.left + viewRect.width / 2);
+      const offsetY = focusRect.top + focusRect.height / 2 - (viewRect.top + viewRect.height / 2);
+      const headroom = Math.min(.88 * viewRect.width / focusRect.width, .88 * viewRect.height / focusRect.height);
+      const zoomScale = Math.min(1.085, headroom);
+
+      tl.fromTo('[id="f01-hook-picture"]', { opacity: 0 }, { opacity: 1, duration: .22, ease: 'none' }, 0);
+      tl.fromTo('[id="f01-hook-brand"]', { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: .28, ease: 'power3.out' }, .03);
+      tl.fromTo(outer, { scale: 1.05 }, { scale: zoomScale, duration: 1.15, ease: 'power3.inOut' }, .55);
+      tl.fromTo(inner, { x: 0, y: 0 }, { x: -offsetX, y: -offsetY, duration: 1.15, ease: 'power3.inOut' }, .55);
+
+      const notes = [
+        { id: '[id="f01-hook-note-one"]', body: '案例', hold: 1.37, angle: -5 },
+        { id: '[id="f01-hook-note-two"]', body: '案例', hold: .14, angle: 2 },
+        { id: '[id="f01-hook-note-three"]', body: '案例', hold: .14, angle: -2 }
+      ];
+      let noteStart = .32;
+      const noteWindows = notes.map(function (note) {
+        const item = Object.assign({}, note, { start: noteStart });
+        noteStart += .12 + note.body.length * .05 + note.hold;
+        return item;
+      });
+      noteWindows.forEach(function (note) {
+        tl.fromTo(note.id, { opacity: 0, x: -80, y: 14, rotation: note.angle - 3 }, { opacity: 1, x: 0, y: 0, rotation: note.angle, duration: .3, ease: 'power3.out' }, note.start);
+      });
+      tl.fromTo('[id="f01-hook-feeling"]', { opacity: 0, y: 16, scale: .92 }, { opacity: 1, y: 0, scale: 1, duration: .28, ease: 'power3.out' }, 1.9);
+      tl.fromTo('[id="f01-hook-title"]', { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .3, ease: 'power3.out' }, 3.05);
+      tl.fromTo('[id="f01-hook-first-step"]', { opacity: 0, scaleX: .25, y: 10, rotation: -3 }, { opacity: 1, scaleX: 1, y: 0, rotation: -3, duration: .4, ease: 'power3.out' }, 3.53);
+      tl.fromTo('[id="f01-hook-marker"]', { scaleX: 0 }, { scaleX: 1, duration: .55, ease: 'power2.out' }, 4.12);
+      window.__timelines = window.__timelines || {};
+      window.__timelines['01-hook'] = tl;
+    })();
+  </script>
+</template>

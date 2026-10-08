@@ -62,7 +62,7 @@ try {
   await desktop.locator('#universe-canvas').waitFor({ state: 'visible' });
   await desktop.waitForTimeout(500);
   check(await desktop.locator('.side-rail .nav-item').count() === 5, 'desktop renders five navigation tabs');
-  check(await desktop.locator('h1').first().textContent() === '青创拼拼', 'desktop opens on the product-led home');
+  check(await desktop.locator('h1').first().textContent() === '轻创拼拼', 'desktop opens on the product-led home');
   check((await desktop.locator('.hero-thesis h2').textContent()).includes('一门生意如何运转'), 'home foregrounds understanding a real transaction without earnings claims');
   const universeHint = await desktop.locator('.hero-live').textContent();
   check(universeHint.includes('100 个案例全部免费阅读') && !universeHint.includes('付费'), 'home makes all 100 free cases explicit without a paid tier');
@@ -84,6 +84,7 @@ try {
   await desktop.locator('[data-action="reset-cases"]').first().click();
   check(await desktop.locator('.case-card').count() === 100, 'case library renders all 100 catalog entries');
   check(await desktop.locator('.case-card.is-free').count() === 100, 'all 100 catalog cards offer free reading');
+  check(await desktop.locator('.case-card .case-evidence').count() === 100, 'all source-checked cases show their verification record in the library');
   check(await desktop.locator('.case-card.is-locked').count() === 0, 'no paid catalog cards remain');
   check(await desktop.locator('[data-access]').count() === 0, 'obsolete paid/free filters are removed from the interface');
   check((await desktop.locator('.case-card.is-free .case-card-head strong').allTextContents()).every(label => label === '免费全文'), 'every free card discloses complete free access before opening');
@@ -97,7 +98,13 @@ try {
   check(await desktop.locator('.empty-state').isVisible() && await desktop.locator('.case-card').count() === 0, 'unmatched search shows an actionable empty state');
   await desktop.locator('.empty-state [data-action="reset-cases"]').click();
   check(await desktop.locator('.case-card').count() === 100 && await desktop.locator('#case-search').inputValue() === '', 'reset restores the complete catalog and clears the search');
+  check(await desktop.locator('.case-card .case-evidence.is-index').count() === 14, 'the 14 index-only leads are visibly separated from direct official-page records');
+  await desktop.locator('.case-card[data-case-id="real_004"]').click();
+  check((await desktop.locator('.source-panel').textContent()).includes('官方页面索引线索') && (await desktop.locator('.source-panel').textContent()).includes('https://learn.justinwelsh.me/content'), 'index-only case shows its actual lead without claiming direct page verification');
+  await desktop.locator('[data-action="close-case"]').click();
   await desktop.locator('.case-card[data-case-id="real_001"]').click();
+  check((await desktop.locator('.source-panel').textContent()).includes('官方公开页面记录 · 2026-09-13'), 'case detail identifies the exact source tier and checking date');
+  check((await desktop.locator('.dna-score').textContent()).includes('官方公开页面记录'), 'DNA evidence label agrees with the evidence record');
   check((await desktop.locator('.business-brief').textContent()).includes('可复制的 Notion 模板') && (await desktop.locator('.business-brief').textContent()).includes('任务与笔记分散'), 'free case opens with a concrete offer and its actual payer');
   check((await desktop.locator('.trade-summary').textContent()).includes('模板单品或组合购买'), 'free case exposes the case-specific charging model');
   check(await desktop.locator('.transaction-story li').count() === 7 && (await desktop.locator('.transaction-story li').first().textContent()).includes('卖什么') && (await desktop.locator('.transaction-story li').last().textContent()).includes('收钱'), 'readable story starts at the offer and ends at payment, not an abstract principle');
@@ -105,7 +112,8 @@ try {
   await desktop.screenshot({ path: join(artifacts, 'desktop-business-brief.png') });
   await desktop.locator('[data-action="bookmark"]').click();
   check(await desktop.locator('[data-action="bookmark"]').getAttribute('aria-pressed') === 'true', 'free case can be bookmarked with an explicit selected state');
-  check(await desktop.locator('.source-panel a').count() > 0, 'free case shows real evidence links');
+  check(await desktop.locator('.source-panel a').count() > 0 && (await desktop.locator('.source-panel').textContent()).includes('https://www.easlo.co/templates'), 'free case shows a named original evidence link');
+  check(await desktop.locator('.source-panel').evaluate(element => element.getBoundingClientRect().top < document.querySelector('.business-brief').getBoundingClientRect().top), 'proof is visible before editorial business analysis');
   await desktop.locator('#dna-canvas').waitFor({ state: 'visible' });
   await desktop.waitForTimeout(400);
   const dnaPixels = await canvasPixels(desktop, '#dna-canvas');
@@ -170,6 +178,7 @@ try {
   check(await desktop.locator('.flow-node').count() === nodesBefore + 1 && await desktop.locator('[data-toggle-node="retention"]').getAttribute('aria-pressed') === 'true', 'adding a canvas node updates the actual flow and selection state');
   check(coverageBefore !== coverageAfter, `canvas coverage updates after adding a node (${coverageBefore} to ${coverageAfter})`);
   check(await desktop.locator('.score-gauge strong').textContent() === '—' && (await desktop.locator('.canvas-metrics').textContent()).includes('待核算') && (await desktop.locator('.canvas-metrics').textContent()).includes('待评估'), 'sourced-case canvas keeps unverified scores, costs and risks explicitly unknown');
+  check((await desktop.locator('.score-gauge').textContent()).includes('方案待实测'), 'canvas marks the user plan, not the sourced case, as needing a real-world test');
   await desktop.screenshot({ path: join(artifacts, 'desktop-canvas.png'), fullPage: true });
   await desktop.locator('[data-action="open-validation"]').click();
   check(await desktop.locator('.validation-answers > div').count() === 4, 'validation plan exposes four core business answers');

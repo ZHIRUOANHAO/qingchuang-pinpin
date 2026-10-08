@@ -1,8 +1,7 @@
 <scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false"><view class="page-shell legal-page">
-  <view class="legal-header"><text class="eyebrow">TERMS OF USE</text><text class="brand">青创拼拼用户协议</text><text class="meta">版本 1.0 · 更新于 {{updatedAt}}</text><text class="summary">请在使用预置案例、商业 DNA 画布与验证记录功能前阅读本协议。</text></view>
-  <view wx:if="{{!supportReady}}" class="preflight-alert" role="alert"><text class="alert-title">上线前仍需补充真实信息</text><text>正式注册主体名称与有效联系邮箱尚未配置。补齐并完成必要复核前，本协议不能视为最终提交文本。</text></view>
+  <view class="legal-header"><text class="eyebrow">TERMS OF USE</text><text class="brand">轻创拼拼用户协议</text><text class="meta">版本 1.0 · 更新于 {{updatedAt}}</text><text class="summary">请在使用预置案例、商业 DNA 画布与验证记录功能前阅读本协议。</text></view>
   <view class="document">
-    <view class="section-card"><text class="section-index">01</text><text class="doc-title">服务内容</text><text class="paragraph">青创拼拼提供预置商业案例的结构化阅读、商业 DNA 可视化、画布拼装和本机验证记录。当前版本不提供内容生成、交易撮合、投资顾问、付费会员、订单或支付服务。</text></view>
+    <view class="section-card"><text class="section-index">01</text><text class="doc-title">服务内容</text><text class="paragraph">轻创拼拼提供预置商业案例的结构化阅读、商业 DNA 可视化、画布拼装和本机验证记录。当前版本不提供内容生成、交易撮合、投资顾问、付费会员、订单或支付服务。</text></view>
     <view class="section-card"><text class="section-index">02</text><text class="doc-title">使用边界</text><text class="paragraph">案例来自可公开访问的经营资料并经过编辑整理，仅用于学习与验证思路。公开信息、编辑分析和模拟步骤都不等于盈利证明、经营建议或对结果的保证。你应自行核对行业规则、平台规则、合同、税务、资质与实际成本。</text></view>
     <view class="section-card"><text class="section-index">03</text><text class="doc-title">知识产权</text><text class="paragraph">第三方名称、商标、产品和链接归相应权利人所有。你可以阅读与记录本产品提供的原创结构化分析，但不得将第三方受保护内容、原模板、课程或素材冒充自有内容复制、售卖或传播。</text></view>
     <view class="section-card"><text class="section-index">04</text><text class="doc-title">本机数据</text><text class="paragraph">收藏、画布和验证进度默认保存在当前设备。清理微信缓存、删除小程序或更换设备可能导致记录丢失；当前版本不承诺跨设备同步或数据恢复。</text></view>
