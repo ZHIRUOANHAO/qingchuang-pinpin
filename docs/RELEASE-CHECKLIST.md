@@ -44,7 +44,7 @@ last_updated: 2026-09-28
 
 以下项目尚未完成，必须使用本轮正式配置重新执行，历史编译记录不能替代：
 
-- [x] 在微信开发者工具中重新构建 npm 并真实编译：2026-10-22 `build-npm` 成功（0 警告）；2026-10-24 行星球系版本 `preview` 成功，上传包体 1,410,201 字节 < 2 MiB（证据见 `项目资料/上架调试/devtools/preview-planet-final-info.json` 与 `preview-planet-final.png`）。
+- [x] 在微信开发者工具中重新构建 npm 并真实编译：2026-10-22 `build-npm` 成功（0 警告）；2026-10-24 行星球系版本 `preview` 成功，上传包体 1,410,198 字节 < 2 MiB（证据见 `项目资料/上架调试/devtools/preview-planet-final-info.json` 与 `preview-planet-final.png`）。
 - [ ] 首页星球正常加载、旋转，点击案例可进入详情。
 - [ ] 案例库显示 100 条全免费案例，搜索、筛选、收藏与详情跳转正常。
 - [ ] 案例演示只能选择预置案例，加载后正确展示七阶段 DNA 与资产卡。

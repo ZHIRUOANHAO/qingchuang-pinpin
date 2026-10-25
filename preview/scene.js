@@ -198,7 +198,7 @@ function glowTexture() {
 export function createUniverse(canvas, cases = [], onPlanetSelect) {
   canvas.dataset.caseCount = String(cases.length);
   canvas.dataset.freeCaseCount = String(cases.filter((item) => !item.locked).length);
-  const renderer = makeRenderer(canvas, { exposure: 1.26 });
+  const renderer = makeRenderer(canvas, { exposure: 1.42 });
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(41, 1, 0.1, 100);
   addStars(scene, 1200, 24);
@@ -207,14 +207,14 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
 
   // 自然光照：环境光 + 偏冷远景主光 + 位于中心的暖色“恒星”，
   // 行星朝中心一侧被照亮、背侧自然变暗。
-  scene.add(new THREE.AmbientLight('#93a6c6', .4));
-  const key = new THREE.DirectionalLight('#e8f0ff', 1.4);
+  scene.add(new THREE.AmbientLight('#a9bcd8', .52));
+  const key = new THREE.DirectionalLight('#f2f7ff', 2.0);
   key.position.set(3, 5, 7);
   scene.add(key);
-  const sun = new THREE.PointLight('#ffd9a8', 3.1, 0, 2);
+  const sun = new THREE.PointLight('#ffdfb4', 5.0, 0, 2);
   sun.position.set(0, 0, 0);
   scene.add(sun);
-  const fill = new THREE.PointLight('#6b8fd6', .8, 0, 2);
+  const fill = new THREE.PointLight('#7fa3e8', 1.6, 0, 2);
   fill.position.set(-4, 1, 4);
   scene.add(fill);
 
@@ -223,16 +223,16 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
   system.rotation.copy(initialRotation);
   scene.add(system);
   // 大范围冷色星云光，把整个行星系统笼在一层宇宙氛围里。
-  const nebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#31508c', transparent: true, opacity: .22, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const nebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#3f63a8', transparent: true, opacity: .38, blending: THREE.AdditiveBlending, depthWrite: false }));
   nebula.scale.setScalar(11);
   nebula.position.set(0, 0, -2);
   system.add(nebula);
   // 紫/青色星云层：给深空一点色彩纵深。
-  const violetNebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#6a5acd', transparent: true, opacity: .26, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const violetNebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#8a78ff', transparent: true, opacity: .42, blending: THREE.AdditiveBlending, depthWrite: false }));
   violetNebula.scale.setScalar(9);
   violetNebula.position.set(-2.6, 1.4, -2.4);
   system.add(violetNebula);
-  const tealNebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#2f8f9e', transparent: true, opacity: .2, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const tealNebula = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#46c0cf', transparent: true, opacity: .32, blending: THREE.AdditiveBlending, depthWrite: false }));
   tealNebula.scale.setScalar(8);
   tealNebula.position.set(2.8, -1.2, -2.8);
   system.add(tealNebula);
@@ -241,27 +241,27 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
   system.add(core);
   const planet = new THREE.Mesh(
     createMottledSphereGeometry(64, 44, 4.2),
-    new THREE.MeshStandardMaterial({ color: '#3d6f9e', metalness: .04, roughness: .72, emissive: '#14283f', emissiveIntensity: .32, vertexColors: true }),
+    new THREE.MeshStandardMaterial({ color: '#4a86c4', metalness: .04, roughness: .68, emissive: '#1c3f66', emissiveIntensity: .62, vertexColors: true }),
   );
   planet.userData.caseId = 'core';
   core.add(planet);
   const atmosphere = new THREE.Mesh(
     new THREE.SphereGeometry(1.04, 48, 32),
-    new THREE.MeshBasicMaterial({ color: '#6fa8d8', transparent: true, opacity: .13, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false }),
+    new THREE.MeshBasicMaterial({ color: '#8cc6ef', transparent: true, opacity: .22, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false }),
   );
   core.add(atmosphere);
   // 很淡的大气光晕，只让中心星有“被照亮”的柔光，不再用金色装饰光。
-  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#ffd9a8', transparent: true, opacity: .55, blending: THREE.AdditiveBlending, depthWrite: false }));
-  halo.scale.setScalar(5.2);
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#ffe4b8', transparent: true, opacity: .9, blending: THREE.AdditiveBlending, depthWrite: false }));
+  halo.scale.setScalar(6);
   halo.renderOrder = -1;
   core.add(halo);
   // 逆光星芒：放在星球背后缓慢旋转，给画面一个“主角光环”。
-  const rays = new THREE.Sprite(new THREE.SpriteMaterial({ map: raysTexture(), color: '#ffe2ae', transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const rays = new THREE.Sprite(new THREE.SpriteMaterial({ map: raysTexture(), color: '#ffe9c4', transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
   rays.scale.setScalar(11);
   rays.position.z = -.6;
   rays.renderOrder = -2;
   core.add(rays);
-  const outerGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#4f79c8', transparent: true, opacity: .3, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const outerGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: '#5f8fe0', transparent: true, opacity: .45, blending: THREE.AdditiveBlending, depthWrite: false }));
   outerGlow.scale.setScalar(13);
   outerGlow.position.z = -1.5;
   outerGlow.renderOrder = -3;
@@ -311,7 +311,7 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
   const dustGeometry = new THREE.BufferGeometry();
   dustGeometry.setAttribute('position', new THREE.Float32BufferAttribute(dustPositions, 3));
   dustGeometry.setAttribute('color', new THREE.Float32BufferAttribute(dustColors, 3));
-  const dustRing = new THREE.Points(dustGeometry, new THREE.PointsMaterial({ size: .02, vertexColors: true, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
+  const dustRing = new THREE.Points(dustGeometry, new THREE.PointsMaterial({ size: .024, vertexColors: true, transparent: true, opacity: .75, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
   plane.add(dustRing);
 
   const clickable = [planet];
@@ -330,9 +330,9 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
       new THREE.MeshStandardMaterial({
         color,
         emissive: color,
-        emissiveIntensity: .04,
+        emissiveIntensity: .22,
         metalness: .02,
-        roughness: .84,
+        roughness: .78,
         vertexColors: true,
       }),
     );
@@ -460,7 +460,7 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
         updateSatellites(flightTime);
         dustRing.rotation.y += motionDelta * .00002;
         rays.material.rotation += motionDelta * .000012;
-        if (starField) starField.material.opacity = .58 + .12 * Math.sin(flightTime * 1.25);
+        if (starField) starField.material.opacity = .72 + .12 * Math.sin(flightTime * 1.25);
         // 入场动效：镜头推近 + 系统从 0.9 倍放大 + 星芒渐亮。
         introTime += motionDelta / 1000;
         const introProgress = Math.min(1, introTime / 1.2);
@@ -469,7 +469,7 @@ export function createUniverse(canvas, cases = [], onPlanetSelect) {
         camera.position.z = baseDistance * (1.05 - .05 * introEase);
         camera.position.y = Math.sin(flightTime * .14) * .05;
         camera.lookAt(0, 0, 0);
-        rays.material.opacity = .45 * introEase;
+        rays.material.opacity = .8 * introEase;
       }
     }
     syncMotionState();

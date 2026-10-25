@@ -55,7 +55,7 @@ const universeOrbit = (() => {
   // 自然行星颜色：以轨道色为底，只做 ±6% 的明暗差异，避免同一轨道像复制粘贴。
   function planetColor(band, index) {
     const base = RING_COLORS[band % RING_COLORS.length]
-    const brightness = 0.94 + hash(index * 5.13 + band) * 0.12
+    const brightness = 1.0 + hash(index * 5.13 + band) * 0.2
     const value = parseInt(base.slice(1), 16)
     const channel = shift => Math.max(0, Math.min(255, Math.round(((value >> shift) & 0xff) * brightness)))
     return '#' + [channel(16), channel(8), channel(0)].map(channelValue => channelValue.toString(16).padStart(2, '0')).join('')

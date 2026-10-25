@@ -188,14 +188,14 @@ Component({
       }
       // 自然光照：环境光打底、偏冷的远景主光，加一盏位于中心的暖色“恒星”点光源，
       // 行星朝中心的一侧被照亮、背侧自然变暗，形成真实的明暗分界。
-      this.scene.add(new THREE.AmbientLight(colorForThree(THREE, '#93a6c6'), .4))
-      const key = new THREE.DirectionalLight(colorForThree(THREE, '#e8f0ff'), 1.4)
+      this.scene.add(new THREE.AmbientLight(colorForThree(THREE, '#a9bcd8'), .52))
+      const key = new THREE.DirectionalLight(colorForThree(THREE, '#f2f7ff'), 2.0)
       key.position.set(3, 5, 7)
       this.scene.add(key)
-      const sun = new THREE.PointLight(colorForThree(THREE, '#ffd9a8'), 72, 0, 2)
+      const sun = new THREE.PointLight(colorForThree(THREE, '#ffdfb4'), 95, 0, 2)
       sun.position.set(0, 0, 0)
       this.scene.add(sun)
-      const fill = new THREE.PointLight(colorForThree(THREE, '#6b8fd6'), 12, 0, 2)
+      const fill = new THREE.PointLight(colorForThree(THREE, '#7fa3e8'), 20, 0, 2)
       fill.position.set(-4, 1, 4)
       this.scene.add(fill)
     },
@@ -273,11 +273,11 @@ Component({
       const core = new THREE.Mesh(
         coreGeometry,
         new THREE.MeshStandardMaterial({
-          color: colorForThree(THREE, '#3d6f9e'),
+          color: colorForThree(THREE, '#4a86c4'),
           metalness: .04,
-          roughness: .72,
-          emissive: colorForThree(THREE, '#14283f'),
-          emissiveIntensity: .32,
+          roughness: .68,
+          emissive: colorForThree(THREE, '#1c3f66'),
+          emissiveIntensity: .62,
           vertexColors: Boolean(coreGeometry.attributes && coreGeometry.attributes.color)
         })
       )
@@ -288,18 +288,18 @@ Component({
 
       const atmosphere = new THREE.Mesh(
         new THREE.SphereGeometry(1.1, 32, 24),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#6fa8d8'), transparent: true, opacity: .13, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#8cc6ef'), transparent: true, opacity: .22, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
       )
       this.root.add(atmosphere)
 
       // 柔和的大气光晕：用加色球壳模拟，低端设备也不需要贴图。
       const glowOuter = new THREE.Mesh(
         new THREE.SphereGeometry(4.2, 24, 20),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#ffd9a8'), transparent: true, opacity: .05, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#ffe4b8'), transparent: true, opacity: .11, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
       )
       const glowInner = new THREE.Mesh(
         new THREE.SphereGeometry(1.6, 24, 20),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#ffe2ae'), transparent: true, opacity: .05, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#fff0d4'), transparent: true, opacity: .12, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
       )
       this.root.add(glowOuter, glowInner)
 
@@ -360,9 +360,9 @@ Component({
         const material = new THREE.MeshStandardMaterial({
           color: colorForThree(THREE, color),
           emissive: colorForThree(THREE, color),
-          emissiveIntensity: .04,
+          emissiveIntensity: .22,
           metalness: .02,
-          roughness: .84,
+          roughness: .78,
           vertexColors: Boolean(planetGeometry.attributes && planetGeometry.attributes.color)
         })
         const planet = new THREE.Mesh(planetGeometry, material)
@@ -389,10 +389,10 @@ Component({
       dustGeometry.addAttribute('position', new THREE.Float32BufferAttribute(dustPositions, 3))
       dustGeometry.addAttribute('color', new THREE.Float32BufferAttribute(dustColors, 3))
       this.dustRing = new THREE.Points(dustGeometry, new THREE.PointsMaterial({
-        size: .02,
+        size: .024,
         vertexColors: true,
         transparent: true,
-        opacity: .5,
+        opacity: .72,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         sizeAttenuation: true
@@ -422,7 +422,7 @@ Component({
         new THREE.MeshBasicMaterial({
           vertexColors: true,
           transparent: true,
-          opacity: .26,
+          opacity: .4,
           blending: THREE.AdditiveBlending,
           depthWrite: false,
           side: THREE.DoubleSide
@@ -528,7 +528,7 @@ Component({
         if (this.stars && !this.data.reducedMotion) {
           this.stars.rotation.y += .012 * delta
           // 星点轻微呼吸，让静态背景也“活”着。
-          this.stars.material.opacity = .58 + .12 * Math.sin((this.orbitTime || 0) * 1.25)
+          this.stars.material.opacity = .72 + .12 * Math.sin((this.orbitTime || 0) * 1.25)
         }
         this.glRenderer.render(this.scene, this.camera)
         if (!nodeSelected) this.framePending = this.canvas.requestAnimationFrame(render)
