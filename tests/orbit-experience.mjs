@@ -103,7 +103,7 @@ function harness({ fallback = false, mode = 'universe' } = {}) {
     pending: () => frames.size, renders: () => renders, now: () => now };
 }
 
-test('five orbit bands remain evenly spaced at every sampled time', () => {
+test('five natural orbit bands preserve visible spacing and never overlap planets', () => {
   const planets = orbit.createOrbiters(100);
   assert.equal(planets.length, 100);
   assert.equal(orbit.BAND_COUNT, 5);
@@ -117,20 +117,29 @@ test('five orbit bands remain evenly spaced at every sampled time', () => {
     speeds.push(ring[0].speed);
     for (const time of [0, 1, 30, 120, 7200]) {
       const positions = ring.map(planet => orbit.positionAt(planet, time));
-      for (const point of positions) {
-        assert.ok(Math.abs(point.y) < 1e-12);
-        assert.ok(Math.abs(Math.hypot(point.x, point.z) - ring[0].radius) < 1e-10);
-      }
+      positions.forEach((point, index) => {
+        const radius = Math.hypot(point.x, point.y, point.z);
+        assert.ok(Math.abs(point.y) <= ring[index].radius * 1.025 * Math.sin(.025) + 1e-8);
+        assert.ok(radius >= ring[index].radius * .975 - 1e-8 && radius <= ring[index].radius * 1.025 + 1e-8);
+      });
       const angles = positions.map(point => normalize(Math.atan2(point.z, point.x))).sort((a, b) => a - b);
       angles.forEach((angle, index) => {
         const gap = normalize(angles[(index + 1) % angles.length] - angle);
-        assert.ok(Math.abs(gap - orbit.TAU / 20) < 1e-10, `band ${band}, time ${time}: equal gaps`);
+        assert.ok(Math.abs(gap - orbit.TAU / 20) < .001, `band ${band}, time ${time}: spacing remains close to 18 degrees`);
       });
     }
   }
   assert.ok(speeds.every(speed => speed > 0));
   assert.ok(speeds.every((speed, index) => !index || speed < speeds[index - 1]), 'outer bands move more slowly');
   assert.ok(planets.every(planet => planet.radius < 4.3));
+  for (const time of [0, 1, 30, 120, 7200]) {
+    const positions = planets.map(planet => orbit.positionAt(planet, time));
+    for (let left = 0; left < planets.length; left++) for (let right = left + 1; right < planets.length; right++) {
+      const a = positions[left]; const b = positions[right];
+      const separation = Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+      assert.ok(separation > orbit.planetSize(planets[left].band, left) + orbit.planetSize(planets[right].band, right), `planets ${left}/${right} overlap at ${time}s`);
+    }
+  }
 });
 
 test('trajectories are continuous, stateless and shared between CommonJS and browser exports', () => {

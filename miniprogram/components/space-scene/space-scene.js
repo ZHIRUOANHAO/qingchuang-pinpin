@@ -242,6 +242,7 @@ Component({
       this.universePoint = null
       this.planetWire = null
       this.corePlanet = null
+      this.atmosphere = null
       this.dnaVisual = null
     },
 
@@ -268,53 +269,53 @@ Component({
       // 这样每条轨道和它上面的行星是同一个色系。
       const bandColors = (flightOrbit && flightOrbit.RING_COLORS) || ['#e0b055', '#3aa6c9', '#7a63d8', '#4cae78', '#8f9cb3']
 
-      // 中心行星：自然球面 + 大气边缘 + 很淡的柔光，不再用线框或霓虹装饰。
-      const coreGeometry = createMottledSphereGeometry(THREE, 64, 44, 4.2)
+      // 中心星球恢复“低多边形 + 金色线框 + 金色细环”的品牌外观：
+      // 之前那版平滑大球被反馈难看，这里换回有辨识度的几何星球。
       const core = new THREE.Mesh(
-        coreGeometry,
+        new THREE.IcosahedronGeometry(1.55, 3),
         new THREE.MeshStandardMaterial({
-          color: colorForThree(THREE, '#4a86c4'),
-          metalness: .04,
-          roughness: .68,
-          emissive: colorForThree(THREE, '#1c3f66'),
-          emissiveIntensity: .62,
-          vertexColors: Boolean(coreGeometry.attributes && coreGeometry.attributes.color)
+          color: colorForThree(THREE, '#23304a'),
+          metalness: .34,
+          roughness: .44,
+          emissive: colorForThree(THREE, '#0c1a2e'),
+          emissiveIntensity: .28
         })
       )
       core.userData = { id: 'core', title: '轻创拼拼' }
       this.corePlanet = core
-      this.planetWire = null
       this.root.add(core)
 
-      const atmosphere = new THREE.Mesh(
-        new THREE.SphereGeometry(1.1, 32, 24),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#8cc6ef'), transparent: true, opacity: .22, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+      const wire = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(1.575, 2),
+        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#d9bb72'), wireframe: true, transparent: true, opacity: .3 })
       )
+      this.planetWire = wire
+      this.root.add(wire)
+
+      // 只在大气层边缘发光的 rim shader，避免球外出现一圈发灰的透明圆环。
+      const atmosphere = new THREE.Mesh(
+        new THREE.SphereGeometry(1.7, 40, 28),
+        new THREE.ShaderMaterial({
+          uniforms: { tint: { value: colorForThree(THREE, '#7fd0f0') }, opacity: { value: .6 } },
+          vertexShader: 'varying vec3 vNormal; varying vec3 vView; void main(){ vec4 p = modelViewMatrix * vec4(position, 1.0); vNormal = normalize(normalMatrix * normal); vView = normalize(-p.xyz); gl_Position = projectionMatrix * p; }',
+          fragmentShader: 'uniform vec3 tint; uniform float opacity; varying vec3 vNormal; varying vec3 vView; void main(){ float rim = pow(1.0 - abs(dot(normalize(vNormal), normalize(vView))), 3.0); gl_FragColor = vec4(tint, opacity * rim); }',
+          transparent: true,
+          side: THREE.FrontSide,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        })
+      )
+      atmosphere.userData.role = 'atmosphere'
+      this.atmosphere = atmosphere
       this.root.add(atmosphere)
 
-      // 柔和的大气光晕：用加色球壳模拟，低端设备也不需要贴图。
-      const glowOuter = new THREE.Mesh(
-        new THREE.SphereGeometry(4.2, 24, 20),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#ffe4b8'), transparent: true, opacity: .11, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+      const coreRing = new THREE.Mesh(
+        new THREE.RingGeometry(2.15, 2.19, 120),
+        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#d9bb72'), transparent: true, opacity: .5, side: THREE.DoubleSide })
       )
-      const glowInner = new THREE.Mesh(
-        new THREE.SphereGeometry(1.6, 24, 20),
-        new THREE.MeshBasicMaterial({ color: colorForThree(THREE, '#fff0d4'), transparent: true, opacity: .12, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
-      )
-      this.root.add(glowOuter, glowInner)
-
-      // 两道很淡的行星环，只给中心星一点自然轮廓，不再用金色装饰环。
-      const ringGroup = new THREE.Group()
-      ringGroup.rotation.x = 1.28
-      ringGroup.rotation.z = .2
-      ;[[1.28, .0032, '#c3cedd', .18], [1.44, .0024, '#aebccd', .1]].forEach(function (definition) {
-        const ring = new THREE.Mesh(
-          new THREE.TorusGeometry(definition[0], definition[1], 4, 120),
-          new THREE.MeshBasicMaterial({ color: colorForThree(THREE, definition[2]), transparent: true, opacity: definition[3], depthWrite: false })
-        )
-        ringGroup.add(ring)
-      })
-      this.root.add(ringGroup)
+      coreRing.rotation.x = Math.PI / 2.45
+      coreRing.rotation.z = .16
+      this.root.add(coreRing)
 
       // 五条同心轨道共面：只有一块倾斜的轨道面，轨道线就是干净的同心情圆。
       const plane = new THREE.Group()
@@ -363,7 +364,7 @@ Component({
           emissiveIntensity: .22,
           metalness: .02,
           roughness: .78,
-          vertexColors: Boolean(planetGeometry.attributes && planetGeometry.attributes.color)
+          vertexColors: planetGeometry.attributes && planetGeometry.attributes.color ? THREE.VertexColors : THREE.NoColors
         })
         const planet = new THREE.Mesh(planetGeometry, material)
         planet.scale.setScalar(size)
@@ -375,72 +376,13 @@ Component({
         this.clickable.push(planet)
         this.orbiters.push({ mesh: planet, traits, size, trail: null })
       })
-      // 电影感氛围层：缓慢旋转的尘埃带。
-      const dustPositions = []
-      const dustColors = []
-      for (let index = 0; index < 420; index += 1) {
-        const angle = index * 2.39996 + Math.sin(index * 1.7) * .6
-        const radius = 1.9 + (index * 37 % 100) / 100 * 2.35
-        dustPositions.push(Math.cos(angle) * radius, Math.sin(index * 2.3) * .045, Math.sin(angle) * radius)
-        const warm = index % 3 === 0
-        dustColors.push(warm ? 1 : .72, warm ? .86 : .82, warm ? .6 : 1)
-      }
-      const dustGeometry = new THREE.BufferGeometry()
-      dustGeometry.addAttribute('position', new THREE.Float32BufferAttribute(dustPositions, 3))
-      dustGeometry.addAttribute('color', new THREE.Float32BufferAttribute(dustColors, 3))
-      this.dustRing = new THREE.Points(dustGeometry, new THREE.PointsMaterial({
-        size: .024,
-        vertexColors: true,
-        transparent: true,
-        opacity: .72,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        sizeAttenuation: true
-      }))
-      plane.add(this.dustRing)
-
-      // 逆光星芒：几何三角形光扇，放在星球背后缓慢旋转，不依赖贴图。
-      const rayPositions = []
-      const rayColors = []
-      for (let index = 0; index < 56; index += 1) {
-        const angle = index / 56 * Math.PI * 2
-        const half = .006 + (index % 3) * .006
-        const length = 2.4 + (index % 4) * .55
-        rayPositions.push(
-          0, 0, 0,
-          Math.cos(angle - half) * length, Math.sin(angle - half) * length, 0,
-          Math.cos(angle + half) * length, Math.sin(angle + half) * length, 0
-        )
-        const fade = .5 + (index % 2) * .5
-        rayColors.push(fade, fade * .87, fade * .65, fade, fade * .87, fade * .65, fade, fade * .87, fade * .65)
-      }
-      const rayGeometry = new THREE.BufferGeometry()
-      rayGeometry.addAttribute('position', new THREE.Float32BufferAttribute(rayPositions, 3))
-      rayGeometry.addAttribute('color', new THREE.Float32BufferAttribute(rayColors, 3))
-      this.rayGroup = new THREE.Mesh(
-        rayGeometry,
-        new THREE.MeshBasicMaterial({
-          vertexColors: true,
-          transparent: true,
-          opacity: .4,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          side: THREE.DoubleSide
-        })
-      )
-      this.rayGroup.position.z = -.9
-      this.root.add(this.rayGroup)
-
       this.updateUniverse(0)
       const tangent = Math.tan(this.camera.fov * Math.PI / 360)
       // One hundred catalog planets sample the full orbit more densely than the old
       // eight-item demo, so reserve enough horizontal frame for the true extrema.
-      this.universeDefaultZoom = 4.2 / Math.sin(Math.min(Math.atan(tangent), Math.atan(tangent * this.camera.aspect))) * 1.04
-      // 入场动效：镜头从稍远处推近，行星系统由 0.9 倍放大到 1 倍，星芒渐亮。
-      this.introTime = 0
-      this.root.scale.setScalar(.9)
-      this.camera.position.set(0, .1, this.universeDefaultZoom * 1.05)
-      if (this.rayGroup) this.rayGroup.material.opacity = 0
+      this.universeDefaultZoom = 4.4 / Math.sin(Math.min(Math.atan(tangent), Math.atan(tangent * this.camera.aspect))) * 1.04
+      this.root.scale.setScalar(1)
+      this.camera.position.set(0, .1, this.universeDefaultZoom)
     },
 
     buildDna() {
@@ -508,27 +450,13 @@ Component({
           if (this.data.mode === 'universe') {
             this.orbitTime = (this.orbitTime || 0) + travel
             this.updateUniverse(this.orbitTime)
-            this.introTime = (this.introTime || 0) + travel
-            const introProgress = Math.min(1, this.introTime / 1.2)
-            const introEase = 1 - Math.pow(1 - introProgress, 3)
-            this.root.scale.setScalar(.9 + .1 * introEase)
-            this.camera.position.z = this.universeDefaultZoom * (1.05 - .05 * introEase)
-            // 镜头推近时的轻微俯仰漂移，让画面像在缓慢环绕。
-            this.camera.position.y = .1 + Math.sin(this.orbitTime * .14) * .05
-            this.camera.lookAt(0, 0, 0)
             // 星球本体自转。
             if (this.corePlanet) this.corePlanet.rotation.y += .06 * travel
-            if (this.dustRing) this.dustRing.rotation.y += .02 * travel
-            if (this.rayGroup) {
-              this.rayGroup.rotation.z += .006 * travel
-              this.rayGroup.material.opacity = .26 * introEase
-            }
+            if (this.planetWire) this.planetWire.rotation.y += .072 * travel
           }
         }
         if (this.stars && !this.data.reducedMotion) {
           this.stars.rotation.y += .012 * delta
-          // 星点轻微呼吸，让静态背景也“活”着。
-          this.stars.material.opacity = .72 + .12 * Math.sin((this.orbitTime || 0) * 1.25)
         }
         this.glRenderer.render(this.scene, this.camera)
         if (!nodeSelected) this.framePending = this.canvas.requestAnimationFrame(render)

@@ -6,8 +6,9 @@
     <text class="eyebrow">普通人 · 低成本起步优先</text>
     <text class="home-title">一门生意如何运转？</text>
     <text class="home-description">卖什么、谁愿意买、为什么买，最后如何交付并验证闭环。</text>
-    <view class="home-actions"><button class="primary-button" bindtap="openStarterCases">先看低成本试做项目</button><button class="secondary-button" bindtap="openFeatured">打开完整案例</button></view>
-    <text class="scope-note">当前 {{caseLibraryMeta.total}} 条案例附可核对来源，其中 {{caseLibraryMeta.officialPageCount}} 条有官方公开页面记录、{{caseLibraryMeta.indexOnlyCount}} 条仅有官方页面索引线索；均不代表已审计成交或利润。</text>
+    <view class="home-actions"><button class="primary-button" bindtap="openStarterCases">低成本试做</button><button class="secondary-button" bindtap="openFeatured">打开完整案例</button></view>
+    <text class="scope-note scope-note-full">当前 {{caseLibraryMeta.total}} 条案例附可核对来源，其中 {{caseLibraryMeta.officialPageCount}} 条有官方公开页面记录、{{caseLibraryMeta.indexOnlyCount}} 条仅有官方页面索引线索；均不代表已审计成交或利润。</text>
+    <text class="scope-note scope-note-compact">{{caseLibraryMeta.total}} 条案例附公开来源；不代表已审计成交或利润，详见案例说明。</text>
   </view>
   <view class="orbit-controls">
     <text class="orbit-state">{{reducedMotion ? '静态省电' : orbitPaused ? '已暂停 · 方便点选' : '沿轨道缓行 · 按住即停'}}</text>

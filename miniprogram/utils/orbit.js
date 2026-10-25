@@ -3,7 +3,7 @@
  *
  * 2026-10-24 第三版：按“自然行星系统”重做。
  * - 五条近似共面的轨道，行星按等角距分布，同向公转、内圈快外圈慢；
- * - 每颗行星有极小的偏心率和轨道倾角（≤6% / ≤1.4°），像自然天体而不是刻度盘；
+ * - 每颗行星有极小的偏心率和轨道倾角（≤2.5% / ≤1.4°），保持自然层次和安全间隔；
  * - 颜色改用自然行星色系（岩石灰、锈红、海蓝、气态米、冰蓝），不再用霓虹色；
  * - 同轨道共享角速度，队形稳定；参数确定性生成，重建/降级后画面一致。
  *
@@ -76,7 +76,7 @@ const universeOrbit = (() => {
       // 等角距 + 轨道间小幅错位，整体仍是一个规整的行星系统。
       phase: slot * step + band * step * BAND_STAGGER,
       // 自然天体不是正圆：很小的偏心率，方向一致。
-      eccentricity: 0.015 + hash(index * 4.7 + 1) * 0.045,
+      eccentricity: 0.01 + hash(index * 4.7 + 1) * 0.015,
       periapsis: hash(index * 8.3 + 2) * TAU,
       // 极小的轨道倾角（约 ±1.4°），让轨道有自然的立体层次。
       inclination: (hash(index * 2.13 + 3) - 0.5) * 0.05,
@@ -96,15 +96,16 @@ const universeOrbit = (() => {
 
   /**
    * 计算某个时刻行星在轨道面局部坐标中的位置：
-   * 椭圆轨道 + 近日点方位角 + 小幅轨道倾角，和真实天体的运动方式一致。
+   * 用于界面的轻微椭圆近似，不是天体力学模拟。
+   * 相位先抵消近日点朝向，避免随机朝向把等间距的行星重新挤到一起。
    */
   function positionAt(orbiter, time, out) {
-    const theta = orbiter.phase + orbiter.speed * time
+    const periapsis = orbiter.periapsis || 0
+    const theta = orbiter.phase + orbiter.speed * time - periapsis
     const eccentricity = orbiter.eccentricity || 0
     const radius = orbiter.radius * (1 - eccentricity * eccentricity) / (1 + eccentricity * Math.cos(theta))
     const planeX = Math.cos(theta) * radius
     const planeZ = Math.sin(theta) * radius
-    const periapsis = orbiter.periapsis || 0
     const cosP = Math.cos(periapsis)
     const sinP = Math.sin(periapsis)
     const x = planeX * cosP - planeZ * sinP

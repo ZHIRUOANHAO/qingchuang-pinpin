@@ -117,7 +117,7 @@ try {
       check(new Set(initial.caseIds).size === cases.length && cases.every(item => initial.caseIds.includes(item.id)), 'all native case identities remain selectable without missing or duplicate planets');
       check(initial.colored > 1000, 'native universe is nonblank');
       check(initial.framed, 'native universe planets fit the viewport');
-      check(await page.evaluate(() => window.nativeDna.root.children.some(mesh => mesh.material?.type === 'MeshStandardMaterial' && String(mesh.geometry?.type || '').startsWith('Sphere'))), 'native main planet uses a natural lit sphere');
+      check(await page.evaluate(() => window.nativeDna.root.children.some(mesh => mesh.material?.wireframe && String(mesh.geometry?.type || '').startsWith('Icosahedron'))), 'native main planet keeps the faceted gold wireframe look');
       await page.waitForTimeout(160);
       check(await page.evaluate(value => window.nativeDna.root.rotation.y === value, initial.rotation), 'native universe keeps its overall composition stable');
       check(await page.evaluate(value => window.nativeDna.orbitTime > value, initial.orbitTime), 'native universe advances its time-based orbits');

@@ -105,8 +105,8 @@ button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-
 .hero-summary { max-width: 430px; margin: 0; color: #b2bbcc; font-size: 13px; line-height: 1.8; text-wrap: balance; }
 .hero-audience { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .hero-audience span { padding: 6px 9px; border: 1px solid rgba(177,194,226,.16); background: rgba(5,7,13,.52); color: var(--muted); font-size: 9px; }
-.hero-actions { display: flex; gap: 10px; margin-top: 24px; pointer-events: auto; }
-.hero-actions .primary-button, .hero-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 18px; border-radius: 4px; font-size: 11px; font-weight: 650; }
+.hero-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-top: 24px; pointer-events: auto; }
+.hero-actions .primary-button, .hero-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 44px; width: 100%; margin: 0; padding: 8px 14px; border-radius: 4px; font-size: 11px; line-height: 1.5; font-weight: 650; text-align: center; }
 .hero-actions .primary-button { border: 1px solid var(--gold); background: var(--gold); color: #17140d; }
 .hero-actions .primary-button .icon, .hero-secondary .icon { width: 15px; height: 15px; }
 .hero-secondary { border: 1px solid var(--line-strong); background: rgba(6,9,16,.72); color: var(--text); }
@@ -596,8 +596,8 @@ button.connected-map-card:hover { border-color: var(--asset-color,var(--cyan)); 
   .hero-summary { max-width: 310px; font-size: 10px; line-height: 1.65; }
   .hero-audience { gap: 6px; margin-top: 11px; }
   .hero-audience span { padding: 5px 7px; font-size: 8px; }
-  .hero-actions { display: grid; grid-template-columns: 1.15fr .85fr; gap: 8px; margin-top: 14px; }
-  .hero-actions .primary-button, .hero-secondary { min-height: 38px; padding: 0 10px; font-size: 9px; }
+  .hero-actions { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin-top: 14px; }
+  .hero-actions .primary-button, .hero-secondary { min-height: 44px; padding: 8px; font-size: 11px; }
   .hero-output { right: 22px; bottom: 20px; left: 22px; width: auto; padding: 14px; }
   .hero-output header { padding-bottom: 10px; }
   .hero-output header strong { font-size: 11px; }
