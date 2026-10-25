@@ -1,0 +1,31 @@
+.records-page { min-height: 100vh; background: #050812; color: #f5f7fb; }
+.records-shell { padding: 16rpx 28rpx calc(env(safe-area-inset-bottom) + 48rpx); }
+.records-nav { display: flex; align-items: center; gap: 20rpx; min-height: 88rpx; padding-right: 140rpx; font-size: 28rpx; font-weight: 600; }
+.records-intro { margin: 32rpx 0 24rpx; }
+.eyebrow { display: block; color: #d9bb72; font-size: 22rpx; }
+.page-title { display: block; margin: 16rpx 0; font-size: 42rpx; font-weight: 650; line-height: 1.4; }
+.intro-body { display: block; color: #b7c0d2; font-size: 25rpx; line-height: 1.8; }
+.new-button { min-height: 96rpx; font-size: 27rpx; }
+.filter-row { display: flex; gap: 16rpx; margin-top: 28rpx; }
+.status-row { margin-top: 16rpx; margin-bottom: 28rpx; }
+.filter { flex: 1; min-width: 0; min-height: 88rpx; margin: 0; padding: 20rpx 8rpx; border: 1rpx solid rgba(177,194,226,.24); border-radius: 8rpx; background: #0d1426; color: #b7c0d2; font-size: 25rpx; line-height: 1.7; }
+.filter.selected { border-color: #d9bb72; color: #efd892; background: rgba(217,187,114,.1); }
+.case-filter { margin-top: 24rpx; padding: 20rpx 24rpx; border-left: 4rpx solid #d9bb72; background: #0d1426; font-size: 24rpx; line-height: 1.7; }
+.text-button { min-height: 88rpx; margin: 0; padding: 16rpx 0; background: transparent; color: #efd892; font-size: 25rpx; line-height: 1.6; text-align: left; }
+.notice { margin: 28rpx 0; padding: 24rpx; border: 1rpx solid rgba(177,194,226,.2); border-radius: 8rpx; background: #0d1426; font-size: 25rpx; line-height: 1.75; }
+.error-notice { border-color: rgba(239,125,131,.5); color: #ffb2b6; }
+.empty-state { margin: 32rpx 0; padding: 40rpx 28rpx; border-top: 1rpx solid rgba(177,194,226,.2); border-bottom: 1rpx solid rgba(177,194,226,.2); }
+.empty-symbol { display: block; color: #d9bb72; font-size: 48rpx; font-weight: 600; }
+.empty-title { display: block; margin-top: 20rpx; font-size: 30rpx; font-weight: 600; }
+.empty-body { display: block; margin-top: 16rpx; color: #b7c0d2; font-size: 25rpx; line-height: 1.8; }
+.record-card { margin-top: 24rpx; padding: 28rpx; background: #0d1426; }
+.record-meta { display: flex; flex-wrap: wrap; gap: 12rpx 16rpx; color: #efd892; font-size: 21rpx; line-height: 1.6; }
+.record-meta text { padding: 6rpx 12rpx; border: 1rpx solid rgba(217,187,114,.24); border-radius: 4rpx; }
+.record-title { display: block; margin: 20rpx 0 12rpx; font-size: 30rpx; font-weight: 600; line-height: 1.6; }
+.source-note { display: block; margin-bottom: 12rpx; color: #b7c0d2; font-size: 22rpx; line-height: 1.6; }
+.record-excerpt { display: block; color: #dce2ed; font-size: 26rpx; line-height: 1.8; white-space: pre-wrap; word-break: break-all; }
+.record-time { display: block; margin: 20rpx 0 24rpx; color: #96a0b8; font-size: 22rpx; }
+.record-actions { display: flex; gap: 16rpx; }
+.record-actions button { flex: 1; min-height: 88rpx; font-size: 25rpx; }
+.delete-button { display: block; min-height: 88rpx; margin: 16rpx 0 0; padding: 16rpx 0; background: transparent; color: #ffb2b6; font-size: 24rpx; line-height: 1.7; }
+.footer-note { display: block; margin: 32rpx 0 0; color: #96a0b8; font-size: 23rpx; line-height: 1.8; }

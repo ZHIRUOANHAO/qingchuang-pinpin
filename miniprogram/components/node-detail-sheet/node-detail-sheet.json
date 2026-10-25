@@ -1,2 +1,7 @@
-{ "component": true }
+{
+  "component": true,
+  "usingComponents": {
+    "asset-map": "/components/asset-map/asset-map"
+  }
+}
 

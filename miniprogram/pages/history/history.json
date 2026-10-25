@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "最近浏览",
+  "usingComponents": {
+    "dna-mini": "/components/dna-mini/dna-mini"
+  }
+}

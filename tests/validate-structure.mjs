@@ -20,7 +20,7 @@ function walk(directory) {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
-    if (entry.isDirectory() && ['node_modules', 'miniprogram_npm', '.git'].includes(entry.name)) return [];
+    if (entry.isDirectory() && ['node_modules', 'miniprogram_npm', '.git', 'videos', 'output', '项目资料'].includes(entry.name)) return [];
     return entry.isDirectory() ? walk(path) : [path];
   });
 }

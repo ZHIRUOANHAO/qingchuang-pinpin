@@ -1,11 +1,11 @@
 <view wx:if="{{visible}}" class="mask" role="dialog" aria-modal="true" aria-label="隐私保护提示">
   <view class="dialog panel">
     <text class="title">隐私保护提示</text>
-    <text class="body">当前版本无需登录或上传材料。收藏、画布和验证进度只保存在本机；你可以先查看隐私说明，再决定是否继续。</text>
+    <text class="body">当前版本无需登录或上传材料。收藏、画布和验证进度只保存在本机；为适配画面会读取设备性能信息，只有你主动点击复制时才写入剪贴板。你可以先查看隐私说明，再决定是否继续。</text>
     <view class="links"><text bindtap="openPolicy">查看隐私说明</text></view>
     <view class="actions">
-      <button class="cancel" bindtap="decline">暂不使用</button>
-      <button class="accept" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="accept" bindtap="accept">同意并继续</button>
+      <button class="cancel" bindtap="decline">关闭提示</button>
+      <button class="accept" bindtap="accept">我知道了，继续使用</button>
     </view>
   </view>
 </view>

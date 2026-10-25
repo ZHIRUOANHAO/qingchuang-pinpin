@@ -1,0 +1,48 @@
+.practice-page { min-height: 100vh; background: #050812; color: #f5f7fb; }
+.practice-shell { width: 100%; padding: 16rpx 28rpx calc(env(safe-area-inset-bottom) + 48rpx); }
+.practice-nav { display: flex; align-items: center; gap: 20rpx; min-height: 88rpx; padding-right: 140rpx; }
+.nav-title { font-size: 26rpx; font-weight: 600; line-height: 1.5; }
+.intro { margin: 32rpx 0; }
+.eyebrow, .section-kicker { display: block; color: #d9bb72; font-size: 22rpx; }
+.page-title { display: block; margin: 16rpx 0; font-size: 42rpx; line-height: 1.35; font-weight: 650; }
+.intro-body { color: #b7c0d2; font-size: 27rpx; line-height: 1.75; }
+.picker-control { min-height: 88rpx; padding: 24rpx; border: 1rpx solid rgba(177,194,226,.24); border-radius: 8rpx; background: #0c1323; color: #efd892; font-size: 25rpx; line-height: 1.5; }
+.intro .picker-control { margin-top: 24rpx; }
+.exercise-plan { padding: 28rpx; background: #0d1426; }
+.deliverable { display: block; margin-top: 12rpx; font-size: 30rpx; line-height: 1.65; font-weight: 600; }
+.first-step { margin: 24rpx 0 8rpx; padding: 20rpx 24rpx; border-left: 4rpx solid #d9bb72; background: rgba(217,187,114,.08); }
+.first-step text { display: block; font-size: 25rpx; line-height: 1.65; }
+.first-step text:first-child { margin-bottom: 8rpx; color: #efd892; font-size: 22rpx; }
+.exercise-step { display: flex; align-items: flex-start; gap: 20rpx; padding: 28rpx 0; border-bottom: 1rpx solid rgba(177,194,226,.16); }
+.exercise-step > view { flex: 1; min-width: 0; }
+.step-number { flex-shrink: 0; color: #d9bb72; font-size: 26rpx; line-height: 1.6; }
+.step-title { display: block; font-size: 28rpx; font-weight: 600; line-height: 1.6; }
+.step-body { display: block; margin-top: 8rpx; color: #b7c0d2; font-size: 25rpx; line-height: 1.75; }
+.exercise-note { margin-top: 24rpx; }
+.exercise-note text { display: block; color: #b7c0d2; font-size: 24rpx; line-height: 1.75; }
+.exercise-note text:first-child { margin-bottom: 8rpx; color: #efd892; }
+.reference-block { margin: 24rpx 0 40rpx; }
+.reference-block > text { color: #96a0b8; font-size: 23rpx; line-height: 1.75; }
+.text-button { display: flex; align-items: center; justify-content: flex-start; min-height: 88rpx; margin: 0; padding: 16rpx 0; border: 0; background: transparent; color: #efd892; font-size: 25rpx; text-align: left; line-height: 1.6; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16rpx; }
+.local-note { display: block; margin: 16rpx 0 24rpx; color: #b7c0d2; font-size: 24rpx; line-height: 1.75; }
+.type-tabs { display: flex; gap: 16rpx; }
+.type-tab { flex: 1; min-width: 0; min-height: 88rpx; margin: 0; padding: 20rpx 12rpx; border: 1rpx solid rgba(177,194,226,.24); border-radius: 8rpx; background: #0d1426; color: #b7c0d2; font-size: 25rpx; line-height: 1.7; }
+.type-tab.selected { border-color: #d9bb72; color: #efd892; background: rgba(217,187,114,.1); }
+.field { margin-top: 28rpx; }
+.field-title { display: block; margin-bottom: 12rpx; font-size: 26rpx; color: #dce2ed; }
+.form-textarea, .form-input { display: block; box-sizing: border-box; width: 100%; border: 1rpx solid rgba(177,194,226,.24); border-radius: 8rpx; background: #0a1020; color: #f5f7fb; font-size: 27rpx; line-height: 1.7; }
+.form-textarea { height: 196rpx; padding: 20rpx 24rpx; }
+.form-input { height: 92rpx; padding: 16rpx 24rpx; }
+.form-placeholder { color: #96a0b8; font-size: 25rpx; }
+.field-hint, .field-error { display: block; margin-top: 12rpx; font-size: 23rpx; line-height: 1.65; }
+.field-hint { color: #96a0b8; }
+.field-error { color: #ffb2b6; }
+.notice { margin-top: 28rpx; padding: 24rpx; border: 1rpx solid rgba(177,194,226,.2); border-radius: 8rpx; background: #0d1426; color: #b7c0d2; font-size: 24rpx; line-height: 1.75; }
+.notice text { display: block; }
+.error-notice { border-color: rgba(239,125,131,.5); color: #ffb2b6; }
+.error-notice .secondary-button { margin-top: 24rpx !important; }
+.saved-notice { border-color: rgba(101,199,153,.4); color: #9be0ba; }
+.save-actions { display: flex; gap: 16rpx; margin-top: 28rpx; }
+.save-actions button { flex: 1; min-height: 96rpx; font-size: 26rpx; }
+.records-link { justify-content: center; width: 100%; margin-top: 16rpx; }

@@ -11,7 +11,9 @@ Page({
     policyVersion: env.privacyPolicyVersion || '待确认',
     updatedAt: '2026-09-21',
     supportEmail: isConfiguredEmail(env.supportEmail) ? env.supportEmail : '',
-    supportReady: isConfiguredEmail(env.supportEmail)
+    supportReady: isConfiguredEmail(env.supportEmail),
+    entityName: typeof env.entityName === 'string' ? env.entityName.trim() : '',
+    icpNumber: typeof env.icpNumber === 'string' ? env.icpNumber.trim() : ''
   },
 
   copyContact() {

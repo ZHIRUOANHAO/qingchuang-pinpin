@@ -1,4 +1,4 @@
-const { theme } = require('../../utils/dna-theme')
+const { theme } = require('../../utils/dna-renderer')
 
 Component({
   properties: {

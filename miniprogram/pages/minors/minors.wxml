@@ -1,9 +1,9 @@
 <scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false"><view class="page-shell legal-page">
-  <view class="legal-header"><text class="eyebrow">YOUTH SAFETY</text><text class="brand">未成年人保护说明</text><text class="meta">版本 1.0 · 更新于 {{updatedAt}}</text><text class="summary">青创拼拼将未成年人使用场景限定为商业常识学习，不鼓励未成年人独立开展现实经营活动。</text></view>
+  <view class="legal-header"><text class="eyebrow">YOUTH SAFETY</text><text class="brand">未成年人保护说明</text><text class="meta">版本 1.0 · 更新于 {{updatedAt}}</text><text class="summary">轻创拼拼将未成年人使用场景限定为商业常识学习，不鼓励未成年人独立开展现实经营活动。</text></view>
   <view class="document">
     <view class="section-card"><text class="section-index">01</text><text class="doc-title">监护人指导</text><text class="paragraph">未满十八周岁的用户应在监护人指导下使用。不满十四周岁的用户不应向本产品提交个人信息；当前版本不要求登录，也不提供材料上传。</text></view>
     <view class="section-card"><text class="section-index">02</text><text class="doc-title">内容范围</text><text class="paragraph">产品只解释需求、交换、成本、交付、信任、版权与平台规则。案例中的价格、渠道和商业做法用于理解结构，不是让未成年人照做的现实经营指令。</text></view>
     <view class="section-card"><text class="section-index">03</text><text class="doc-title">明确限制</text><text class="paragraph">未成年人不应在没有监护人参与的情况下借贷、投资、签约、收付款、开店、联系陌生客户，或上传自己和他人的身份、联系方式、位置、学校及财务信息。</text></view>
-    <view class="section-card"><text class="section-index">04</text><text class="doc-title">监护人建议</text><text class="paragraph">建议监护人与未成年人共同阅读案例，重点讨论哪些是公开事实、哪些是编辑分析、哪些风险仍待验证；发现不适宜内容时，可通过正式版本公示的联系方式反馈。</text></view>
+    <view class="section-card"><text class="section-index">04</text><text class="doc-title">监护人建议</text><text class="paragraph">建议监护人与未成年人共同阅读已核对公开来源的案例，区分公开事实与编辑分析，并讨论现实经营风险；发现不适宜内容时，可通过正式版本公示的联系方式反馈。</text></view>
   </view>
 </view></scroll-view>

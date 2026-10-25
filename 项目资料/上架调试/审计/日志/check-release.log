@@ -1,0 +1,18 @@
+﻿
+> qingchuang-pinpin@0.1.0 check:release
+> node scripts/release-preflight.mjs
+
+Release preflight: 10 passed, 2 blocked.
+  PASS  已配置正式 AppID
+  PASS  运行模式为纯本地案例库
+  PASS  广告保持禁用且无广告位 ID
+  PASS  登录、会员和订单页不在发布路由
+  PASS  第三个 Tab 明确为案例演示
+  PASS  三份合规说明均已注册
+  PASS  发布页面未引用 AI、支付或云登录服务
+  PASS  发布页面无外部请求和云函数调用
+  PASS  发布代码未使用已废弃 getSystemInfoSync
+  PASS  发布界面未发现收益承诺词
+  BLOCK 缺少真实联系邮箱；请填写 miniprogram/config/env.js 的 supportEmail
+  BLOCK project.config.json 与 project.private.config.json 的基础库版本不一致
+EXIT_CODE=1

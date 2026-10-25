@@ -31,8 +31,14 @@ try {
     await page.evaluate(({ theme, nodes, width, height, mode }) => {
       const canvas = document.querySelector('canvas');
       canvas.createImage = () => new Image();
-      canvas.requestAnimationFrame = requestAnimationFrame.bind(window);
-      canvas.cancelAnimationFrame = cancelAnimationFrame.bind(window);
+      const pendingFrames = new Set();
+      window.nativePendingFrames = pendingFrames;
+      canvas.requestAnimationFrame = callback => {
+        const id = requestAnimationFrame(timestamp => { pendingFrames.delete(id); callback(timestamp); });
+        pendingFrames.add(id);
+        return id;
+      };
+      canvas.cancelAnimationFrame = id => { pendingFrames.delete(id); cancelAnimationFrame(id); };
       const adapter = window.exports;
       const dna = window.QingchuangDnaRenderer(theme);
       window.require = id => id.includes('dna-renderer') ? dna : adapter;
@@ -41,10 +47,11 @@ try {
         getWindowInfo: () => ({ windowWidth: width, pixelRatio: 1 })
       };
       window.Component = specification => {
+        window.nativeSpecification = specification;
         window.nativeDna = {
           ...specification.methods,
           renderer: 'webview',
-          data: { mode, items: nodes, selectedId: '', reducedMotion: false },
+          data: { mode, items: nodes, selectedId: '', reducedMotion: false, paused: false, covered: false },
           setData(update, callback) { Object.assign(this.data, update); callback?.(); },
           createSelectorQuery() {
             let bounds = false;
@@ -68,8 +75,9 @@ try {
       canvas.addEventListener('pointermove', event => { if (event.buttons) window.nativeDna.onTouchMove({ touches: [point(event)] }); });
       canvas.addEventListener('pointerup', event => window.nativeDna.onTouchEnd({ changedTouches: [point(event)] }));
     }, { theme, nodes: mode === 'dna' ? modules : cases, width, height, mode });
+    await page.addScriptTag({ path: join(root, 'miniprogram/utils/orbit.js') });
     await page.addScriptTag({ path: join(root, 'miniprogram/components/space-scene/space-scene.js') });
-    await page.waitForFunction(() => window.nativeDna?.readyOnce, null, { timeout: 5000 }).catch(async error => { throw new Error(`${error.message}; ${await page.evaluate(() => window.nativeInitError)}; ${errors.join('; ')}`); });
+    await page.waitForFunction(() => window.nativeDna?.readyOnce, null, { timeout: 5000 }).catch(async error => { throw new Error(`${error.message}; ${await page.evaluate(() => window.nativeInitError)}; gl:${await page.evaluate(() => window.nativeDna?.glInitError)}; ${errors.join('; ')}`); });
     await page.waitForTimeout(150);
     const initial = await page.evaluate(() => {
       const c = window.nativeDna;
@@ -96,7 +104,7 @@ try {
         return Math.abs(point.x) < .91 && Math.abs(point.y) < .91;
       });
       return {
-        colored, clipped, hues, framed, rotation: c.root.rotation.y,
+        colored, clipped, hues, framed, rotation: c.root.rotation.y, orbitTime: c.orbitTime || 0,
         count: c.clickable.length, revision: c.THREE.REVISION,
         caseIds: c.clickable.filter(mesh => mesh.userData.id !== 'core').map(mesh => mesh.userData.id),
         coreCount: c.clickable.filter(mesh => mesh.userData.id === 'core').length
@@ -109,10 +117,66 @@ try {
       check(new Set(initial.caseIds).size === cases.length && cases.every(item => initial.caseIds.includes(item.id)), 'all native case identities remain selectable without missing or duplicate planets');
       check(initial.colored > 1000, 'native universe is nonblank');
       check(initial.framed, 'native universe planets fit the viewport');
-      check(await page.evaluate(() => window.nativeDna.root.children.some(mesh => mesh.material?.wireframe)), 'native main planet uses the website wireframe treatment');
+      check(await page.evaluate(() => window.nativeDna.root.children.some(mesh => mesh.material?.type === 'MeshStandardMaterial' && String(mesh.geometry?.type || '').startsWith('Sphere'))), 'native main planet uses a natural lit sphere');
       await page.waitForTimeout(160);
-      check(await page.evaluate(value => window.nativeDna.root.rotation.y !== value, initial.rotation), 'native universe rotates');
-      await page.screenshot({ path: join(artifacts, `native-universe-${width}.png`) });
+      check(await page.evaluate(value => window.nativeDna.root.rotation.y === value, initial.rotation), 'native universe keeps its overall composition stable');
+      check(await page.evaluate(value => window.nativeDna.orbitTime > value, initial.orbitTime), 'native universe advances its time-based orbits');
+      const flightBefore = await page.evaluate(() => window.nativeDna.orbiters.map(orbiter => orbiter.mesh.position.toArray()));
+      await page.waitForTimeout(420);
+      const flightAfter = await page.evaluate(() => window.nativeDna.orbiters.map(orbiter => orbiter.mesh.position.toArray()));
+      const travel = flightAfter.map((position, index) => Math.hypot(
+        position[0] - flightBefore[index][0], position[1] - flightBefore[index][1], position[2] - flightBefore[index][2]
+      ));
+      const moved = travel.filter(distance => distance > .002).length;
+      check(moved > cases.length * .8, `native universe planets fly on their own orbits (${moved}/${cases.length} moved)`);
+      check(await page.evaluate(() => new Set(window.nativeDna.orbiters.map(orbiter => orbiter.traits.speed.toFixed(6))).size === 5), 'native universe keeps five orderly rings at distinct orbital speeds');
+      const framedWhileFlying = await page.evaluate(() => {
+        const c = window.nativeDna;
+        c.scene.updateMatrixWorld(true);
+        return c.clickable.every(mesh => {
+          const projected = mesh.getWorldPosition(new c.THREE.Vector3()).project(c.camera);
+          return Math.abs(projected.x) < .98 && Math.abs(projected.y) < .98 && projected.z < 1;
+        });
+      });
+      check(framedWhileFlying, 'native universe planets stay inside the frame while flying');
+      await page.evaluate(() => {
+        window.nativeDna.data.paused = true;
+        window.nativeSpecification.observers['paused,reducedMotion'].call(window.nativeDna);
+      });
+      const pausedTime = await page.evaluate(() => window.nativeDna.orbitTime);
+      await page.waitForTimeout(160);
+      check(await page.evaluate(time => window.nativeDna.orbitTime === time && window.nativePendingFrames.size === 0, pausedTime), 'native universe pause freezes flight without idle RAF work');
+      await page.evaluate(() => {
+        window.nativeDna.data.paused = false;
+        window.nativeSpecification.observers['paused,reducedMotion'].call(window.nativeDna);
+      });
+      await page.waitForTimeout(100);
+      check(await page.evaluate(time => window.nativeDna.orbitTime > time && window.nativePendingFrames.size === 1, pausedTime), 'native universe resume restores exactly one animation loop');
+      await page.evaluate(() => window.nativeSpecification.pageLifetimes.hide.call(window.nativeDna));
+      const hiddenTime = await page.evaluate(() => window.nativeDna.orbitTime);
+      await page.waitForTimeout(100);
+      check(await page.evaluate(time => window.nativeDna.orbitTime === time && window.nativePendingFrames.size === 0, hiddenTime), 'native universe page hide cancels rendering');
+      await page.evaluate(() => {
+        window.nativeSpecification.pageLifetimes.show.call(window.nativeDna);
+        window.nativeSpecification.pageLifetimes.show.call(window.nativeDna);
+      });
+      await page.waitForTimeout(100);
+      check(await page.evaluate(time => window.nativeDna.orbitTime > time && window.nativeDna.orbitTime - time < .2 && window.nativePendingFrames.size === 1, hiddenTime), 'native universe page show resumes smoothly without duplicate RAF loops');
+      await page.evaluate(() => {
+        window.nativeDna.data.reducedMotion = true;
+        window.nativeSpecification.observers['paused,reducedMotion'].call(window.nativeDna);
+      });
+      await page.waitForTimeout(140);
+      const frozenBefore = await page.evaluate(() => window.nativeDna.orbiters.map(orbiter => orbiter.mesh.position.toArray()));
+      await page.waitForTimeout(280);
+      const frozenAfter = await page.evaluate(() => window.nativeDna.orbiters.map(orbiter => orbiter.mesh.position.toArray()));
+      check(frozenAfter.every((position, index) => position.every((value, axis) => Math.abs(value - frozenBefore[index][axis]) < 1e-6)), 'native universe respects reduced motion');
+      check(await page.evaluate(() => window.nativePendingFrames.size === 0), 'native universe reduced-motion view does not waste animation frames');
+      await page.evaluate(() => {
+        window.nativeDna.data.reducedMotion = false;
+        window.nativeSpecification.observers['paused,reducedMotion'].call(window.nativeDna);
+      });
+      await page.screenshot({ path: join(artifacts, `native-universe-${width}-flight.png`) });
       await page.evaluate(() => window.nativeDna.dispose());
       await page.close();
       continue;
@@ -145,7 +209,7 @@ try {
     check(await page.evaluate(value => window.nativeDna.root.rotation.y === value, selectedRotation), 'selected native DNA pauses for reading');
     await page.screenshot({ path: join(artifacts, `native-dna-selected-${width}.png`) });
     await page.evaluate(() => window.nativeDna.applyDnaSelection(''));
-    await page.waitForTimeout(160);
+    await page.waitForTimeout(1050);
     check(await page.evaluate(value => window.nativeDna.root.rotation.y !== value, selectedRotation), 'closing selection resumes native rotation');
     await page.mouse.move(width / 2, height / 2);
     await page.mouse.down();
@@ -174,7 +238,7 @@ try {
       window.nativeDna.data.covered = false;
       window.nativeDna.updateCovered(false);
     });
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(1050);
     check(await page.evaluate(value => window.nativeDna.root.rotation.y !== value, paused), 'closing reading sheet resumes the same model');
     await page.evaluate(() => window.nativeDna.dispose());
     await page.close();

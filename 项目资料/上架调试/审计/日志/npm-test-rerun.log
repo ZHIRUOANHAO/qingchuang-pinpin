@@ -1,0 +1,109 @@
+﻿
+> qingchuang-pinpin@0.1.0 test
+> node tests/validate-structure.mjs && node tests/case-library.mjs && node tests/experience.mjs
+
+
+Structure validation: 193 passed, 0 failed.
+All required project, JSON, preview, and interaction checks passed.
+Case library validation: 100 catalog / 100 free full text / 700 editorial stages / 700 business asset cards / 0 paid; public fields only. Static mini package estimate: 1508770 bytes (not an official upload measurement).
+TAP version 13
+# Subtest: web access, tag and keyword filters compose across all 100 cases
+ok 1 - web access, tag and keyword filters compose across all 100 cases
+  ---
+  duration_ms: 1.0909
+  type: 'test'
+  ...
+# Subtest: mini filters match web counts and pagination without overlap
+ok 2 - mini filters match web counts and pagination without overlap
+  ---
+  duration_ms: 0.5374
+  type: 'test'
+  ...
+# Subtest: mini case service returns synchronous local data and isolates tag lists
+ok 3 - mini case service returns synchronous local data and isolates tag lists
+  ---
+  duration_ms: 0.5776
+  type: 'test'
+  ...
+# Subtest: canvas coverage uses the seven business stages and never counts extra modules
+ok 4 - canvas coverage uses the seven business stages and never counts extra modules
+  ---
+  duration_ms: 2.7938
+  type: 'test'
+  ...
+# Subtest: case nodes retain exact methods, reuse and unique case identity in mixed canvas
+ok 5 - case nodes retain exact methods, reuse and unique case identity in mixed canvas
+  ---
+  duration_ms: 0.7317
+  type: 'test'
+  ...
+# Subtest: favorites and recent cases persist and support saved-only filtering
+ok 6 - favorites and recent cases persist and support saved-only filtering
+  ---
+  duration_ms: 0.5128
+  type: 'test'
+  ...
+# Subtest: corrupt, stale and denied storage does not break browsing
+ok 7 - corrupt, stale and denied storage does not break browsing
+  ---
+  duration_ms: 0.2867
+  type: 'test'
+  ...
+# Subtest: source links accept only HTTP and HTTPS
+ok 8 - source links accept only HTTP and HTTPS
+  ---
+  duration_ms: 0.1304
+  type: 'test'
+  ...
+# Subtest: mini discards stale responses and stale errors after rapid filtering
+ok 9 - mini discards stale responses and stale errors after rapid filtering
+  ---
+  duration_ms: 3.7487
+  type: 'test'
+  ...
+# Subtest: mini prevents duplicate load-more and ignores completion after unload
+ok 10 - mini prevents duplicate load-more and ignores completion after unload
+  ---
+  duration_ms: 1.6791
+  type: 'test'
+  ...
+# Subtest: mini reset clears keyword, tag and access together
+ok 11 - mini reset clears keyword, tag and access together
+  ---
+  duration_ms: 1.2778
+  type: 'test'
+  ...
+# Subtest: mini case-to-canvas merges with the current draft instead of overwriting it
+ok 12 - mini case-to-canvas merges with the current draft instead of overwriting it
+  ---
+  duration_ms: 4.8321
+  type: 'test'
+  ...
+# Subtest: case demo saves the seven visible business nodes to the local canvas
+ok 13 - case demo saves the seven visible business nodes to the local canvas
+  ---
+  duration_ms: 1.8347
+  type: 'test'
+  ...
+# Subtest: validation recalculates old scores and does not show unknown case risk as zero
+ok 14 - validation recalculates old scores and does not show unknown case risk as zero
+  ---
+  duration_ms: 2.6855
+  type: 'test'
+  ...
+# Subtest: web controller renders real data and persists case-to-canvas without a browser
+ok 15 - web controller renders real data and persists case-to-canvas without a browser
+  ---
+  duration_ms: 12.0411
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 53.2349
+EXIT_CODE=0

@@ -1,14 +1,16 @@
 Component({
   lifetimes: {
-    ready() { this.draw() }
+    ready() { this.draw() },
+    detached() { this.destroyed = true; this.stop(); this.canvas = null; this.ctx = null }
   },
   pageLifetimes: {
-    show() { if (this.canvas) this.drawFrame() },
-    hide() { this.stop() }
+    show() { this.hidden = false; if (this.canvas) this.drawFrame() },
+    hide() { this.hidden = true; this.stop() }
   },
   methods: {
     draw() {
       this.createSelectorQuery().select('#galaxy').fields({ node: true, size: true }).exec(res => {
+        if (this.destroyed) return
         const info = res[0]
         if (!info || !info.node) return
         const canvas = info.node
@@ -31,12 +33,14 @@ Component({
           phase: index * .37
         }))
         this.startAt = Date.now()
+        try { this.reducedMotion = Boolean(getApp().globalData.reducedMotion) } catch (error) {}
         this.drawFrame()
       })
     },
     drawFrame() {
-      if (!this.canvas || this.frame) return
+      if (!this.canvas || this.frame != null || this.hidden || this.destroyed) return
       const loop = () => {
+        if (!this.canvas || !this.ctx || this.hidden || this.destroyed) return
         const ctx = this.ctx
         const t = (Date.now() - this.startAt) / 1000
         ctx.clearRect(0, 0, this.width, this.height)
@@ -53,12 +57,12 @@ Component({
           ctx.fillStyle = `rgba(210, 220, 240, ${alpha})`
           ctx.fill()
         })
-        this.frame = this.canvas.requestAnimationFrame(() => { this.frame = null; loop() })
+        if (!this.reducedMotion) this.frame = this.canvas.requestAnimationFrame(() => { this.frame = null; loop() })
       }
       loop()
     },
     stop() {
-      if (this.canvas && this.frame) this.canvas.cancelAnimationFrame(this.frame)
+      if (this.canvas && this.frame != null) this.canvas.cancelAnimationFrame(this.frame)
       this.frame = null
     }
   }

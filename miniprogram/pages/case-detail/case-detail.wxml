@@ -6,6 +6,7 @@
     <view class="title-block"><text class="eyebrow">CASE / {{item.id}}</text><text class="case-title">{{item.title}}</text></view>
     <button size="mini" class="icon-button {{favorite ? 'is-favorite' : ''}}" aria-label="{{favorite ? '取消收藏' : '收藏案例'}}" bindtap="toggleFavorite"><image class="header-icon" src="/assets/icons/bookmark.png"></image></button>
   </view>
+  <view class="source-panel"><text class="section-title">这条案例的公开证据</text><text class="evidence-title">{{item.sourceStatusLabel}} · 核对于 {{item.evidenceCheckedOn}}</text><text class="source-note">当时核对到：{{item.originalEvidence}}</text><view wx:for="{{item.proofSources}}" wx:key="url" class="proof-source"><text class="proof-label">来源 {{index + 1}}：{{item.label}}</text><text class="proof-meta">{{item.publisher}} · {{item.access}} · {{item.checkedOn}}</text><text class="proof-url" selectable="true">{{item.url}}</text><button class="source-button" data-index="{{index}}" bindtap="copySource">复制原始链接（在浏览器打开）</button></view><text class="source-note">证明范围：公开页面可见的产品或服务信息；不等于独立审计过的成交、利润或复购。购买动机与七关是编辑分析。索引线索不等同于已直接打开官方页面。</text></view>
 
   <block>
     <view class="business-brief">
@@ -20,7 +21,7 @@
       <text class="trade-label">收费方式</text><text class="trade-value">{{item.chargingModel}}</text>
       <text class="trade-label">钱的去向</text><text class="trade-value">{{item.moneyFlow}}</text>
       <text class="trade-label">起步需要的能力</text><text class="trade-value">{{item.entryRequirements}}</text>
-      <text class="trade-note">低成本不等于零技能；实际到账与净利润尚未独立核实。</text>
+      <text class="trade-note">低成本不等于零技能；实际到账与净利润应以原企业账目为准。</text>
     </view>
     <view class="transaction-story"><text class="section-title">从卖点到交付、收钱</text><view wx:for="{{item.nodes}}" wx:key="id" class="trade-step"><text class="trade-label">{{index + 1}}. {{item.name}}</text><text class="trade-value">{{item.method}}</text></view></view>
     <view class="dna-caption"><text class="section-title">商业 DNA · 辅助理解</text><text class="trade-note">图谱不代替上面的案例正文。</text></view>
@@ -34,11 +35,11 @@
     </view>
     <view class="node-index">
       <view class="section-heading"><view><text class="eyebrow">{{nodeIndex.length}} CORE STAGES</text><text class="section-title">阶段资产卡</text></view></view>
-      <view class="node-grid"><button wx:for="{{nodeIndex}}" wx:key="id" class="node-item {{selectedNode.id === item.id ? 'selected' : ''}}" data-id="{{item.id}}" bindtap="selectNodeFromIndex" aria-label="{{item.name}}详情"><view class="node-dot" style="background:{{item.color}}"></view><text class="node-number">{{item.number}}</text><text class="node-name">{{item.name}}</text><text class="node-stage">{{item.stageLabel}}</text></button></view>
+      <text class="trade-note">沿连线查看各阶段的资产归属，点击卡片展开具体做法。连线不表示因果证明或收益保证。</text>
+      <asset-map map="{{assetMap}}" interactive="{{true}}" selected-id="{{selectedNode ? selectedNode.id : ''}}" bindselect="selectNodeFromIndex"></asset-map>
     </view>
     <view class="detail-actions two-buttons"><button class="secondary-button" bindtap="sendToCanvas">装配到画布</button><button class="primary-button" bindtap="openReport">查看验证方案</button></view>
     <node-detail-sheet node="{{selectedNode}}" bindclose="closeNode"></node-detail-sheet>
   </block>
-  <view class="source-panel"><text class="section-title">依据与实验边界</text><text class="source-note">{{item.originalEvidence || item.evidenceLabel}}</text><text class="source-note">来源核验记录：{{item.evidenceCheckedOn}}。公开经营资料不等于成交或盈利证明；购买动机与七关是编辑分析，不是客户访谈结论。</text><text class="source-note">成本为整案实验口径，未对每个节点单独核算成本或风险。</text><button wx:for="{{item.sourceUrls}}" wx:key="*this" class="source-button" data-index="{{index}}" bindtap="copySource">复制来源 {{index + 1}}：{{item}}</button><text wx:if="{{!item.sourceUrls.length}}" class="source-note">暂无可复制的来源链接。</text></view>
 </view>
 <view wx:else class="detail-page"><safe-top></safe-top><status-view type="empty" title="案例不存在" description="这个链接没有对应案例，请返回案例库选择。" action-text="返回" bindaction="back"></status-view></view>

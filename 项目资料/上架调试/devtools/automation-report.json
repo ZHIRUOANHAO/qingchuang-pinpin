@@ -1,0 +1,51 @@
+{
+  "startedAt": "2026-10-22T15:09:47.459Z",
+  "env": {
+    "root": "D:/UserFolders/Desktop/qingchuang-pinpin",
+    "cli": "D:/应用/微信web开发者工具/cli.bat",
+    "appJsonPages": [
+      "pages/home/home",
+      "pages/cases/cases",
+      "pages/ai/ai",
+      "pages/canvas/canvas",
+      "pages/profile/profile",
+      "pages/case-detail/case-detail",
+      "pages/favorites/favorites",
+      "pages/records/records",
+      "pages/history/history",
+      "pages/schemes/schemes",
+      "pages/validation/validation",
+      "pages/privacy/privacy",
+      "pages/agreement/agreement",
+      "pages/minors/minors",
+      "pages/help/help",
+      "pages/about/about"
+    ],
+    "tabPages": [
+      "pages/home/home",
+      "pages/cases/cases",
+      "pages/ai/ai",
+      "pages/canvas/canvas",
+      "pages/profile/profile"
+    ]
+  },
+  "launch": {
+    "ok": false,
+    "error": "Error: 连接 ws://127.0.0.1:9421 超时: Failed connecting to ws://127.0.0.1:9421, check if target project window is opened with automation enabled\n[cli output]\n- initialize\n\n(node:19012) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.\n(Use `微信开发者工具 --trace-deprecation ...` to show where the warning was created)\n√ IDE server has started, listening on http://127.0.0.1:9420\n- preparing\n- Fetching AppID () permissions\n√ Using AppID: wx031b9c2a3d1d73bb\n√ auto\n\n[cli auto exit code] 0\n    at connectTry (D:\\UserFolders\\Desktop\\qingchuang-pinpin\\项目资料\\上架调试\\devtools\\walkthrough.js:97:11)\n    at async main (D:\\UserFolders\\Desktop\\qingchuang-pinpin\\项目资料\\上架调试\\devtools\\walkthrough.js:101:12)",
+    "cliOutput": "- initialize\n\n(node:19012) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.\n(Use `微信开发者工具 --trace-deprecation ...` to show where the warning was created)\n√ IDE server has started, listening on http://127.0.0.1:9420\n- preparing\n- Fetching AppID () permissions\n√ Using AppID: wx031b9c2a3d1d73bb\n√ auto\n\n[cli auto exit code] 0"
+  },
+  "systemInfo": null,
+  "globalData": null,
+  "pages": [],
+  "screenshots": [],
+  "historyJump": null,
+  "unregisteredAttempts": [],
+  "consoleLogs": [],
+  "exceptions": [],
+  "pageNotFound": [],
+  "summary": {},
+  "preConnect": {
+    "ok": false,
+    "error": "Cannot read properties of undefined (reading 'split')"
+  }
+}

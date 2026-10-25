@@ -24,5 +24,5 @@ Page({
   openMenu(event) { wx.navigateTo({ url: event.currentTarget.dataset.url }) },
   openSettings() { wx.openSetting({ fail: () => wx.showToast({ title: '请在微信设置中管理权限', icon: 'none' }) }) },
   shareMini() { wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] }); wx.showToast({ title: '点击右上角分享', icon: 'none' }) },
-  onShareAppMessage() { return share.pageMessage('青创拼拼｜轻创业案例与商业 DNA', '/pages/home/home') }
+  onShareAppMessage() { return share.pageMessage('轻创拼拼｜轻创业案例与商业 DNA', '/pages/home/home') }
 })

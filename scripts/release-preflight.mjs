@@ -19,6 +19,8 @@ const validEmail = value => typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[^\s
 
 check(projectConfig.appid && projectConfig.appid !== 'wx2f9d25ee643ab824', '已配置正式 AppID', '仍在使用测试 AppID；请注册正式小程序后替换 project.config.json 的 appid');
 check(validEmail(env.supportEmail), '已配置真实联系邮箱', '缺少真实联系邮箱；请填写 miniprogram/config/env.js 的 supportEmail');
+check(typeof env.entityName === 'string' && env.entityName.trim().length >= 2, '已配置正式运营主体名称', '缺少正式运营主体名称；请填写 miniprogram/config/env.js 的 entityName');
+check(/ICP备\d+号/.test(String(env.icpNumber || '')), '已配置小程序备案号', '缺少小程序备案号；请填写 miniprogram/config/env.js 的 icpNumber（形如 京ICP备2024xxxxxx号-1X）');
 check(env.cloudEnabled === false && env.runtimeMode === 'local_case_library', '运行模式为纯本地案例库', '发布版运行模式必须明确为 local_case_library 且 cloudEnabled=false');
 check(projectConfig.libVersion === privateConfig.libVersion, `基础库版本已固定为 ${projectConfig.libVersion}`, 'project.config.json 与 project.private.config.json 的基础库版本不一致');
 check(ads.enabled === false && Object.values(ads.slots).every(slot => !slot.unitId), '广告保持禁用且无广告位 ID', '流量主未开通前必须保持广告禁用且 unitId 为空');

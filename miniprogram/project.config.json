@@ -1,0 +1,23 @@
+{
+  "description": "轻创拼拼原生源码运行入口",
+  "miniprogramRoot": "./",
+  "projectname": "qingchuang-pinpin-native",
+  "appid": "wx031b9c2a3d1d73bb",
+  "compileType": "miniprogram",
+  "libVersion": "3.17.4",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true,
+    "packNpmManually": false,
+    "ignoreUploadUnusedFiles": true,
+    "minifyWXSS": true,
+    "minifyWXML": true
+  },
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  }
+}

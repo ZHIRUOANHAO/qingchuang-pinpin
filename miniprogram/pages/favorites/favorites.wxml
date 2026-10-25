@@ -1,2 +1,14 @@
-<view class="page-shell"><view class="nav-bar"><view class="brand-block"><text class="brand">我的收藏</text><text class="brand-sub">{{list.length}} 条商业 DNA</text></view></view><status-view wx:if="{{!list.length}}" type="empty" title="还没有收藏" description="在案例详情点击收藏，方便之后继续拆解"></status-view><view wx:else class="section simple-list"><view wx:for="{{list}}" wx:key="id" class="simple-item panel" data-id="{{item.id}}" bindtap="open"><dna-mini></dna-mini><view><text>{{item.title}}</text><text>{{item.industry}} · 闭环 {{item.score}}</text></view><text>›</text></view></view></view>
+<view class="page-shell favorites-page">
+  <galaxy-backdrop></galaxy-backdrop>
+  <view class="nav-bar"><view class="brand-block"><text class="brand">我的收藏</text><text class="brand-sub">{{list.length}} 条案例 · 仅保存在本机</text></view></view>
+  <view class="collection-toolbar"><text>收藏便于回看，不代表你已实践或取得成效。</text><button wx:if="{{list.length && !error}}" class="clear-all" bindtap="clearFavorites" aria-label="清空本机全部收藏">清空收藏</button></view>
+  <status-view wx:if="{{error}}" type="error" title="收藏读取失败" description="本机存储暂不可用，请重试。" action-text="重新读取" bindaction="loadFavorites"></status-view>
+  <status-view wx:elif="{{!list.length}}" type="empty" title="还没有收藏" description="在案例详情点击收藏，方便之后继续查看。" action-text="去看案例" bindaction="browseCases"></status-view>
+  <view wx:else class="section simple-list">
+    <view wx:for="{{list}}" wx:key="id" class="simple-item panel">
+      <button class="open-item" data-id="{{item.id}}" bindtap="open" aria-label="打开收藏案例：{{item.title}}"><view class="item-visual"><dna-mini></dna-mini></view><view class="item-copy"><text class="item-title">{{item.title}}</text><text class="item-meta">{{item.industry || '案例资料'}} · 查看案例 ›</text></view></button>
+      <button class="remove-item" data-id="{{item.id}}" bindtap="removeFavorite" aria-label="取消收藏：{{item.title}}">取消收藏</button>
+    </view>
+  </view>
+</view>
 

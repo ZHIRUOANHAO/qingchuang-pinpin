@@ -1,34 +1,13 @@
 <view wx:if="{{node}}" class="mask" bindtap="close">
-  <view class="sheet" catchtap="noop">
+  <view class="sheet" catchtap="noop" role="dialog" aria-modal="true" aria-label="{{node.name + '资产卡详情'}}">
     <view class="handle"></view>
     <view class="head">
       <view class="heading"><text class="eyebrow">{{node.stageLabel ? node.stageLabel + ' · ' : ''}}{{node.visualChainLabel || (node.chain === 'public' ? '公域增长链' : '私域经营链')}}</text><text class="title">{{node.name}}</text></view>
       <button size="mini" class="close" aria-label="关闭节点详情" bindtap="close"><image class="close-image" src="/assets/icons/x.png"></image></button>
     </view>
+    <text class="map-note">沿导线查看目标、做法与可复用资产</text>
     <scroll-view class="content" scroll-y>
-      <block wx:if="{{node.assetCard}}">
-        <view class="field"><text class="field-label">阶段目标</text><text class="field-value">{{node.assetCard.goal}}</text></view>
-        <view class="field"><text class="field-label">怎么做</text><text class="field-value">{{node.assetCard.how}}</text></view>
-        <view class="field"><text class="field-label">适用赛道</text><text class="field-value">{{node.assetCard.tracksText}}</text></view>
-        <view class="asset-groups">
-          <view wx:if="{{node.assetCard.assets.traffic.length}}" class="asset-group"><text class="field-label">流量资产</text><text wx:for="{{node.assetCard.assets.traffic}}" wx:key="*this" class="asset-chip">{{item}}</text></view>
-          <view wx:if="{{node.assetCard.assets.content.length}}" class="asset-group"><text class="field-label">内容资产</text><text wx:for="{{node.assetCard.assets.content}}" wx:key="*this" class="asset-chip">{{item}}</text></view>
-          <view wx:if="{{node.assetCard.assets.user.length}}" class="asset-group"><text class="field-label">用户资产</text><text wx:for="{{node.assetCard.assets.user}}" wx:key="*this" class="asset-chip">{{item}}</text></view>
-          <view wx:if="{{node.assetCard.assets.delivery.length}}" class="asset-group"><text class="field-label">交付资产</text><text wx:for="{{node.assetCard.assets.delivery}}" wx:key="*this" class="asset-chip">{{item}}</text></view>
-        </view>
-        <view class="field"><text class="field-label">成本与难度</text><text class="field-value">{{node.assetCard.cost}} · {{node.assetCard.difficulty}}</text></view>
-        <view class="field"><text class="field-label">风险边界</text><text class="field-value">{{node.assetCard.risk}}</text></view>
-        <view class="field"><text class="field-label">可复用单元</text><text class="field-value">{{node.assetCard.reuse || '字段化记录与小样本验证'}}</text></view>
-      </block>
-      <block wx:else>
-        <view class="field"><text class="field-label">环节定义</text><text class="field-value">{{node.definition || node.hint || '用于连接商业闭环的关键节点。'}}</text></view>
-        <view class="field"><text class="field-label">执行方法</text><text class="field-value">{{node.method || '先用最小样本执行并记录反馈。'}}</text></view>
-        <view class="field"><text class="field-label">适用赛道</text><text class="field-value">{{node.industries || '轻资产项目'}}</text></view>
-        <view wx:if="{{node.costStatus === 'not_individually_estimated'}}" class="field"><text class="field-label">案例来源与成本口径</text><text class="field-value">{{node.sourceTitle}} · {{node.costLabel}}。此节点未单独核算成本或量化风险，不代表收益承诺。</text></view>
-        <view wx:else class="triples"><view class="metric"><text class="field-label">模板成本示例</text><text class="metric-value">¥{{node.cost}}</text></view><view class="metric"><text class="field-label">参考难度</text><text class="metric-value">{{node.difficulty}}/5</text></view><view class="metric"><text class="field-label">模板风险示例</text><text class="metric-value">{{node.risk}}</text></view></view>
-        <view class="field"><text class="field-label">风险点</text><text class="field-value">{{node.riskNote || '具体风险待核实，需检查版权、平台规则、隐私与交付承诺。'}}</text></view>
-        <view class="field"><text class="field-label">可复用技巧</text><text class="field-value">{{node.reuse || '字段化记录与小样本验证'}}</text></view>
-      </block>
+      <asset-map map="{{detailMap}}"></asset-map>
       <view class="sheet-actions"><button class="save" bindtap="saveStage">保存阶段</button><button class="dismiss" bindtap="close">关闭</button></view>
     </scroll-view>
   </view>

@@ -1,0 +1,129 @@
+﻿
+> qingchuang-pinpin@0.1.0 test:native-ui
+> node tests/native-ui.mjs
+
+TAP version 13
+# Subtest: home bounds the planet within one viewport and prevents page scrolling
+ok 1 - home bounds the planet within one viewport and prevents page scrolling
+  ---
+  duration_ms: 1.8697
+  type: 'test'
+  ...
+# Subtest: release navigation has no login, membership, order or payment surface
+ok 2 - release navigation has no login, membership, order or payment surface
+  ---
+  duration_ms: 0.6701
+  type: 'test'
+  ...
+# Subtest: case demo is predefined, local and upload-free
+ok 3 - case demo is predefined, local and upload-free
+  ---
+  duration_ms: 0.3899
+  type: 'test'
+  ...
+# Subtest: privacy, terms and minors notices match the local-only data flow
+ok 4 - privacy, terms and minors notices match the local-only data flow
+  ---
+  duration_ms: 0.6436
+  type: 'test'
+  ...
+# Subtest: plain trading explanations precede native DNA and include the payment endpoint
+ok 5 - plain trading explanations precede native DNA and include the payment endpoint
+  ---
+  duration_ms: 0.3917
+  type: 'test'
+  ...
+# Subtest: native case pages show source verification without calling the cases unverified
+ok 6 - native case pages show source verification without calling the cases unverified
+  ---
+  duration_ms: 2.4186
+  type: 'test'
+  ...
+# Subtest: native starter route clears stale search and paid filters
+ok 7 - native starter route clears stale search and paid filters
+  ---
+  duration_ms: 1.3435
+  type: 'test'
+  ...
+# Subtest: old paid routes reopen the full library without payment or ad gates
+ok 8 - old paid routes reopen the full library without payment or ad gates
+  ---
+  duration_ms: 1.7252
+  type: 'test'
+  ...
+# Subtest: case library keeps text in bounds and decorative DNA inside scrolling cards
+ok 9 - case library keeps text in bounds and decorative DNA inside scrolling cards
+  ---
+  duration_ms: 1.6339
+  type: 'test'
+  ...
+# Subtest: safe top reserves both system status and WeChat capsule areas
+ok 10 - safe top reserves both system status and WeChat capsule areas
+  ---
+  duration_ms: 0.4713
+  type: 'test'
+  ...
+# Subtest: every custom navigation page registers and renders safe-top
+ok 11 - every custom navigation page registers and renders safe-top
+  ---
+  duration_ms: 2.3903
+  type: 'test'
+  ...
+# Subtest: native renderer ignores WeChat renderer metadata before initialization
+ok 12 - native renderer ignores WeChat renderer metadata before initialization
+  ---
+  duration_ms: 14.9555
+  type: 'test'
+  ...
+# Subtest: universe pinch gesture never ends as an accidental planet tap
+ok 13 - universe pinch gesture never ends as an accidental planet tap
+  ---
+  duration_ms: 1.7448
+  type: 'test'
+  ...
+# Subtest: DNA vertical drag yields to page scroll while horizontal drag rotates the model
+ok 14 - DNA vertical drag yields to page scroll while horizontal drag rotates the model
+  ---
+  duration_ms: 1.1285
+  type: 'test'
+  ...
+# Subtest: energy-saving canvas drag and cancellation never select a case
+ok 15 - energy-saving canvas drag and cancellation never select a case
+  ---
+  duration_ms: 1.2823
+  type: 'test'
+  ...
+# Subtest: DNA toolbar delegates zoom and reset and tolerates an empty canvas
+ok 16 - DNA toolbar delegates zoom and reset and tolerates an empty canvas
+  ---
+  duration_ms: 1.7687
+  type: 'test'
+  ...
+# Subtest: all DNA pages hide the native layer while showing node details
+ok 17 - all DNA pages hide the native layer while showing node details
+  ---
+  duration_ms: 0.7057
+  type: 'test'
+  ...
+# Subtest: snapshot failure still allows opening and closing the reading sheet
+ok 18 - snapshot failure still allows opening and closing the reading sheet
+  ---
+  duration_ms: 0.9407
+  type: 'test'
+  ...
+# Subtest: case detail preserves source chain and derives colored node index
+ok 19 - case detail preserves source chain and derives colored node index
+  ---
+  duration_ms: 21.8874
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 70.192
+EXIT_CODE=0

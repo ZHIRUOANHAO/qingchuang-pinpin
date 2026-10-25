@@ -14,8 +14,14 @@ test('home bounds the planet within one viewport and prevents page scrolling', (
   assert.equal(config.enablePullDownRefresh, false);
   assert.doesNotMatch(read('pages/home/home.wxml'), /<scroll-view/);
   assert.match(read('pages/home/home.wxss'), /height:100vh/);
-  assert.match(read('components/space-scene/space-scene.wxml'), /catchtouchmove="onTouchMove"/);
-  assert.doesNotMatch(read('components/space-scene/space-scene.js'), /baseY \+ Math.sin/);
+  const sceneMarkup = read('components/space-scene/space-scene.wxml');
+  assert.match(read('pages/home/home.wxml'), /<space-scene mode="universe"/);
+  assert.match(read('components/dna-view/dna-view.wxml'), /<space-scene[^>]*mode="dna"/);
+  assert.equal((sceneMarkup.match(/disable-scroll="{{mode !== 'dna'}}"/g) || []).length, 2);
+  assert.match(sceneMarkup, /bindtouchmove="onTouchMove"/);
+  assert.doesNotMatch(sceneMarkup, /catchtouchmove=/);
+  assert.match(read('components/space-scene/space-scene.js'), /utils\/orbit/);
+  assert.match(read('components/space-scene/space-scene.js'), /updateUniverse/);
 });
 
 test('release navigation has no login, membership, order or payment surface', () => {
@@ -53,6 +59,24 @@ test('plain trading explanations precede native DNA and include the payment endp
   assert.match(markup, /从卖点到交付、收钱/);
 });
 
+test('native case pages show source verification without calling the cases unverified', () => {
+  const pages = [
+    'pages/home/home.wxml',
+    'pages/cases/cases.wxml',
+    'pages/case-detail/case-detail.wxml',
+    'pages/ai/ai.wxml',
+    'pages/membership/membership.wxml',
+    'pages/minors/minors.wxml',
+    'components/dna-view/dna-view.wxml',
+  ];
+  for (const path of pages) assert.doesNotMatch(read(path), /未验证|待验证/, `${path}: source-checked cases should not be labeled unverified`);
+  assert.match(read('pages/cases/cases.wxml'), /\{\{item\.sourceStatusLabel\}\} · \{\{item\.evidenceCheckedOn\}\}/);
+  assert.match(read('pages/case-detail/case-detail.wxml'), /item\.proofSources/);
+  assert.match(read('pages/case-detail/case-detail.wxml'), /复制原始链接/);
+  assert.match(read('pages/ai/ai.wxml'), /\{\{result\.sourceStatusLabel\}\} · \{\{result\.evidenceCheckedOn\}\}/);
+  assert.match(read('components/dna-view/dna-view.wxml'), /不设评分/);
+});
+
 test('native starter route clears stale search and paid filters', () => {
   let page;
   const values = new Map([['caseSearch', ''], ['caseAccess', 'starter']]);
@@ -86,6 +110,21 @@ test('old paid routes reopen the full library without payment or ad gates', () =
   const ads = require('../miniprogram/config/ads');
   assert.equal(ads.enabled, false);
   assert.ok(Object.keys(ads.slots).every(name => !ads.getSlot(name).enabled && !ads.getSlot(name).unitId));
+});
+
+test('case library keeps text in bounds and decorative DNA inside scrolling cards', () => {
+  const markup = read('pages/cases/cases.wxml');
+  const style = read('pages/cases/cases.wxss');
+  const miniMarkup = read('components/dna-mini/dna-mini.wxml');
+  const mini = component('components/dna-mini/dna-mini.js');
+  assert.match(style, /\.cases-page\s*\{[^}]*padding:\s*0 24rpx/s);
+  assert.match(style, /\.cases-page \.brand-block text\s*\{\s*display:\s*block/);
+  assert.match(style, /\.case-item\s*\{[^}]*width:\s*100%/s);
+  assert.match(markup, /<view class="access-filters"><text class="access-note">[^<]*<\/text><button/);
+  assert.doesNotMatch(miniMarkup, /<canvas\b/);
+  assert.match(miniMarkup, /wx:for="{{rungs}}"/);
+  assert.equal(mini.data.rungs.length, 10);
+  assert.ok(mini.data.rungs.every(rung => Number.isFinite(rung.first) && Number.isFinite(rung.second)));
 });
 function component(path) {
   let specification;
@@ -135,6 +174,22 @@ test('universe pinch gesture never ends as an accidental planet tap', () => {
   scene.onTouchEnd({ touches: [], changedTouches: [{ x: 21, y: 20 }] });
   assert.deepEqual(picks, []);
   assert.equal(scene.pinching, false);
+});
+
+test('DNA vertical drag yields to page scroll while horizontal drag rotates the model', () => {
+  const specification = component('components/space-scene/space-scene.js');
+  const scene = { ...specification.methods, data: { mode: 'dna' }, root: { rotation: { x: 0, y: 0 } } };
+  scene.onTouchStart({ touches: [{ x: 20, y: 20 }] });
+  scene.onTouchMove({ touches: [{ x: 21, y: 50 }] });
+  scene.onTouchMove({ touches: [{ x: 50, y: 50 }] });
+  assert.equal(scene.gestureAxis, 'y');
+  assert.deepEqual(scene.root.rotation, { x: 0, y: 0 });
+  scene.onTouchCancel();
+  assert.equal(scene.gestureAxis, null);
+  scene.onTouchStart({ touches: [{ x: 20, y: 20 }] });
+  scene.onTouchMove({ touches: [{ x: 50, y: 21 }] });
+  assert.equal(scene.gestureAxis, 'x');
+  assert.ok(scene.root.rotation.y > 0);
 });
 
 test('energy-saving canvas drag and cancellation never select a case', () => {
@@ -201,4 +256,48 @@ test('case detail preserves source chain and derives colored node index', () => 
   }
   page.onLoad({ id: 'unknown-id' });
   assert.equal(page.data.item, null, 'an unknown case does not masquerade as a different case');
+});
+
+test('universe planets orbit on orderly, deterministic and bounded rings', () => {
+  const orbit = require('../miniprogram/utils/orbit.js');
+  const orbiters = orbit.createOrbiters(100);
+  assert.equal(orbiters.length, 100);
+  assert.equal(new Set(orbiters.map(orbiter => orbiter.band)).size, 5);
+  assert.equal(orbit.BAND_COUNT, 5);
+  const repeats = orbit.createOrbiters(100);
+  assert.deepEqual(repeats[37], orbiters[37], 'orbit parameters are deterministic');
+
+  // 同一轨道共速：20 颗星球等角距排布，队形不会随时间散开。
+  const step = orbit.TAU / orbit.PLANETS_PER_BAND;
+  const speeds = [];
+  for (let band = 0; band < orbit.BAND_COUNT; band += 1) {
+    const ring = orbiters.filter(orbiter => orbiter.band === band);
+    assert.equal(ring.length, orbit.PLANETS_PER_BAND, 'each ring carries an equal share of planets');
+    assert.equal(new Set(ring.map(orbiter => orbiter.speed.toFixed(6))).size, 1, 'one shared speed per ring');
+    const phases = ring.map(orbiter => orbiter.phase).sort((a, b) => a - b);
+    phases.forEach((phase, index) => {
+      if (index === 0) return;
+      assert.ok(Math.abs((phase - phases[index - 1]) - step) < 1e-9, 'planets stay evenly spaced on their ring');
+    });
+    speeds.push(ring[0].speed);
+  }
+  assert.ok(speeds.every(speed => speed > 0), 'all rings revolve in the same direction');
+  assert.ok(speeds[0] > speeds[orbit.BAND_COUNT - 1], 'the inner ring revolves faster than the outer ring');
+  assert.equal(orbit.SYSTEM_TILT.length, 2, 'the whole system shares one tilted orbital plane');
+
+  const start = orbiters.map(orbiter => orbit.positionAt(orbiter, 0));
+  const later = orbiters.map(orbiter => orbit.positionAt(orbiter, 18));
+  assert.ok(start.every(position => Math.abs(position.y) < .15), 'orbits stay a thin, nearly coplanar disc');
+  assert.ok(orbiters.every(orbiter => orbiter.eccentricity > 0 && orbiter.eccentricity < .07), 'each planet has a small natural eccentricity');
+  assert.ok(orbiters.every(orbiter => Math.abs(orbiter.inclination) < .03), 'orbital inclinations stay tiny and natural');
+  assert.ok(new Set(orbiters.map(orbiter => orbiter.periapsis.toFixed(4))).size > 90, 'periapsis directions are varied like natural orbits');
+  const travelled = later.filter((position, index) => Math.hypot(
+    position.x - start[index].x, position.y - start[index].y, position.z - start[index].z
+  ) > .05).length;
+  assert.ok(travelled > 95, 'almost every planet actually travels on its ring');
+
+  const furthest = later.reduce((radius, position) => Math.max(radius, Math.hypot(position.x, position.y, position.z)), 0);
+  assert.ok(furthest < 4.6, 'orbit radii stay inside the framed universe (' + furthest.toFixed(3) + ')');
+  const reference = orbit.positionAt(orbiters[0], 7);
+  assert.deepEqual(orbit.positionAt(orbiters[0], 7), reference, 'positionAt is a pure function of time');
 });

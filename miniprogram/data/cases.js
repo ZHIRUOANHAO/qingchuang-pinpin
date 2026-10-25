@@ -1,17 +1,11 @@
 const { caseCatalog } = require('./case-catalog')
 const { freeCaseDetails } = require('./case-free-details')
 const { caseLibraryMeta } = require('./case-library-meta')
+const { difficultyValue, shortTitle, planetForIndex } = require('./case-shared')
 const { composeBusinessStages, buildBusinessNodes } = require('../config/business-stages')
 
-const palette = [0xd9bb72, 0x62c7d9, 0x9b87e8, 0x65c799, 0xd98f72, 0xc7a8dc]
 const nodeTypes = ['exposure', 'traffic', 'nurture', 'transaction', 'delivery', 'risk', 'profit']
 const freeById = Object.fromEntries(freeCaseDetails.map(item => [item.id, item]))
-
-function difficultyValue(label = '') {
-  if (label.startsWith('入门')) return 2
-  if (label.startsWith('中高')) return 3
-  return 5
-}
 
 function minimumCost(label = '') {
   const match = String(label).match(/(\d+)\s*-\s*\d+\s*元/)
@@ -46,12 +40,12 @@ function buildCase(catalogItem, index) {
   const nodes = detail ? detail.stages.map(stage => stageToNode(stage, detail)) : []
   const source = detail ? { ...catalogItem, ...detail, id: catalogItem.id, title: catalogItem.name } : null
   const businessStages = source ? composeBusinessStages(source) : []
-  const businessNodes = source ? buildBusinessNodes(source) : []
+  const businessNodes = source ? buildBusinessNodes(source, businessStages) : []
   const costLabel = detail?.cost || catalogItem.cost
   return {
     id: catalogItem.id,
     title: catalogItem.name,
-    shortTitle: catalogItem.name.split('：')[0].slice(0, 12),
+    shortTitle: shortTitle(catalogItem.name),
     industry: catalogItem.industry,
     tags: catalogItem.tags,
     difficulty: difficultyValue(catalogItem.difficulty),
@@ -59,7 +53,7 @@ function buildCase(catalogItem, index) {
     startupCost: detail?.startupCost?.experimentCashCNY?.[0] ?? minimumCost(costLabel),
     costLabel,
     score: 0,
-    scoreLabel: '待验证',
+    scoreLabel: '不设经营评分',
     hasScore: false,
     access: catalogItem.access,
     accessLabel: catalogItem.accessLabel,
@@ -70,6 +64,9 @@ function buildCase(catalogItem, index) {
     payer: catalogItem.payer || '',
     purchaseReason: catalogItem.purchaseReason || '',
     evidenceCheckedOn: catalogItem.evidenceCheckedOn || '',
+    sourceTier: catalogItem.sourceTier,
+    sourceStatusLabel: catalogItem.sourceTier === 'official_page' ? '官方公开页面记录' : '官方页面索引线索',
+    proofSources: detail?.factualBasis?.sources || [],
     delivery: detail?.delivery || '',
     chargingModel: detail?.chargingModel || '',
     moneyFlow: detail?.moneyFlow || '',
@@ -85,7 +82,7 @@ function buildCase(catalogItem, index) {
     nodes,
     businessStages,
     businessNodes,
-    planet: { color: palette[index % palette.length], orbit: 2.8 + (index % 6) * .35, size: index < 3 ? .26 : .18 }
+    planet: planetForIndex(index)
   }
 }
 

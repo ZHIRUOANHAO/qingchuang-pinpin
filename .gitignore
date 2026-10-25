@@ -7,4 +7,16 @@ project.private.config.json
 .env.*
 !.env.example
 output/
+/项目资料/文档与案例工作区/
+/项目资料/知识库记录/
+/项目资料/录屏/
 
+# 体积大的本地素材与生成物：视频工程、自动化缓存、验收截图/日志不进仓库
+videos/
+.playwright-cli/
+/项目资料/上架调试/lead/flight-frames/
+/项目资料/上架调试/lead/sunshots/
+/项目资料/上架调试/lead/*.log
+
+# sites/ 下是另一个独立 git 仓库（网页版），不并入小程序仓库
+sites/qingchuang-pinpin-web/

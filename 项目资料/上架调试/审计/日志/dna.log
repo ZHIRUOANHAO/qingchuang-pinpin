@@ -1,0 +1,87 @@
+﻿
+> qingchuang-pinpin@0.1.0 test:dna
+> node tests/dna-theme.mjs
+
+TAP version 13
+# Subtest: native renderer loads with JS-only local module resolution
+ok 1 - native renderer loads with JS-only local module resolution
+  ---
+  duration_ms: 2.828
+  type: 'test'
+  ...
+# Subtest: browser bridge exposes the exact same palette without Node globals
+ok 2 - browser bridge exposes the exact same palette without Node globals
+  ---
+  duration_ms: 1.1254
+  type: 'test'
+  ...
+# Subtest: one five-stage palette with muted independent chain colors
+ok 3 - one five-stage palette with muted independent chain colors
+  ---
+  duration_ms: 1.5056
+  type: 'test'
+  ...
+# Subtest: stages depend on node identity, never order or old business color
+ok 4 - stages depend on node identity, never order or old business color
+  ---
+  duration_ms: 0.2914
+  type: 'test'
+  ...
+# Subtest: web: all nodes have two clickable, equally colored stage bubbles
+ok 5 - web: all nodes have two clickable, equally colored stage bubbles
+  ---
+  duration_ms: 30.0815
+  type: 'test'
+  ...
+# Subtest: web: selection on either side reveals only its matching-color leader
+ok 6 - web: selection on either side reveals only its matching-color leader
+  ---
+  duration_ms: 11.9918
+  type: 'test'
+  ...
+# Subtest: web: empty, single, odd and long DNA remain finite and centered
+ok 7 - web: empty, single, odd and long DNA remain finite and centered
+  ---
+  duration_ms: 33.5432
+  type: 'test'
+  ...
+# Subtest: mini r108: all nodes have two clickable, equally colored stage bubbles
+ok 8 - mini r108: all nodes have two clickable, equally colored stage bubbles
+  ---
+  duration_ms: 81.0899
+  type: 'test'
+  ...
+# Subtest: mini r108: selection on either side reveals only its matching-color leader
+ok 9 - mini r108: selection on either side reveals only its matching-color leader
+  ---
+  duration_ms: 48.971
+  type: 'test'
+  ...
+# Subtest: mini r108: empty, single, odd and long DNA remain finite and centered
+ok 10 - mini r108: empty, single, odd and long DNA remain finite and centered
+  ---
+  duration_ms: 126.7588
+  type: 'test'
+  ...
+# Subtest: 2D fallback keeps the same colors, paired hits and selected leader
+ok 11 - 2D fallback keeps the same colors, paired hits and selected leader
+  ---
+  duration_ms: 1.4867
+  type: 'test'
+  ...
+# Subtest: native component refreshes selection and fallback data without stale highlights
+ok 12 - native component refreshes selection and fallback data without stale highlights
+  ---
+  duration_ms: 2.0886
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 351.3241
+EXIT_CODE=0

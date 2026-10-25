@@ -1,6 +1,9 @@
 <view class="scene-shell {{mode}}">
-  <canvas wx:if="{{!fallback}}" hidden="{{covered}}" class="webgl" type="webgl" id="webgl" disable-scroll="true" bindtouchstart="onTouchStart" catchtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindtouchcancel="onTouchCancel"></canvas>
-  <canvas wx:else hidden="{{covered}}" class="fallback" type="2d" id="fallback" disable-scroll="true" bindtouchstart="onFallbackStart" catchtouchmove="onFallbackMove" bindtouchend="onFallbackTap" bindtouchcancel="onFallbackMove"></canvas>
+  <!-- disable-scroll 会「当手指落在 canvas 上时禁止屏幕滚动」。universe（首页）本身就是不滚动的
+       定屏页，保持 true；dna 模式挂在案例详情、案例演示、画布这些由页面级滚动承载的页面上，
+       必须放开，否则手指一落在模型上整页就滚不动。 -->
+  <canvas wx:if="{{!fallback}}" hidden="{{covered}}" class="webgl" type="webgl" id="webgl" disable-scroll="{{mode !== 'dna'}}" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindtouchcancel="onTouchCancel"></canvas>
+  <canvas wx:else hidden="{{covered}}" class="fallback" type="2d" id="fallback" disable-scroll="{{mode !== 'dna'}}" bindtouchstart="onFallbackStart" bindtouchmove="onFallbackMove" bindtouchend="onFallbackTap" bindtouchcancel="onFallbackCancel"></canvas>
   <image wx:if="{{covered ? snapshot : ''}}" class="snapshot" src="{{snapshot}}" mode="scaleToFill"></image>
   <view wx:if="{{loading}}" class="loading"><view class="loader"></view><text>正在构建商业宇宙</text></view>
   <view wx:if="{{fallback}}" class="fallback-note">节能模式</view>

@@ -4,7 +4,9 @@ const env = {
   cloudEnvId: '',
   privacyPolicyVersion: '1.0',
   supportEmail: '',
-  supportEmailRequiredBeforeRelease: true
+  supportEmailRequiredBeforeRelease: true,
+  entityName: '',
+  icpNumber: ''
 }
 
 module.exports = { env }

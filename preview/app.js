@@ -1,7 +1,8 @@
 import { cases, modules, caseLibraryMeta } from './data.js';
 import { createUniverse, createDnaScene } from './scene.js';
-import { theme as dnaTheme, stageForNode, describeNode } from './dna-theme.js';
+import { theme as dnaTheme, describeNode } from './dna-theme.js';
 import { filterCases, resolveCanvasNodes, safeSourceUrl, readWorkspace, saveWorkspace } from './case-experience.js';
+import { buildCaseMap, buildNodeMap } from './asset-map.js';
 
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
@@ -65,8 +66,8 @@ function bookmarkMarkup(item) {
 }
 
 function sourcesMarkup(item) {
-  const urls = item.sourceUrls.map(safeSourceUrl).filter(Boolean);
-  return `<section class="source-panel"><h2>依据与实验边界</h2><p>${escapeHtml(item.originalEvidence || item.evidenceLabel)}</p><p>来源核验记录：${escapeHtml(item.evidenceCheckedOn)}；内容结构更新：${escapeHtml(caseLibraryMeta.lastUpdated)}。经营资料不等于成交或盈利证明，购买动机与七关是编辑分析，不是客户访谈结论。</p><p>实验成本：${escapeHtml(item.costLabel)}。这是整案实验口径，不是原企业成本或每个节点的独立报价。</p>${urls.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">来源 ${index + 1} · ${escapeHtml(new URL(url).hostname)} ↗</a>`).join('') || '<p>暂无可打开的来源链接，请先补充依据。</p>'}</section>`;
+  const sources = item.proofSources.map(source => ({ ...source, safeUrl: safeSourceUrl(source.url) })).filter(source => source.safeUrl);
+  return `<section class="source-panel" aria-label="这条案例的公开证据"><div class="source-panel-head"><h2>这条案例的公开证据</h2><span>${escapeHtml(item.sourceStatusLabel)} · ${escapeHtml(item.evidenceCheckedOn)}</span></div><p><strong>当时核对到：</strong>${escapeHtml(item.originalEvidence)}</p><div class="proof-list">${sources.map((source, index) => `<div class="proof-source"><strong>来源 ${index + 1}：${escapeHtml(source.label)}</strong><small>${escapeHtml(source.publisher)} · ${escapeHtml(source.access)} · ${escapeHtml(source.checkedOn)}</small><a href="${escapeHtml(source.safeUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.safeUrl)} ↗</a></div>`).join('') || '<p>暂无可打开的来源链接，请先补充依据。</p>'}</div><p class="proof-boundary">证明范围：公开页面可见的产品或服务信息；不等于独立审计过的成交、利润或复购。购买动机与七关是编辑分析。索引线索不等同于已直接打开官方页面。</p></section>`;
 }
 
 function businessBriefMarkup(item) {
@@ -79,6 +80,23 @@ function icon(name, className = '') {
 
 function escapeHtml(value = '') {
   return String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+}
+
+function assetMapMarkup(map, interactive = false) {
+  const root = map.root;
+  const mode = interactive ? 'case' : 'node';
+  return `<div class="connected-map connected-map--${mode}${interactive ? '' : ' asset-card-detail'}" data-asset-map="${mode}" role="group" aria-label="${escapeHtml(root.title)}的资产关系导图">
+    <div class="connected-map-root" style="--asset-color:${escapeHtml(root.color)}"><span>${interactive ? '案例根节点' : '阶段根节点'}</span><strong>${escapeHtml(root.title)}</strong>${root.subtitle ? `<p>${escapeHtml(root.subtitle)}</p>` : ''}</div>
+    <ol class="connected-map-branches" aria-label="${interactive ? '按顺序展开的阶段资产卡' : '阶段内容与可复用资产'}">${map.branches.map(branch => {
+      const heading = `<span class="connected-map-card-heading">${branch.number ? `<span class="connected-map-number">${escapeHtml(branch.number)}</span>` : ''}<strong>${escapeHtml(branch.title)}</strong>${interactive ? '<span class="connected-map-open" aria-hidden="true">↗</span>' : ''}</span>`;
+      const summary = branch.summary ? `<span class="connected-map-summary">${escapeHtml(branch.summary)}</span>` : '';
+      const values = Array.isArray(branch.items) ? branch.items : [];
+      const items = values.length ? interactive
+        ? `<span class="connected-map-items" role="list" aria-label="${escapeHtml(branch.title)}的资产类别">${values.map(value => `<span role="listitem">${escapeHtml(value)}</span>`).join('')}</span>`
+        : `<ul class="connected-map-items" aria-label="${escapeHtml(branch.title)}的具体内容">${values.map(value => `<li>${escapeHtml(value)}</li>`).join('')}</ul>` : '';
+      return `<li class="connected-map-branch" style="--asset-color:${escapeHtml(branch.color)}"><span class="connected-map-wire" aria-hidden="true"></span>${interactive ? `<button class="connected-map-card" data-node-id="${escapeHtml(branch.id)}" aria-label="查看第${escapeHtml(branch.number)}阶段：${escapeHtml(branch.title)}">${heading}${summary}${items}</button>` : `<div class="connected-map-card">${heading}${summary}${items}</div>`}</li>`;
+    }).join('')}</ol>
+  </div>`;
 }
 
 function clearRuntime() {
@@ -120,7 +138,7 @@ function pageHeader(title, subtitle, action = '') {
 function renderHome() {
   app.innerHTML = `
     <section class="page home-page">
-      ${pageHeader('青创拼拼', '看懂商业项目，从卖点到交付收款')}
+      ${pageHeader('轻创拼拼', '看懂商业项目，从卖点到交付收款')}
       <div class="home-stage">
         <section class="hero-thesis" aria-label="项目探索入口">
           <p class="eyebrow">普通人 · 低成本起步优先</p>
@@ -136,13 +154,41 @@ function renderHome() {
         </section>
         <div class="universe-stage product-hero">
           <canvas id="universe-canvas" aria-label="固定区域内的${caseLibraryMeta.total}案例星球，全部免费阅读全文"></canvas>
+          <div class="universe-controls" role="group" aria-label="案例星球视图控制">
+            <button type="button" data-universe-control="pause" aria-pressed="false">暂停公转</button>
+            <button type="button" data-universe-control="reset">恢复视角</button>
+          </div>
           <div class="hero-live"><span><i class="pulse-dot"></i>每颗小星球 = 1 个案例</span><span>${caseLibraryMeta.free} 个案例全部免费阅读</span><span>拖动旋转 · 点击案例 · 星球区域不会随页面上下滚动</span></div>
         </div>
       </div>
     </section>
   `;
   const canvas = document.querySelector('#universe-canvas');
-  cleanup = createUniverse(canvas, cases, caseId => caseId === 'core' ? switchTab('cases') : openCase(caseId));
+  const universe = createUniverse(canvas, cases, caseId => caseId === 'core' ? switchTab('cases') : openCase(caseId));
+  const pauseButton = document.querySelector('[data-universe-control="pause"]');
+  const resetButton = document.querySelector('[data-universe-control="reset"]');
+  if (!pauseButton || !resetButton) { cleanup = universe; return; }
+  const reduced = Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+  const syncPauseButton = () => {
+    const paused = universe.isPaused();
+    pauseButton.setAttribute('aria-pressed', String(paused));
+    pauseButton.textContent = reduced ? '静态浏览' : paused ? '继续公转' : '暂停公转';
+    pauseButton.disabled = reduced;
+    if (reduced) pauseButton.title = '已跟随系统设置减少动态，仍可拖动查看星球';
+  };
+  const togglePause = () => {
+    universe.setPaused(!universe.isPaused());
+    syncPauseButton();
+  };
+  const resetView = () => { universe.resetView(); showToast('已恢复初始视角'); };
+  pauseButton.addEventListener('click', togglePause);
+  resetButton.addEventListener('click', resetView);
+  syncPauseButton();
+  cleanup = () => {
+    pauseButton.removeEventListener('click', togglePause);
+    resetButton.removeEventListener('click', resetView);
+    universe();
+  };
 }
 
 function renderCases() {
@@ -154,7 +200,7 @@ function renderCases() {
     <section class="page cases-page">
       ${pageHeader('商业项目案例库', `${caseLibraryMeta.total}个目录 · 看清买家、卖点、交付和收款`)}
       <button class="filter-chip" data-action="starter-cases">低成本试做优先</button>
-      <p class="case-access-note">当前 ${caseLibraryMeta.free} 个案例全部免费，可直接阅读完整七关与公开来源。</p>
+      <p class="case-access-note">当前 ${caseLibraryMeta.free} 个案例全部免费；${caseLibraryMeta.officialPageCount} 条有官方公开页面记录，${caseLibraryMeta.indexOnlyCount} 条仅有官方页面索引线索。详情可查原始来源；经营结果未经独立审计。</p>
       <div class="case-search"><label for="case-search">搜索名称、行业或价值主张<input id="case-search" type="search" value="${escapeHtml(state.caseKeyword)}" placeholder="例如：内容、社区、工具" autocomplete="off" /></label><button class="quiet-action" data-action="reset-cases">重置筛选</button></div>
       <div class="filter-bar" role="group" aria-label="收藏筛选">
         <button class="filter-chip ${state.savedOnly ? 'active' : ''}" data-action="saved-cases" aria-pressed="${state.savedOnly}">我的收藏 (${state.favorites.length})</button>
@@ -171,7 +217,7 @@ function renderCases() {
           <p class="eyebrow">FREE CASE / SEVEN-STAGE DNA</p>
           <h2>${featuredCase.title}</h2>
           <p>${featuredCase.value}</p>
-          <div class="tag-row"><span>${featuredCase.industry}</span><span>${featuredCase.accessLabel}</span><span>${featuredCase.evidenceLabel}</span></div>
+          <div class="tag-row"><span>${featuredCase.industry}</span><span>${featuredCase.accessLabel}</span><span>${escapeHtml(featuredCase.sourceStatusLabel)} · ${escapeHtml(featuredCase.evidenceCheckedOn)}</span></div>
           <button class="primary-button" data-case-id="${featuredCase.id}">查看七关 DNA ${icon('chevron-right')}</button>
         </div>
         <div class="score-seal"><strong>${caseLibraryMeta.free}</strong><small>免费全文</small></div>
@@ -185,6 +231,7 @@ function renderCases() {
               <span class="case-card-index">${String(index + 1).padStart(2, '0')}</span>
               <div class="case-card-head"><span>${item.industry}</span><strong>免费全文</strong></div>
               <h3>${item.title}</h3>
+              <span class="case-evidence ${item.sourceTier === 'official_index' ? 'is-index' : ''}">${escapeHtml(item.sourceStatusLabel)} · ${escapeHtml(item.evidenceCheckedOn)}</span>
               <p class="case-offer"><b>卖什么</b> ${escapeHtml(item.offer)}</p>
               <p class="case-payer"><b>谁付钱</b> ${escapeHtml(item.payer)}</p>
               <div class="case-card-foot"><span>查看七关拆解</span><span>${item.difficultyLabel.split('：')[0]}</span>${icon('chevron-right')}</div>
@@ -247,8 +294,9 @@ function renderCaseDetail() {
         <div><p class="eyebrow">CASE / ${item.id.toUpperCase()}</p><h1>${item.title}</h1></div>
         ${bookmarkMarkup(item)}
       </header>
+      ${sourcesMarkup(item)}
       ${businessBriefMarkup(item)}
-      <section class="trade-summary" aria-label="交付与收钱"><h2>最后交付什么，钱怎么收？</h2><dl><div><dt>交付物</dt><dd>${escapeHtml(item.delivery)}</dd></div><div><dt>收费方式</dt><dd>${escapeHtml(item.chargingModel)}</dd></div><div><dt>钱的去向</dt><dd>${escapeHtml(item.moneyFlow)}</dd></div><div><dt>起步需要的能力</dt><dd>${escapeHtml(item.entryRequirements)}</dd></div></dl><p>低成本不等于零技能。以下是经营结构分析；收款时点、实际到账与净利润尚未独立核实。</p></section>
+      <section class="trade-summary" aria-label="交付与收钱"><h2>最后交付什么，钱怎么收？</h2><dl><div><dt>交付物</dt><dd>${escapeHtml(item.delivery)}</dd></div><div><dt>收费方式</dt><dd>${escapeHtml(item.chargingModel)}</dd></div><div><dt>钱的去向</dt><dd>${escapeHtml(item.moneyFlow)}</dd></div><div><dt>起步需要的能力</dt><dd>${escapeHtml(item.entryRequirements)}</dd></div></dl><p>低成本不等于零技能。以下是经营结构分析；收款时点、实际到账与净利润应以原企业账目为准。</p></section>
       <section class="transaction-story" aria-label="从卖点到收款的完整过程"><h2>从卖点到交付、收款</h2><ol>${editorialNodes.map(node => `<li><h3>${escapeHtml(node.name)}</h3><p>${escapeHtml(node.method)}</p></li>`).join('')}</ol></section>
       <h2 class="dna-heading">商业 DNA · 辅助理解，不代替案例正文</h2>
       <div class="dna-layout">
@@ -260,7 +308,7 @@ function renderCaseDetail() {
             <button class="icon-button" data-dna="in" aria-label="放大" title="放大">${icon('zoom-in')}</button>
             <button class="icon-button" data-dna="out" aria-label="缩小" title="缩小">${icon('zoom-out')}</button>
           </div>
-          <div class="dna-score"><span>证据状态</span><strong>E1</strong><small>公开运营依据</small></div>
+          <div class="dna-score"><span>公开资料</span><strong>${escapeHtml(item.sourceStatusLabel)}</strong><small>经营结果以实际账目为准</small></div>
         </section>
         <aside class="case-intel">
           <p class="eyebrow">SEVEN-STAGE BUSINESS SEQUENCE</p>
@@ -272,12 +320,9 @@ function renderCaseDetail() {
       </div>
       <div class="dna-stage-legend" aria-label="创业阶段配色">${Object.entries(dnaTheme.stages).map(([id, stage]) => `<span data-stage-color="${id}"><i style="background:${stage.color}"></i>${stage.label}</span>`).join('')}</div>
       <section class="node-index">
-        <div class="section-heading"><div><p class="eyebrow">7 BUSINESS STAGES</p><h2>阶段资产卡</h2></div><span class="result-count">从卖点定位出发，以复购裂变收尾</span></div>
-        <div class="node-ribbon">
-          ${nodes.map((node, index) => `<button data-node-id="${node.id}"><i style="--node-color:${stageForNode(node).color}"></i><span>${String(index + 1).padStart(2, '0')}</span><strong>${node.name}</strong></button>`).join('')}
-        </div>
+        <div class="section-heading"><div><p class="eyebrow">CONNECTED ASSET MAP</p><h2>阶段资产导图</h2></div><span class="result-count">沿导线查看七阶段，点击卡片展开资产</span></div>
+        ${assetMapMarkup(buildCaseMap(item.title, nodes), true)}
       </section>
-      ${sourcesMarkup(item)}
       <div class="detail-next"><button class="primary-button" data-action="case-to-canvas">把这份案例的七关加入画布 ${icon('nodes')}</button><button class="secondary-button" data-tab="canvas">查看我的画布</button></div>
       <div id="node-sheet"></div>
     </section>
@@ -306,12 +351,6 @@ function openNode(node) {
   const item = state.selectedNode;
   const card = raw?.assetCard;
   const isBusinessStage = Boolean(card);
-  const assetGroups = card ? [
-    ['流量资产', card.assets?.traffic],
-    ['内容资产', card.assets?.content],
-    ['用户资产', card.assets?.user],
-    ['交付资产', card.assets?.delivery],
-  ].filter(([, values]) => Array.isArray(values) && values.length) : [];
   const saved = state.savedStages.includes(item.id);
   activeDna?.setSelected(item.id, item.visualChain);
   sheet.innerHTML = `
@@ -320,7 +359,7 @@ function openNode(node) {
         <div class="sheet-accent" style="--node-color:${item.color}"></div>
         <header><div><p class="eyebrow">${item.stageLabel} · ${item.visualChainLabel}</p><h2 id="node-title">${item.name}</h2></div><button class="icon-button" data-action="close-node" aria-label="关闭">${icon('x')}</button></header>
         <p class="evidence-note">来自：${escapeHtml(state.detailCase?.title || item.sourceTitle || '内置案例')}<br />整案实验成本：${escapeHtml(state.detailCase?.costLabel || item.costLabel || '待核算')}<br />阶段拆解是编辑分析参考，不是已验证收益。</p>
-        ${card ? `<dl class="asset-card-detail"><div><dt>目标</dt><dd>${escapeHtml(card.goal)}</dd></div><div><dt>具体怎么做</dt><dd>${escapeHtml(card.how)}</dd></div><div><dt>适用赛道</dt><dd>${escapeHtml(card.tracksText)}</dd></div>${assetGroups.map(([label, values]) => `<div><dt>${label}</dt><dd>${values.map(value => `<span class="asset-chip">${escapeHtml(value)}</span>`).join('')}</dd></div>`).join('')}<div><dt>成本 / 难度</dt><dd>${escapeHtml(card.cost)} / ${escapeHtml(card.difficulty)}</dd></div><div><dt>风险提示</dt><dd>${escapeHtml(card.riskNote || card.risk)}</dd></div><div><dt>可复用点</dt><dd>${escapeHtml(card.reuse)}</dd></div></dl>` : `<dl><div><dt>环节定义</dt><dd>${escapeHtml(item.definition)}</dd></div><div><dt>执行方法</dt><dd>${escapeHtml(item.method)}</dd></div><div><dt>可复用资产</dt><dd>${escapeHtml(item.reuse)}</dd></div></dl>`}
+        ${assetMapMarkup(buildNodeMap(raw || item))}
         ${isBusinessStage ? `<button class="primary-button full" data-save-stage="${item.id}">${saved ? '已保存到本地工作台' : '保存阶段资产卡'} ${saved ? icon('check') : icon('bookmark')}</button>` : `<button class="primary-button full" data-add-node="${item.id}">${state.canvasNodes.includes(item.id) ? '此案例节点已在画布' : '保留案例内容，加入画布'} ${icon('plus')}</button>`}
       </section>
     </div>
@@ -466,7 +505,7 @@ function renderCanvas() {
       ${pageHeader('商业画布', '保留案例方法与来源，组合自己的验证路径')}
       <p class="local-note">保存在当前浏览器，不跨设备同步。完整度仅表示环节覆盖；演示评分不代表盈利概率。案例节点的成本与风险需要另行核算。</p>
       <div class="canvas-summary">
-        <div class="score-gauge" style="--score:${metrics.score * 3.6}deg"><div><strong>${metrics.sourced ? '—' : metrics.score}</strong><span>${metrics.sourced ? '待验证' : '演示分'}</span></div></div>
+        <div class="score-gauge" style="--score:${metrics.score * 3.6}deg"><div><strong>${metrics.sourced ? '—' : metrics.score}</strong><span>${metrics.sourced ? '方案待实测' : '演示分'}</span></div></div>
         <div class="canvas-metrics"><span><small>环节覆盖</small><strong>${metrics.completeness}%</strong></span><span><small>${metrics.sourced ? '整案成本' : '模板成本示例'}</small><strong>${metrics.cost}</strong></span><span><small>${metrics.sourced ? '实际风险' : '模板风险示例'}</small><strong>${metrics.risk}</strong></span></div>
         <div class="canvas-diagnosis"><p class="eyebrow">NEXT EXPERIMENT</p><strong>先核实需求，再验证首次成交</strong><p>节点齐全不等于业务成立。请检查目标用户、交付边界与现实成本。</p><button class="primary-button" data-action="open-validation">打开 7 天验证清单 ${icon('chevron-right')}</button></div>
       </div>

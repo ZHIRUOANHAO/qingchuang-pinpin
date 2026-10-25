@@ -1,0 +1,27 @@
+<view wx:if="{{map && map.root}}" class="asset-map" aria-label="{{map.root.title + '资产关系导图'}}">
+  <view class="map-root {{map.branches.length ? 'has-branches' : ''}}">
+    <text class="root-label">资产导图</text>
+    <text class="root-title">{{map.root.title}}</text>
+    <text wx:if="{{map.root.subtitle}}" class="root-subtitle">{{map.root.subtitle}}</text>
+  </view>
+  <view wx:if="{{map.branches.length}}" class="map-branches">
+    <view wx:for="{{map.branches}}" wx:key="id" wx:for-item="branch" class="map-branch {{index === map.branches.length - 1 ? 'last-branch' : ''}}">
+      <button wx:if="{{interactive}}" class="branch-card branch-button {{selectedId === branch.id ? 'selected' : ''}}" hover-class="branch-pressed" data-id="{{branch.id}}" bindtap="selectBranch" aria-label="{{'查看' + branch.title + '资产卡'}}">
+        <view class="branch-heading"><text class="branch-number" style="color: {{branch.color || '#d9bb72'}}">{{branch.number || index + 1}}</text><text class="branch-title">{{branch.title}}</text><text class="branch-action">查看 ›</text></view>
+        <text wx:if="{{branch.summary}}" class="branch-summary">{{branch.summary}}</text>
+        <view wx:if="{{branch.items.length}}" class="asset-items">
+          <view wx:for="{{branch.items}}" wx:for-item="asset" wx:key="*this" class="asset-item {{index === branch.items.length - 1 ? 'last-item' : ''}}"><text>{{asset}}</text></view>
+        </view>
+      </button>
+      <view wx:else class="branch-card">
+        <view class="branch-heading"><text class="branch-number" style="color: {{branch.color || '#d9bb72'}}">{{branch.number || index + 1}}</text><text class="branch-title">{{branch.title}}</text></view>
+        <text wx:if="{{branch.summary}}" class="branch-summary">{{branch.summary}}</text>
+        <view wx:if="{{branch.items.length}}" class="asset-items">
+          <view wx:for="{{branch.items}}" wx:for-item="asset" wx:key="*this" class="asset-item {{index === branch.items.length - 1 ? 'last-item' : ''}}"><text>{{asset}}</text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <text wx:else class="map-empty">这张资产卡暂未补充具体分支。</text>
+</view>
+<view wx:else class="map-empty" role="status">暂无资产关系信息，可返回案例重新选择。</view>

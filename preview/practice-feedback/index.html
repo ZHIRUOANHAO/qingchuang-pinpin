@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>轻创拼拼 · 案例与实践</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="项目导航">
+        <a class="brand" href="./index.html" aria-label="轻创拼拼首页">
+          <svg class="brand-mark" viewBox="0 0 40 48" fill="none" aria-hidden="true"><path d="M8 5C33 17 7 31 32 43M32 5C7 17 33 31 8 43" stroke="currentColor" stroke-width="2.5"/><path d="M8 5H32M14 14H26M17 24H23M14 34H26M8 43H32" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="5" r="3" fill="currentColor"/><circle cx="32" cy="43" r="3" fill="currentColor"/></svg>
+          <span>轻创拼拼<small>从案例，走向实践</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="主要页面">
+          <button class="nav-button is-current" data-view="library" aria-current="page"><span class="nav-symbol" aria-hidden="true">▦</span>案例库</button>
+          <button class="nav-button" data-view="drafts"><span class="nav-symbol" aria-hidden="true">▤</span>我的记录<span id="draft-count" class="nav-count">0</span></button>
+        </nav>
+        <div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span><p>下一版可体验预览<small>共享评论尚未接通<br />记录仅保存在本机</small></p></div>
+        <a class="back-link" href="../index.html">返回现有预览 <span aria-hidden="true">↗</span></a>
+      </aside>
+      <main id="main-content" class="main-content" tabindex="-1">
+        <header class="topbar"><span class="eyebrow">案例 · 行动 · 证据</span><span class="preview-badge">可体验预览</span></header>
+        <section id="library-view" aria-labelledby="library-title">
+          <div class="page-heading"><div><h1 id="library-title">生活里的小尝试</h1><p>选一个练习，今天做出一页小交付。</p><small class="sharing-state">本机记录 · 暂未公开</small></div></div>
+          <div id="exercise-grid" class="exercise-grid" aria-label="生活里的入门情境练习"></div>
+          <div class="practice-note"><span class="note-number" aria-hidden="true">01—03</span><div><strong>做了什么，结果怎样，证据在哪。</strong><p>实践记录支持有效、部分有效、未达预期和仍在观察。让下一位使用者看懂适用条件。</p><small class="sharing-state">本机记录 · 暂未公开，共享评论尚未接通</small></div><span class="chain-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          <div class="advanced-heading"><div><h2>进阶参考案例</h2><p>想进一步了解做法，再看真实工具与业务的公开来源。</p></div><span class="library-total"><strong id="catalog-total">—</strong> 个公开案例</span></div>
+          <div class="search-row"><div class="search-box"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><label class="visually-hidden" for="case-search">搜索案例、行业或关键词</label><input id="case-search" type="search" placeholder="搜索案例、行业或关键词" autocomplete="off" /></div><label class="industry-label"><span class="visually-hidden">按领域筛选</span><select id="industry-filter"><option value="">全部领域</option></select></label></div>
+          <div class="filter-row"><div class="filter-group" role="group" aria-label="案例筛选"><button class="filter-button is-active" data-filter="all" aria-pressed="true">全部案例</button><button class="filter-button" data-filter="轻量试做" aria-pressed="false">轻量试做</button><button class="filter-button" data-filter="技能试做" aria-pressed="false">技能试做</button><button class="filter-button" data-filter="favorites" aria-pressed="false">已收藏</button></div><p id="results-count" class="results-count" role="status" aria-live="polite"></p></div>
+          <div id="case-grid" class="case-grid" aria-label="案例列表"></div>
+          <div id="case-empty" class="empty-state" hidden><span class="empty-symbol" aria-hidden="true">⌕</span><h2>暂时没有匹配的案例</h2><p>试试较短的关键词，或清除领域和标签筛选。</p><button class="button secondary" id="reset-filters">清除筛选</button></div>
+        </section>
+        <section id="drafts-view" aria-labelledby="drafts-title" hidden><div class="page-heading"><div><h1 id="drafts-title">我的记录</h1><p>保存做法与结果，也留下还没想清楚的问题。</p></div><span class="local-badge">仅本机可见</span></div><div class="privacy-note">这些是你的本机草稿，不是公开评论。复制摘要后可自行分享；其他人目前看不到这里的内容。</div><div id="draft-list" class="draft-list"></div><div id="drafts-empty" class="empty-state" hidden><span class="empty-symbol" aria-hidden="true">▤</span><h2>还没有本机记录</h2><p>选择一个案例，写下你实际做过的动作、结果和证据。未达预期的尝试同样值得记录。</p><button class="button primary" data-view="library">去看案例</button></div></section>
+        <footer class="page-footer">公开来源帮助理解案例。个人尝试的结果，需要结合条件与证据判断。</footer>
+      </main>
+    </div>
+    <dialog id="case-dialog" class="case-dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <noscript><p class="load-error">请启用 JavaScript 以查看案例和保存本机记录。</p></noscript>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

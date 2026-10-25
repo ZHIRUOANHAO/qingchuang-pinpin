@@ -1,0 +1,62 @@
+<view class="practice-page">
+  <safe-top></safe-top>
+  <view class="practice-shell">
+    <view class="practice-nav">
+      <button class="icon-button" aria-label="返回上一页" bindtap="back">‹</button>
+      <text class="nav-title">做一次，留下真实反馈</text>
+    </view>
+    <view wx:if="{{pageError}}" class="notice error-notice">
+      <text>{{pageError}}</text>
+      <button class="secondary-button" bindtap="viewRecords">查看我的记录</button>
+    </view>
+    <block wx:elif="{{record}}">
+      <view class="intro">
+        <text class="eyebrow">{{exercise ? '生活化入门练习' : '案例实践记录'}} · 仅本机</text>
+        <text class="page-title">{{exercise ? exercise.title : record.caseTitle}}</text>
+        <text class="intro-body">{{exercise ? exercise.need : '尝试一个具体动作，把实际做法、条件、结果和证据一起留下。没有结论时，也可以如实记录。'}}</text>
+        <picker wx:if="{{exercise &amp;&amp; !lockedSource}}" range="{{exercises}}" range-key="shortTitle" value="{{exerciseIndex}}" bindchange="changeExercise">
+          <view class="picker-control">换一个练习：{{exercises[exerciseIndex].shortTitle}} ▾</view>
+        </picker>
+      </view>
+      <view wx:if="{{exercise}}" class="exercise-plan panel">
+        <text class="section-kicker">这次做出什么</text>
+        <text class="deliverable">{{exercise.deliverable}}</text>
+        <view class="first-step"><text>今天第一步</text><text>{{exercise.firstStep}}</text></view>
+        <view wx:for="{{exercise.steps}}" wx:key="title" class="exercise-step">
+          <text class="step-number">0{{index + 1}}</text>
+          <view><text class="step-title">{{item.title}}</text><text class="step-body">{{item.body}}</text></view>
+        </view>
+        <view class="exercise-note"><text>需要准备</text><text>{{exercise.needs}}</text></view>
+        <view class="exercise-note"><text>记录什么</text><text>{{exercise.recordHint}}</text></view>
+        <view class="exercise-note"><text>暂时没对象怎么办</text><text>{{exercise.fallback}}</text></view>
+      </view>
+      <view class="reference-block">
+        <text>{{exercise ? exercise.reference : '参考案例：' + record.caseTitle}}</text>
+        <button class="text-button" bindtap="viewReference">查看参考案例 →</button>
+      </view>
+      <view class="record-section">
+        <view class="section-heading"><text class="section-title">留下这次尝试</text><text class="section-note">可随时暂存</text></view>
+        <text class="local-note">只保存在当前设备。这里没有公开评论、自动上传或跨设备同步。</text>
+        <view class="type-tabs">
+          <button class="type-tab {{record.type === 'practice' ? 'selected' : ''}}" data-type="practice" bindtap="changeType">实践记录</button>
+          <button class="type-tab {{record.type === 'question' ? 'selected' : ''}}" data-type="question" bindtap="changeType">先记一个问题</button>
+        </view>
+        <block wx:if="{{record.type === 'practice'}}">
+          <view class="field"><text class="field-title">实际做法 *</text><textarea class="form-textarea" aria-label="实际做法" value="{{record.action}}" data-field="action" maxlength="2000" placeholder="你为谁做了什么？尝试了哪一步？" placeholder-class="form-placeholder" bindinput="inputField"></textarea><text wx:if="{{errors.action}}" class="field-error">{{errors.action}}</text></view>
+          <view class="field"><text class="field-title">实践时间或周期 *</text><input class="form-input" aria-label="实践时间或周期" value="{{record.period}}" data-field="period" maxlength="200" placeholder="例如：10 月 21 日，投入约 40 分钟" placeholder-class="form-placeholder" bindinput="inputField" /><text wx:if="{{errors.period}}" class="field-error">{{errors.period}}</text></view>
+          <view class="field"><text class="field-title">条件与限制 *</text><textarea class="form-textarea" aria-label="条件与限制" value="{{record.context}}" data-field="context" maxlength="2000" placeholder="对象、人数、工具、成本及限制；示例练习请明确说明" placeholder-class="form-placeholder" bindinput="inputField"></textarea><text wx:if="{{errors.context}}" class="field-error">{{errors.context}}</text></view>
+          <view class="field"><text class="field-title">本次结果</text><picker range="{{outcomeOptions}}" value="{{outcomeIndex}}" bindchange="changeOutcome"><view class="picker-control">{{outcomeOptions[outcomeIndex]}} ▾</view></picker></view>
+          <view class="field"><text class="field-title">观察到的结果 *</text><textarea class="form-textarea" aria-label="观察到的结果" value="{{record.result}}" data-field="result" maxlength="3000" placeholder="具体发生了什么？未达到预期、还在等待都可以如实写" placeholder-class="form-placeholder" bindinput="inputField"></textarea><text wx:if="{{errors.result}}" class="field-error">{{errors.result}}</text></view>
+          <view class="field"><text class="field-title">证据说明 *</text><textarea class="form-textarea" aria-label="证据说明" value="{{record.evidence}}" data-field="evidence" maxlength="4000" placeholder="如：样稿前后差异、去标识化反馈、试读用时；说明资料由谁保留" placeholder-class="form-placeholder" bindinput="inputField"></textarea><text wx:if="{{errors.evidence}}" class="field-error">{{errors.evidence}}</text></view>
+          <view class="field"><text class="field-title">公开证据链接 · 可选</text><input class="form-input" aria-label="公开证据链接" value="{{record.evidenceUrl}}" data-field="evidenceUrl" maxlength="2048" placeholder="https://，不填账号密码或私密链接" placeholder-class="form-placeholder" bindinput="inputField" /><text class="field-hint">只记录链接，不会自动打开或核验证据。请勿放入他人的个人信息。</text><text wx:if="{{errors.evidenceUrl}}" class="field-error">{{errors.evidenceUrl}}</text></view>
+        </block>
+        <view class="field"><text class="field-title">{{record.type === 'question' ? '具体问题 *' : '补充评论 · 可选'}}</text><textarea class="form-textarea" aria-label="补充评论或具体问题" value="{{record.comment}}" data-field="comment" maxlength="2000" placeholder="{{record.type === 'question' ? '写下卡住的步骤和已经试过的办法，仅自己可见' : '这次还有哪些发现？下次准备改哪里？'}}" placeholder-class="form-placeholder" bindinput="inputField"></textarea><text wx:if="{{errors.comment}}" class="field-error">{{errors.comment}}</text></view>
+        <view class="notice"><text>{{exercise ? '情境练习不等于原案例经营复现。' : '记录是你的个人自述。'}} 保存后仍为本机记录，不会把原案例标为已验证，也不会对外发布。</text></view>
+        <view wx:if="{{errorMessage}}" class="notice error-notice"><text>{{errorMessage}}</text><button class="text-button" bindtap="copyCurrent">先复制当前内容</button></view>
+        <view wx:if="{{savedMessage}}" class="notice saved-notice"><text>{{savedMessage}}</text><button class="text-button" bindtap="viewRecords">查看我的记录 →</button></view>
+        <view class="save-actions"><button class="secondary-button" bindtap="saveDraft">暂存草稿</button><button class="primary-button" bindtap="saveComplete">{{record.type === 'question' ? '保存本机问题' : '保存实践记录'}}</button></view>
+        <button class="text-button records-link" bindtap="viewRecords">我的记录与草稿 →</button>
+      </view>
+    </block>
+  </view>
+</view>

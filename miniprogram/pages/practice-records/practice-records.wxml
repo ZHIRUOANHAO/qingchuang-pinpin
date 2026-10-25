@@ -1,0 +1,23 @@
+<view class="records-page">
+  <safe-top></safe-top>
+  <view class="records-shell">
+    <view class="records-nav"><button class="icon-button" aria-label="返回上一页" bindtap="back">‹</button><text>我的实践记录</text></view>
+    <view class="records-intro"><text class="eyebrow">实际做过，再如实记录</text><text class="page-title">把尝试留下来</text><text class="intro-body">草稿、结果和问题只存在这台设备。卸载小程序或清理数据可能丢失，请按需复制摘要或到设置备份。</text></view>
+    <button class="primary-button new-button" bindtap="newRecord">{{caseId ? '为这个案例写记录' : '从一个入门练习开始'}} ＋</button>
+    <view wx:if="{{caseTitle}}" class="case-filter"><text>参考案例：{{caseTitle}}</text><button class="text-button" bindtap="clearCaseFilter">查看全部</button></view>
+    <view class="filter-row"><button class="filter {{type === '' ? 'selected' : ''}}" data-value="" bindtap="filterType">全部</button><button class="filter {{type === 'practice' ? 'selected' : ''}}" data-value="practice" bindtap="filterType">实践</button><button class="filter {{type === 'question' ? 'selected' : ''}}" data-value="question" bindtap="filterType">问题</button></view>
+    <view class="filter-row status-row"><button class="filter {{status === '' ? 'selected' : ''}}" data-value="" bindtap="filterStatus">所有状态</button><button class="filter {{status === 'draft' ? 'selected' : ''}}" data-value="draft" bindtap="filterStatus">草稿</button><button class="filter {{status === 'record' ? 'selected' : ''}}" data-value="record" bindtap="filterStatus">记录</button></view>
+    <view wx:if="{{errorMessage}}" class="notice error-notice"><text>{{errorMessage}}</text><button class="text-button" bindtap="refresh">重新读取</button></view>
+    <view wx:elif="{{!records.length}}" class="empty-state"><text class="empty-symbol">01</text><text class="empty-title">{{type || status ? '这个筛选下还没有记录' : '先做一次小尝试'}}</text><text class="empty-body">从价目表、简历排版或报名空表开始。哪怕结果尚不确定，也能如实留下条件、做法和反馈。</text></view>
+    <view wx:for="{{records}}" wx:key="id" class="record-card panel">
+      <view class="record-meta"><text>{{typeLabels[item.type]}}</text><text>{{statusLabels[item.status]}}</text><text wx:if="{{item.type === 'practice'}}">{{outcomeLabels[item.outcome]}}</text></view>
+      <text class="record-title">{{item.displayTitle}}</text>
+      <text wx:if="{{item.exerciseId}}" class="source-note">情境练习 · 不代表原案例经营复现</text>
+      <text class="record-excerpt">{{item.excerpt}}</text>
+      <text class="record-time">最后修改 {{item.displayTime}}</text>
+      <view class="record-actions"><button class="secondary-button" data-id="{{item.id}}" bindtap="editRecord">继续编辑</button><button class="secondary-button" data-id="{{item.id}}" bindtap="copyRecord">复制摘要</button></view>
+      <button class="delete-button" data-id="{{item.id}}" bindtap="deleteRecord">删除这条记录</button>
+    </view>
+    <text class="footer-note">记录为个人自述，链接仅供对照，没有自动验证标记。当前不对外发布，也不形成公开评论。</text>
+  </view>
+</view>

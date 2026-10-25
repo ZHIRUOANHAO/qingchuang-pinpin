@@ -20,7 +20,7 @@ const SUPPORTED_MEDIA_TYPES = new Set([
   'application/pdf'
 ])
 
-const SYSTEM_PROMPT = `你是青创拼拼的商业链路分析器。请只输出一个 JSON 对象，不要输出 Markdown。
+const SYSTEM_PROMPT = `你是轻创拼拼的商业链路分析器。请只输出一个 JSON 对象，不要输出 Markdown。
 对象应尽量包含：title、summary、nodes、metrics、warnings。nodes 是数组，每项可包含 id、name、type、chain、definition、method、industries、cost、difficulty、risk、reuse。metrics 可包含 completeness、risk、startupCost、difficulty。不要虚构已验证的收入、流量或支付结果；推断必须明确标注，合规风险要进入 warnings。`
 
 class AppError extends Error {

@@ -4,13 +4,14 @@ const { calculate } = require('../../utils/scoring')
 const { createWorkflow } = require('../../utils/validation')
 
 function toRecord(item) {
+  const nodes = item.displayNodes?.length ? item.displayNodes : item.businessNodes?.length ? item.businessNodes : item.nodes
   return {
     id: item.id,
     title: item.title,
     summary: item.value,
     value: item.value,
-    nodes: item.nodes,
-    metrics: calculate(item.nodes),
+    nodes,
+    metrics: calculate(nodes),
     warnings: [item.compliance, '公开经营资料不等于成交或盈利证明。'].filter(Boolean),
     compliance: item.compliance,
     createdAt: Date.now()
@@ -79,8 +80,8 @@ Page({
   closeNode() { this.setData({ selectedNode: null }) },
 
   copySource(event) {
-    const url = this.data.result.sourceUrls[Number(event.currentTarget.dataset.index)]
-    if (typeof url === 'string' && /^https?:\/\//i.test(url)) wx.setClipboardData({ data: url })
+    const url = this.data.result.proofSources[Number(event.currentTarget.dataset.index)]?.url
+    if (typeof url === 'string' && /^https:\/\//i.test(url)) wx.setClipboardData({ data: url })
   },
 
   saveResult() {
