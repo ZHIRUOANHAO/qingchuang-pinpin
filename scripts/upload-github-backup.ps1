@@ -3,7 +3,8 @@ param(
   [string]$ExpectedLogin = 'ZHIRUOANHAO',
   [string]$Tag = 'backup-2026-10-26',
   [string]$AssetsDirectory = 'output/github-backup-2026-10-26',
-  [string]$Proxy = 'http://127.0.0.1:7897'
+  [string]$Proxy = 'http://127.0.0.1:7897',
+  [string]$UploadProxy = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -76,7 +77,16 @@ try {
     } else {
       Write-Output "Uploading $($qcppFile.Name) ($($qcppFile.Bytes) bytes)"
       $qcppUploadUrl = "https://uploads.github.com/repos/$Repository/releases/$($qcppRelease.id)/assets?name=$([Uri]::EscapeDataString($qcppFile.Name))"
-      $qcppAsset = Invoke-RestMethod @qcppRequest -Method Post -Uri $qcppUploadUrl -ContentType 'application/octet-stream' -InFile $qcppFile.Path
+      $qcppHeaderText = "Authorization: Bearer $($qcppCredential['password'])`nAccept: application/vnd.github+json`nContent-Type: application/octet-stream`nExpect:`nUser-Agent: qingchuang-pinpin-backup"
+      $qcppResponsePath = Join-Path $qcppAssetsRoot ($qcppFile.Name + '.response.json')
+      $qcppProgressPath = Join-Path $qcppAssetsRoot ($qcppFile.Name + '.progress.log')
+      $qcppCurlArgs = @('--http1.1','--connect-timeout','30','--max-time','1800','--speed-limit','1024','--speed-time','60','--progress-bar','--stderr',$qcppProgressPath,'--header','@-','--request','POST','--upload-file',$qcppFile.Path,'--output',$qcppResponsePath,'--write-out','%{http_code}')
+      if ($UploadProxy) { $qcppCurlArgs += @('--proxy',$UploadProxy) } else { $qcppCurlArgs += @('--noproxy','*') }
+      $qcppCurlArgs += $qcppUploadUrl
+      $qcppStatus = $qcppHeaderText | & curl.exe @qcppCurlArgs
+      $qcppHeaderText = $null
+      if ($LASTEXITCODE -ne 0 -or [string]$qcppStatus -ne '201') { throw "Upload failed: $($qcppFile.Name) (HTTP $qcppStatus); see local progress log" }
+      $qcppAsset = Get-Content -LiteralPath $qcppResponsePath -Raw -Encoding UTF8 | ConvertFrom-Json
     }
     if ($qcppAsset.size -ne $qcppFile.Bytes -or $qcppAsset.state -ne 'uploaded') { throw "Remote asset not complete: $($qcppFile.Name)" }
     $qcppVerification = 'github-sha256'

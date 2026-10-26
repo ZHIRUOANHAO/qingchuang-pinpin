@@ -17,6 +17,14 @@ last_updated: 2026-10-26
 - `document-history-2026-10-26.bundle`：独立历史文档仓库的 Git 历史；当前工作副本另外包含在 ZIP 中，不与主仓库压平合并。
 - `catalog.json`、`SHA256SUMS.txt`：同一 Release 中的目录与资产校验清单。
 
+本次大文件以 16 MiB 分卷上传：历史 ZIP 为 17 卷，主仓库 bundle 为 4 卷。文件名分别以 `.part001` 等结尾；`archive-parts.json` 记录顺序、各卷及合并后 SHA256。Release 同时提供 `restore-github-backup.py`，把它、清单和全部分卷下载到同一目录，再执行：
+
+```powershell
+python .\restore-github-backup.py .\archive-parts.json
+```
+
+工具先校验各卷，再生成原始 ZIP 和 bundle，已有文件不会被覆盖。需要 Python 3.11 或以上版本。只有完成合并校验后再使用下文的离线恢复命令。
+
 这是代码和历史备份归档，不是微信小程序上传或发布。当前快照保留了[本轮审核确认但尚未整改的七项问题](../docs/其他问题审核测试-2026-10-26.md)。
 
 ## 既有历史
@@ -65,6 +73,7 @@ git clone .\project-history-2026-10-26.bundle qingchuang-pinpin-restored
 ## 辅助工具
 
 - `scripts/prepare-github-backup.py`：根据盘点清单生成净化归档和目录，并逐项校验内容。
+- `scripts/restore-github-backup.py`：校验并合并分卷，恢复原始归档。
 - `scripts/upload-github-backup.ps1`：复用现有 Git Credential Manager 授权，核对账号、私有仓库及远端标签，上传归档并检查 GitHub SHA256 或下载内容。不会启动账号登录，也不会覆盖同名但不同内容的远端资产。
 
 盘点输入和实际上传回执放在本机 `output/`，不包含认证凭据。仓库内 `catalog.json` 是备份内容的持久索引，执行状态以远端提交、标签、Release 及本机校验回执为准。
