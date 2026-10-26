@@ -148,7 +148,7 @@ test('every custom navigation page registers and renders safe-top', () => {
     const config = JSON.parse(read(`${page}.json`));
     if (config.navigationStyle !== 'custom') continue;
     assert.equal(config.usingComponents['safe-top'], '/components/safe-top/safe-top', page);
-    assert.match(read(`${page}.wxml`), /<safe-top>/, page);
+    assert.match(read(`${page}.wxml`), /<safe-top(?:\s[^>]*)?>/, page);
   }
 });
 

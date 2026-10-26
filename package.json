@@ -11,6 +11,7 @@
     "test:native-dna": "node tests/native-dna-browser.mjs",
     "test:native-ui": "node tests/native-ui.mjs",
     "test:orbits": "node tests/orbit-experience.mjs",
+    "test:home": "node tests/native-home-layout.mjs",
     "test:assets": "node tests/asset-map.mjs",
     "test:cases": "node tests/case-library.mjs",
     "test:experience": "node tests/experience.mjs",

@@ -39,7 +39,7 @@ try {
     page.on('pageerror', error => failures.push(error.message));
     const markup = source.replace(/\{\{([\s\S]*?)\}\}/g, (_, expression) => String(vm.runInNewContext(expression, data)))
       .replace(/disabled="false"/g, '')
-      .replace('<safe-top>', `<safe-top style="height:${device.safeTop}px">`);
+      .replace(/<safe-top([^>]*)>/, `<safe-top$1 style="height:${device.safeTop}px">`);
     await page.setContent(`<style>
       html,body{margin:0;width:100%;height:100%;overflow:hidden}page,view{display:block}page{height:100%}
       text{display:inline}button{position:relative;display:block;width:100%;margin-left:auto;margin-right:auto;padding:0 14px;font-size:18px;line-height:2.55556;text-align:center;border:0;flex-shrink:0}

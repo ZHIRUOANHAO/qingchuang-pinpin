@@ -1,24 +1,24 @@
 <view class="home-fixed">
   <galaxy-backdrop></galaxy-backdrop>
-  <safe-top></safe-top>
+  <safe-top class="home-safe-top"></safe-top>
   <view class="nav-bar"><view class="brand-block"><text class="brand">轻创拼拼</text><text class="brand-sub">看懂商业项目，从卖点到交付验证</text></view><button class="icon-button" aria-label="浏览全部案例" bindtap="openCases">⌕</button></view>
   <view class="home-intro">
     <text class="eyebrow">普通人 · 低成本起步优先</text>
     <text class="home-title">一门生意如何运转？</text>
     <text class="home-description">卖什么、谁愿意买、为什么买，最后如何交付并验证闭环。</text>
-    <view class="home-actions"><button class="primary-button" bindtap="openStarterCases">低成本试做</button><button class="secondary-button" bindtap="openFeatured">打开完整案例</button></view>
+    <view class="home-actions"><button class="primary-button home-action" bindtap="openStarterCases">低成本试做</button><button class="secondary-button home-action" bindtap="openFeatured">打开完整案例</button></view>
     <text class="scope-note scope-note-full">当前 {{caseLibraryMeta.total}} 条案例附可核对来源，其中 {{caseLibraryMeta.officialPageCount}} 条有官方公开页面记录、{{caseLibraryMeta.indexOnlyCount}} 条仅有官方页面索引线索；均不代表已审计成交或利润。</text>
     <text class="scope-note scope-note-compact">{{caseLibraryMeta.total}} 条案例附公开来源；不代表已审计成交或利润，详见案例说明。</text>
   </view>
   <view class="orbit-controls">
     <text class="orbit-state">{{reducedMotion ? '静态省电' : orbitPaused ? '已暂停 · 方便点选' : '沿轨道缓行 · 按住即停'}}</text>
-    <button class="orbit-button" disabled="{{reducedMotion}}" aria-label="{{orbitPaused ? '继续星球公转' : '暂停星球公转'}}" aria-pressed="{{orbitPaused || reducedMotion}}" bindtap="toggleOrbit">{{orbitPaused ? '继续' : '暂停'}}</button>
+    <button class="orbit-button {{reducedMotion ? 'is-disabled' : ''}}" disabled="{{reducedMotion}}" aria-label="{{orbitPaused ? '继续星球公转' : '暂停星球公转'}}" aria-pressed="{{orbitPaused || reducedMotion}}" bindtap="toggleOrbit">{{orbitPaused ? '继续' : '暂停'}}</button>
     <button class="orbit-button" aria-label="恢复星球默认视角" bindtap="resetOrbitView">恢复视角</button>
   </view>
   <view class="universe-viewport">
-    <space-scene mode="universe" id="universeScene" items="{{cases}}" paused="{{orbitPaused}}" covered="{{showPrivacy}}" reduced-motion="{{reducedMotion}}" bindselect="selectPlanet"></space-scene>
-    <view class="universe-caption"><text>小星球看案例 · 大星球打开案例库</text><text>拖动调整视角 · {{caseLibraryMeta.free}} 个案例免费阅读</text></view>
+    <space-scene mode="universe" class="home-scene" id="universeScene" items="{{cases}}" paused="{{orbitPaused}}" covered="{{showPrivacy}}" reduced-motion="{{reducedMotion}}" bindselect="selectPlanet"></space-scene>
+    <view class="universe-caption"><text class="universe-caption-line">小星球看案例 · 大星球打开案例库</text><text class="universe-caption-line">拖动调整视角 · {{caseLibraryMeta.free}} 个案例免费阅读</text></view>
   </view>
-  <ad-slot enabled="{{adSlot.enabled}}" unit-id="{{adSlot.unitId}}" placement="{{adSlot.placement}}" ad-type="{{adSlot.adType}}"></ad-slot>
+  <ad-slot class="home-ad" enabled="{{adSlot.enabled}}" unit-id="{{adSlot.unitId}}" placement="{{adSlot.placement}}" ad-type="{{adSlot.adType}}"></ad-slot>
 </view>
 <privacy-popup visible="{{showPrivacy}}" bindaccept="acceptPrivacy" binddecline="declinePrivacy"></privacy-popup>

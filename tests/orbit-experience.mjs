@@ -162,6 +162,16 @@ test('trajectories are continuous, stateless and shared between CommonJS and bro
   }
 });
 
+test('manual universe zoom is not overwritten by subsequent animation frames', () => {
+  const h = harness();
+  h.scene.universeDefaultZoom = 12;
+  h.scene.camera.position = { z: 12 };
+  h.scene.zoomView(-2);
+  assert.equal(h.scene.camera.position.z, 10);
+  h.start(); h.tick(0); h.advance(2000);
+  assert.equal(h.scene.camera.position.z, 10, 'automatic animation must respect the user camera');
+});
+
 test('universe travel is time based at 30, 60 and 120 Hz without rotating the whole composition', () => {
   const travel = [30, 60, 120].map(fps => {
     const h = harness(); h.start(); h.tick(0); h.advance(1000, fps);
