@@ -1,4 +1,4 @@
-<scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="false">
+<!-- Keep the native Canvas on the page scroll surface, alongside the text. -->
   <view class="page-shell custom-page demo-page"><galaxy-backdrop></galaxy-backdrop><safe-top></safe-top>
     <view class="nav-bar"><view class="brand-block"><text class="brand">案例演示</text><text class="brand-sub">{{result ? '已载入七阶段商业 DNA' : '选择一个内置案例查看完整链路'}}</text></view><text class="mode-badge">本地预置</text></view>
 
@@ -46,5 +46,4 @@
       <view class="spacer-bottom"></view>
     </view>
   </view>
-</scroll-view>
 <node-detail-sheet node="{{selectedNode}}" bindclose="closeNode"></node-detail-sheet>
