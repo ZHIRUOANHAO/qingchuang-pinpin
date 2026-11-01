@@ -1,7 +1,8 @@
 param(
   [string]$Repository = 'ZHIRUOANHAO/qingchuang-pinpin',
   [string]$ExpectedLogin = 'ZHIRUOANHAO',
-  [string]$Tag = 'backup-2026-10-26',
+  [ValidateSet('v1.0','v2.0')]
+  [string]$Tag = 'v2.0',
   [string]$AssetsDirectory = 'output/github-backup-2026-10-26',
   [string]$Proxy = 'http://127.0.0.1:7897',
   [string]$UploadProxy = ''
@@ -57,15 +58,7 @@ try {
   $qcppReleases = @(Invoke-RestMethod @qcppRequest -Uri "$qcppApiRoot/releases?per_page=100")
   $qcppRelease = $qcppReleases | Where-Object { $_.tag_name -eq $Tag } | Select-Object -First 1
   if (-not $qcppRelease) {
-    $qcppBody = @{
-      tag_name=$Tag
-      name='Project backup 2026-10-26'
-      body="Private project backup. Source snapshot: $qcppLocalCommit. Historical archives and independent working copies are catalogued in backups/catalog.json. Original local backups are preserved; machine-private configuration is excluded from upload copies. SHA256SUMS.txt verifies every asset. This is a backup snapshot, not a WeChat deployment. The seven issues in docs/other audit report remain open; see docs/ for the full Chinese audit."
-      draft=$false
-      prerelease=$false
-      make_latest='false'
-    } | ConvertTo-Json
-    $qcppRelease = Invoke-RestMethod @qcppRequest -Method Post -Uri "$qcppApiRoot/releases" -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($qcppBody))
+    throw 'Create the agreed v1.0 or v2.0 release first; this uploader does not create date-based releases.'
   }
   $qcppReceipts = @()
   foreach ($qcppFile in $qcppFiles) {

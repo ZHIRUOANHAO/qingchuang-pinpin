@@ -1,79 +1,68 @@
 ---
-version: 0.1
-last_updated: 2026-10-26
+version: 0.2
+last_updated: 2026-11-01
 ---
 
-# 备份索引与恢复说明
+# 两个版本的备份与恢复
 
-当前主仓库为私有仓库 [ZHIRUOANHAO/qingchuang-pinpin](https://github.com/ZHIRUOANHAO/qingchuang-pinpin)。当前源代码由 Git 提交保存，历史大文件备份集中在对应的 GitHub Release，避免将多份 ZIP 和视频反复放入代码历史。
+当前私有仓库为 [ZHIRUOANHAO/qingchuang-pinpin](https://github.com/ZHIRUOANHAO/qingchuang-pinpin)。主要版本统一为 **1.0** 和 **2.0**，不再把每次调试、日期备份和宣传素材都列成独立产品版本。
 
-## 当前快照
+| 版本 | 源码入口 | 收纳范围 |
+| --- | --- | --- |
+| **1.0 · 已上线版归档** | [v1.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v1.0) | 09-21、09-23、10-08 的早期源码；代表提交 `2a8e9cc` |
+| **2.0 · 体验版** | [v2.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v2.0) | 10-25 起的首页行星、手机布局与资产卡等优化，及 `91b2c75` 的模型随页面滚动修复 |
 
-- 当前备份标签：`backup-2026-10-26`。
-- [GitHub 备份归档](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/backup-2026-10-26)。
-- [逐文件目录、来源、SHA256、去重与排除记录](catalog.json)。
-- `historical-backups-2026-10-26.zip`：本地历史代码和视频备份、历史文档及知识库，以及独立网站工作副本，按原相对目录归档。私有配置从上传副本中排除。
-- `project-history-2026-10-26.bundle`：主仓库提交和标签的离线恢复副本。
-- `document-history-2026-10-26.bundle`：独立历史文档仓库的 Git 历史；当前工作副本另外包含在 ZIP 中，不与主仓库压平合并。
-- `catalog.json`、`SHA256SUMS.txt`：同一 Release 中的目录与资产校验清单。
+**只恢复小程序代码时，打开对应版本，下载 Source code (zip)，无需下载下面的历史分卷。** 两个版本保留固定标签；后续日常修改在主分支提交，正式更新时再按用户确认的版本号归档。
 
-本次大文件以 16 MiB 分卷上传：历史 ZIP 为 17 卷，主仓库 bundle 为 4 卷。文件名分别以 `.part001` 等结尾；`archive-parts.json` 记录顺序、各卷及合并后 SHA256。Release 同时提供 `restore-github-backup.py`，把它、清单和全部分卷下载到同一目录，再执行：
+## 版本对应依据
+
+1.0 采用目前最有依据的完整旧快照 `2a8e9cc617341d2cd7e67c75a95f0ebabc114878`。它与 2026-10-21 优化前备份共有的 168 个文件一致（忽略 CRLF 差异）；备份另有依赖、构建产物和辅助配置。现有资料没有微信上传包校验值或完整上传回执，因此不能断言这个快照与微信线上 1.0 完全一致。
+
+2.0 按用户指定版本命名，包含前期优化及最新模型滚动修复。用户于 2026-11-01 确认：1.0 已上线，2.0 为体验版；GitHub 2.0 标为预发布，不列为最新正式版本。此次只整理 GitHub，不代替微信审核或发布；[七项已知问题](../docs/其他问题审核测试-2026-10-26.md)仍按原审核报告保留，不宣称全部修复。
+
+[version-map.json](version-map.json) 保存两个版本的来源、五个旧标签的原标签对象与目标提交。旧日期标签从远端入口移除，提交历史、本地原标签和原始备份仍保留。
+
+## 配套历史资料统一放在 2.0 下
+
+2.0 发布页保留原备份页的 **26 个附件**。这些附件共同保存 1.0 / 2.0 的历史过程、文档和独立工作资料，不是 26 个版本：
+
+- `historical-backups-2026-10-26.zip.part001` 至 `.part017`：历史 ZIP 分卷；目录见 [catalog.json](catalog.json)。
+- `project-history-2026-10-26.bundle.part001` 至 `.part004`：截至 `180da46` 的主仓库历史，含五个旧标签；**不含后续提交及最新 2.0 修复**。
+- `document-history-2026-10-26.bundle`：独立文档仓库历史。
+- `catalog.json`、`archive-parts.json`、`restore-github-backup.py`、`SHA256SUMS.txt`：目录、分卷清单、恢复工具和校验值。
+
+旧归档盘点 599 个源文件，上传 582 个唯一文件，合并 16 份重复内容、排除 1 份本机私有配置；原始本地文件维持原样。原清单、分卷内容和历史上传回执冻结，不将旧 bundle 冒充当前源码。
+
+需要恢复历史资料时，从 **v2.0** 发布页下载上述 26 个附件到同一新目录，使用 Python 3.11 或以上执行：
 
 ```powershell
 python .\restore-github-backup.py .\archive-parts.json
 ```
 
-工具先校验各卷，再生成原始 ZIP 和 bundle，已有文件不会被覆盖。需要 Python 3.11 或以上版本。只有完成合并校验后再使用下文的离线恢复命令。
-
-这是代码和历史备份归档，不是微信小程序上传或发布。当前快照保留了[本轮审核确认但尚未整改的七项问题](../docs/其他问题审核测试-2026-10-26.md)。
-
-## 既有历史
-
-保留全部原有提交，未重写仓库历史。为原有备份建立以下检索标签：
-
-| 标签或提交 | 日期 | 内容 |
-| --- | --- | --- |
-| `backup-2026-09-21-baseline` / `c2cec61` | 2026-09-21 | 优化前代码基线 |
-| `backup-2026-09-23` / `0e4f1b5` | 2026-09-23 | 原项目快照 |
-| `backup-2026-10-08` / `2a8e9cc` | 2026-10-08 | 原本地项目更新备份 |
-| `69b4764` | 2026-10-25 | 自然行星系统与入场动效 |
-| `7db1a50` | 2026-10-25 | 合并原远端备份历史 |
-| `4a86785` | 2026-10-25 | 首页星球亮度与氛围调整 |
-| `checkpoint-2026-10-25-gold-planet` / `7b6fc6d` | 2026-10-25 | 金色线框主球品牌外观 |
-| `backup-2026-10-26` | 2026-10-26 | 首页手机布局整改、回归测试、其他问题审核及统一备份目录 |
-
-## 整理规则
-
-- 本机原始备份不删除、不覆盖；原有历史文档及独立仓库维持原目录。
-- 相同内容在上传 ZIP 中只保存一次，目录记录 `duplicateOf`，恢复时按对应记录复制回原相对路径。
-- 净化 ZIP 同时记录原文件校验值和上传副本校验值；原始文件与净化副本内容不同属预期行为。
-- 不上传真实 `.env`、本机私有配置、认证缓存、令牌或私钥。`project.private.config.json` 可根据公开的 `project.config.json` 在微信开发者工具中重新生成。
-- 依赖包、临时日志、自动化浏览器缓存等可重建内容不纳入代码版本。当前宣传视频工程的一般素材不等同于历史备份；本归档范围以目录逐项记录为准。
-- 新备份使用日期和用途命名，代码提交记录版本，大归档放 Release；不要使用“最终版”等含糊名称。
-
-## 恢复到新目录
-
-从 GitHub 恢复当前代码（保留现有工作区）：
+工具核对分卷顺序、各卷 SHA256 和合并后的 SHA256，再生成 ZIP 与 bundle，不覆盖已有文件。需要全部旧标签时，可在新目录运行：
 
 ```powershell
-git clone --branch backup-2026-10-26 https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-restored
+git clone .\project-history-2026-10-26.bundle qingchuang-pinpin-history
 ```
 
-离线恢复主仓库：
+恢复 ZIP 时也应解压到新空目录，依据 `catalog.json` 的 `duplicateOf` 恢复重复路径。独立文档仓库与网站工作副本保持独立，不与小程序源码压平合并。
+
+## 直接恢复某个版本
 
 ```powershell
-git bundle verify .\project-history-2026-10-26.bundle
-git clone .\project-history-2026-10-26.bundle qingchuang-pinpin-restored
+git clone --branch v1.0 https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-1.0
+git clone --branch v2.0 https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-2.0
 ```
 
-恢复历史资料时，将 ZIP 解压到新的空目录；按 `catalog.json` 的映射恢复重复文件。若需要独立文档仓库的历史，再将 `document-history-2026-10-26.bundle` 克隆到另一个新目录，并对照 ZIP 中的工作副本补回未提交资料。网站原仓库没有既有提交，其工作副本以 ZIP 为准。
+选择需要的一个命令即可；不要覆盖当前开发目录。两个标签均冻结，后续不要强推覆盖。
 
-下载后先计算 `Get-FileHash -Algorithm SHA256`，与 `SHA256SUMS.txt` 比较；不要将未经核对的归档直接覆盖正在开发的项目。
+## 维护和本轮交付
 
-## 辅助工具
+- README 和两个 Release 是日常入口；Git 提交用于追溯，不再额外创建日期 Release。
+- 推送时明确写出分支或指定版本标签，**不要执行 `git push --tags`**，以免把本地保留的旧标签重新推回远端。
+- `scripts/organize-github-versions.mjs` 用于本次迁移：核对 GitHub 账号、仓库、目标提交和附件，改挂原 Release、新建 1.0，核验后清理旧远端标签；遇到不一致就停止。
+- `scripts/upload-github-backup.ps1` 只给已经建立的 1.0 / 2.0 发布页补齐已校验附件，不再自行创建日期发布页。`output/` 中旧上传脚本作为历史原件，不再运行。
+- 本轮原文件副本、迁移前状态及最终回执放在 `output/version-consolidation-2026-10-27/`，不含认证凭据。历史提交与标签映射另保存在仓库内，便于恢复。
+- 已有原生界面 20 项、体验逻辑 15 项回归通过。此次不新增产品功能、不更改微信后台版本，也不将内部依赖版本号作为产品版本依据。
 
-- `scripts/prepare-github-backup.py`：根据盘点清单生成净化归档和目录，并逐项校验内容。
-- `scripts/restore-github-backup.py`：校验并合并分卷，恢复原始归档。
-- `scripts/upload-github-backup.ps1`：复用现有 Git Credential Manager 授权，核对账号、私有仓库及远端标签，上传归档并检查 GitHub SHA256 或下载内容。不会启动账号登录，也不会覆盖同名但不同内容的远端资产。
-
-盘点输入和实际上传回执放在本机 `output/`，不包含认证凭据。仓库内 `catalog.json` 是备份内容的持久索引，执行状态以远端提交、标签、Release 及本机校验回执为准。
+分工：`version_mapping` 协作代理只读核对源码对应关系；`backup_consolidation_review` 只读核对恢复依赖；主窗口负责文件、标签、远端修改与验收。当前无侧栏旧聊天发送工具，未向这些窗口发布消息。

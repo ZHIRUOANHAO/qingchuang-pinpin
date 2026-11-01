@@ -1,0 +1,69 @@
+{
+  "version": "0.1",
+  "last_updated": "2026-11-01",
+  "repository": "ZHIRUOANHAO/qingchuang-pinpin",
+  "versions": [
+    {
+      "version": "1.0",
+      "tag": "v1.0",
+      "sourceCommit": "2a8e9cc617341d2cd7e67c75a95f0ebabc114878",
+      "label": "已上线版对应归档",
+      "wechatStatus": "用户于 2026-11-01 确认 1.0 已上线。",
+      "evidence": "2026-10-08 完整快照，与 2026-10-21 优化前备份共有的 168 个文件一致（忽略 CRLF）。",
+      "wechatPackageMatch": "未取得微信上传包校验值或完整回执，不能确认与线上包完全一致。"
+    },
+    {
+      "version": "2.0",
+      "tag": "v2.0",
+      "sourceCommit": "91b2c75d4b84ad102c4680ec9edb20b35aed9345",
+      "label": "体验版",
+      "wechatStatus": "用户于 2026-11-01 确认 2.0 是体验版。",
+      "evidence": "包含首页行星、手机布局、资产卡导图等前期优化及模型随页面滚动修复；标签另包含本轮归档说明与工具。",
+      "wechatPackageMatch": "体验版源码归档，未确认与微信体验包完全一致，不代表已正式发布。"
+    }
+  ],
+  "historicalRelease": {
+    "id": 423851254,
+    "previousTag": "backup-2026-10-26",
+    "destinationTag": "v2.0",
+    "assetCount": 26,
+    "assetBytes": 341585194,
+    "bundleHead": "180da468a90754045cd13ded9d836899de578fb7",
+    "catalog": "backups/catalog.json",
+    "parts": "backups/archive-parts-2026-10-26.json",
+    "scope": "配套历史资料含两个版本的开发过程，不是额外的小程序版本；原分卷和清单冻结。"
+  },
+  "legacyTags": [
+    {
+      "name": "backup-2026-09-21-baseline",
+      "tagObject": "6e8c371bda53dedf6a8c628d4c707b31a2bc738f",
+      "commit": "c2cec61a1ed17f9b3988724dd54dbc428970ee91",
+      "version": "1.0"
+    },
+    {
+      "name": "backup-2026-09-23",
+      "tagObject": "a8f8574b5311402f0e8af0285bb2441dcd701fb1",
+      "commit": "0e4f1b58c26ad62d6692c2a30d7dd5b5f85878b0",
+      "version": "1.0"
+    },
+    {
+      "name": "backup-2026-10-08",
+      "tagObject": "7e6660a7690f1c2ca3715ab345d809f849eb5a94",
+      "commit": "2a8e9cc617341d2cd7e67c75a95f0ebabc114878",
+      "version": "1.0"
+    },
+    {
+      "name": "checkpoint-2026-10-25-gold-planet",
+      "tagObject": "dbe9eaa808fc6a2e84fcf1564e375c5392462964",
+      "commit": "7b6fc6d9b725b286c3e4c5d373e82d10586db29f",
+      "version": "2.0"
+    },
+    {
+      "name": "backup-2026-10-26",
+      "tagObject": "f5c1cc97832094fc2f458369ab75bb94252caab3",
+      "commit": "180da468a90754045cd13ded9d836899de578fb7",
+      "version": "2.0"
+    }
+  ],
+  "policy": "远端仅保留 v1.0 和 v2.0；保留全部提交、本地旧标签和历史 bundle。日常调试只提交代码，不新增日期 Release，不使用 git push --tags。"
+}
