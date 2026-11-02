@@ -16,9 +16,20 @@
     <button class="orbit-button" aria-label="恢复星球默认视角" bindtap="resetOrbitView">恢复视角</button>
   </view>
   <view class="universe-viewport">
-    <space-scene mode="universe" class="home-scene" id="universeScene" items="{{cases}}" paused="{{orbitPaused}}" covered="{{showPrivacy}}" reduced-motion="{{reducedMotion}}" bindselect="selectPlanet"></space-scene>
+    <space-scene mode="universe" class="home-scene" id="universeScene" items="{{cases}}" paused="{{orbitPaused}}" covered="{{showPrivacy || showOnboarding || pageHidden}}" reduced-motion="{{reducedMotion}}" bindselect="selectPlanet"></space-scene>
     <view class="universe-caption"><text class="universe-caption-line">小星球看案例 · 大星球打开案例库</text><text class="universe-caption-line">拖动调整视角 · {{caseLibraryMeta.free}} 个案例免费阅读</text></view>
   </view>
   <ad-slot class="home-ad" enabled="{{adSlot.enabled}}" unit-id="{{adSlot.unitId}}" placement="{{adSlot.placement}}" ad-type="{{adSlot.adType}}"></ad-slot>
 </view>
 <privacy-popup visible="{{showPrivacy}}" bindaccept="acceptPrivacy" binddecline="declinePrivacy"></privacy-popup>
+<view wx:if="{{showOnboarding}}" class="onboarding-backdrop">
+  <view class="onboarding-card" role="dialog" aria-modal="true" aria-label="新手引导">
+    <text class="onboarding-eyebrow">第一次来，从这里开始</text>
+    <text class="onboarding-title">把一个想法，变成下一步</text>
+    <text class="onboarding-copy">用一段短视频，学会选案例、看做法、加入画布和记录验证方案。</text>
+    <view class="onboarding-path"><text>选案例</text><text>→</text><text>看做法</text><text>→</text><text>试一步</text></view>
+    <button class="primary-button onboarding-action" bindtap="watchOnboarding">观看新手引导</button>
+    <button class="onboarding-skip" bindtap="skipOnboarding">跳过，直接体验</button>
+    <text class="onboarding-note">以后可在「我的 → 新手引导」重看</text>
+  </view>
+</view>

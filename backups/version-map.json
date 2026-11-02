@@ -1,6 +1,6 @@
 {
-  "version": "0.1",
-  "last_updated": "2026-11-01",
+  "version": "0.2",
+  "last_updated": "2026-11-02",
   "repository": "ZHIRUOANHAO/qingchuang-pinpin",
   "versions": [
     {
@@ -19,7 +19,12 @@
       "label": "体验版",
       "wechatStatus": "用户于 2026-11-01 确认 2.0 是体验版。",
       "evidence": "包含首页行星、手机布局、资产卡导图等前期优化及模型随页面滚动修复；标签另包含本轮归档说明与工具。",
-      "wechatPackageMatch": "体验版源码归档，未确认与微信体验包完全一致，不代表已正式发布。"
+      "wechatPackageMatch": "体验版源码归档，未确认与微信体验包完全一致，不代表已正式发布。",
+      "developmentBranch": "master",
+      "currentArchive": "qingchuang-pinpin-2.0-source.zip",
+      "videoProjectArchive": "qingchuang-pinpin-2.0-video-project.zip",
+      "currentBackupManifest": "qingchuang-pinpin-2.0-backup.json",
+      "archiveNote": "Current development backup includes onboarding; v2.0 tag remains the initial frozen preview snapshot."
     }
   ],
   "historicalRelease": {

@@ -1,0 +1,12 @@
+<view class="guide-page">
+  <view class="guide-heading"><view><text class="guide-kicker">轻创拼拼 · 新手引导</text><text class="guide-title">从看懂，到试一步</text></view><button class="guide-skip" bindtap="leaveGuide">跳过 / 返回</button></view>
+  <text class="guide-intro">观看演示，也可以直接阅读下面的四步说明。视频含字幕，点击播放即可观看。</text>
+  <view wx:if="{{videoLoading}}" class="guide-error"><text>正在准备引导视频…</text><text>也可以先阅读下方四步说明。</text></view>
+  <video wx:if="{{videoMounted && videoSrc && !videoError}}" id="quickstart-video" class="guide-video" src="{{videoSrc}}" poster="/onboarding/media/quickstart-poster.jpg" controls="{{true}}" autoplay="{{false}}" loop="{{false}}" object-fit="contain" show-center-play-btn="{{true}}" show-fullscreen-btn="{{true}}" binderror="videoFailed" bindended="videoEnded" aria-label="新手操作演示视频"></video>
+  <view wx:if="{{videoError}}" class="guide-error"><text>视频暂时无法播放</text><text>你可以继续看四步说明，或重新加载视频。</text><button class="secondary-button" bindtap="retryVideo">重新加载</button></view>
+  <text wx:if="{{completed}}" class="guide-completed">已看完，现在可以亲手试一次。</text>
+  <view class="guide-steps"><view wx:for="{{steps}}" wx:key="number" class="guide-step"><text class="guide-number">{{item.number}}</text><view><text class="guide-step-title">{{item.title}}</text><text class="guide-step-copy">{{item.description}}</text></view></view></view>
+  <text class="guide-boundary">案例用于学习与小步验证，不承诺流量、成交或收益。以后可在「我的 → 新手引导」重看。</text>
+  <button class="primary-button guide-start" bindtap="startCases">去选一个低成本案例</button>
+  <button class="guide-return" bindtap="leaveGuide">返回继续浏览</button>
+</view>

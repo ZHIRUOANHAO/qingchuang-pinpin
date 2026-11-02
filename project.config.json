@@ -34,7 +34,7 @@
   "simulatorPluginLibVersion": {},
   "packOptions": {
     "ignore": [],
-    "include": []
+    "include": [{ "type": "folder", "value": "onboarding/media" }]
   },
   "editorSetting": {}
 }

@@ -14,7 +14,7 @@
         <text class="eyebrow">{{exercise ? '生活化入门练习' : '案例实践记录'}} · 仅本机</text>
         <text class="page-title">{{exercise ? exercise.title : record.caseTitle}}</text>
         <text class="intro-body">{{exercise ? exercise.need : '尝试一个具体动作，把实际做法、条件、结果和证据一起留下。没有结论时，也可以如实记录。'}}</text>
-        <picker wx:if="{{exercise &amp;&amp; !lockedSource}}" range="{{exercises}}" range-key="shortTitle" value="{{exerciseIndex}}" bindchange="changeExercise">
+        <picker wx:if="{{exercise && !lockedSource}}" range="{{exercises}}" range-key="shortTitle" value="{{exerciseIndex}}" bindchange="changeExercise">
           <view class="picker-control">换一个练习：{{exercises[exerciseIndex].shortTitle}} ▾</view>
         </picker>
       </view>

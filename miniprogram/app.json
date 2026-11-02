@@ -17,6 +17,7 @@
     "pages/help/help",
     "pages/about/about"
   ],
+  "subPackages": [{ "root": "onboarding", "pages": ["pages/guide/guide"] }],
   "window": {
     "navigationStyle": "default",
     "navigationBarTitleText": "轻创拼拼",

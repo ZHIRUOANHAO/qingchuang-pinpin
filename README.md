@@ -1,6 +1,6 @@
 ---
-version: 1.0
-last_updated: 2026-11-01
+version: 1.1
+last_updated: 2026-11-02
 ---
 
 # 轻创拼拼
@@ -14,7 +14,9 @@ GitHub 按 **1.0 / 2.0** 两个产品版本归档，日常调试保存在提交�
 | **1.0 · 已上线版归档** | [查看 1.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v1.0) | 以 2026-10-08 完整快照为代表，收纳早期备份 |
 | **2.0 · 体验版** | [查看 2.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v2.0) | 首页行星与手机布局、资产卡导图、案例阅读及模型滚动修复 |
 
-下载各发布页的 **Source code (zip)** 即可取得对应源码。2.0 页其他分卷附件是配套历史资料，不是额外的小程序版本。详细映射、恢复方法和已知问题见 [备份说明](backups/README.md)。
+1.0 下载发布页的 **Source code (zip)**。2.0 含新手引导的当前代码下载 [qingchuang-pinpin-2.0-source.zip](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/download/v2.0/qingchuang-pinpin-2.0-source.zip)；标签自动生成的 Source code 是此前冻结快照。视频制作工程另附在同一 2.0 页。历史分卷与恢复方法见 [备份说明](backups/README.md)。
+
+2026-11-02：2.0 工程已加入可跳过的首次新手提示、32 秒操作视频及“我的 → 新手引导”重看入口；视频与封面随独立分包交付。微信 CLI 预览编译通过，实际手机播放仍需扫码复验。详见 [交付说明](docs/新手引导交付说明.md)。
 
 用户于 2026-11-01 确认：**1.0 是已上线版，2.0 是体验版**。GitHub 将 1.0 标为正式版本，将 2.0 标为预发布体验版。现有资料未保存微信 1.0 上传包的校验值，因此 GitHub 1.0 为最有依据的旧源码归档，尚未确认与线上包完全一致。GitHub 版本归档不会替代微信提交审核或发布操作。
 

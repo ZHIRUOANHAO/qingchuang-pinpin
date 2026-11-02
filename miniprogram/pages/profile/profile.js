@@ -5,6 +5,7 @@ Page({
   data: {
     counts: { favorites: 0, records: 0, schemes: 0 },
     menus: [
+      { id: 'onboarding', name: '新手引导', note: '观看操作视频，跟着完成第一次验证', symbol: '▷', url: '/onboarding/pages/guide/guide?entry=profile' },
       { id: 'favorites', name: '我的收藏', note: '仅保存在当前设备', symbol: '◇', url: '/pages/favorites/favorites' },
       { id: 'records', name: '案例演示记录', note: '回看已保存的案例结构', symbol: 'DNA', url: '/pages/records/records' },
       { id: 'schemes', name: '方案与验证', note: '继续拼装、执行与阶段复盘', symbol: '□', url: '/pages/schemes/schemes' }

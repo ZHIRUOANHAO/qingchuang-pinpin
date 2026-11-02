@@ -1,0 +1,21 @@
+.guide-page { padding:20px 18px calc(env(safe-area-inset-bottom) + 28px); max-width:640px; margin:0 auto; }
+.guide-heading { display:flex; align-items:center; gap:12px; justify-content:space-between; }
+.guide-kicker { display:block; color:var(--gold); font-size:12px; line-height:1.7; }
+.guide-title { display:block; margin-top:6px; color:var(--text); font-size:24px; font-weight:650; line-height:1.4; }
+.guide-skip { flex:none; margin:0; padding:0 10px; min-height:44px; border:1px solid var(--line); border-radius:6px; background:var(--surface-strong); color:var(--text); font-size:12px; line-height:44px; }
+.guide-intro { display:block; margin:14px 0 18px; color:#bac4d5; font-size:13px; line-height:1.8; }
+.guide-video { display:block; width:100%; height:380px; height: min(110vw, 480px); background:#080d19; border-radius:8px; }
+.guide-error { padding:24px 18px; border:1px solid var(--line); border-radius:8px; background:var(--surface-strong); }
+.guide-error text { display:block; margin-bottom:12px; color:#bac4d5; font-size:14px; line-height:1.8; }
+.guide-error button { min-height:44px; font-size:14px; }
+.guide-completed { display:block; margin-top:16px; color:var(--success); font-size:14px; line-height:1.7; }
+.guide-steps { margin:24px 0 20px; }
+.guide-step { display:flex; gap:14px; padding:18px 0; border-bottom:1px solid var(--line); }
+.guide-step:first-child { padding-top:0; }
+.guide-number { flex:none; color:var(--gold); font-size:18px; line-height:1.5; }
+.guide-step-title { display:block; color:var(--text); font-size:16px; font-weight:600; line-height:1.5; }
+.guide-step-copy { display:block; margin-top:6px; color:#bac4d5; font-size:13px; line-height:1.8; }
+.guide-boundary { display:block; margin-bottom:20px; color:var(--muted); font-size:12px; line-height:1.8; }
+.guide-start { width:100%; min-height:48px; font-size:14px; }
+.guide-return { width:100%; margin-top:10px; min-height:44px; background:transparent; color:#bac4d5; font-size:14px; }
+@media(max-width:340px) { .guide-page { padding-left:14px; padding-right:14px; } .guide-title { font-size:21px; } }

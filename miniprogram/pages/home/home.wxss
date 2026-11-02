@@ -1,4 +1,13 @@
 page { height:100%; overflow:hidden; }
+.onboarding-backdrop { position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(5,8,18,.88); }
+.onboarding-card { width:100%; max-width:400px; max-height:90vh; overflow:auto; padding:24px; border:1px solid var(--line); border-radius:12px; background:var(--surface-strong); }
+.onboarding-eyebrow { display:block; color:var(--gold); font-size:12px; line-height:1.6; }
+.onboarding-title { display:block; margin-top:10px; color:var(--text); font-size:23px; font-weight:650; line-height:1.45; }
+.onboarding-copy { display:block; margin-top:12px; color:#bac4d5; font-size:14px; line-height:1.8; }
+.onboarding-path { display:flex; justify-content:space-between; gap:8px; margin:20px 0; color:var(--gold); font-size:12px; }
+.onboarding-action { width:100%; min-height:46px; font-size:14px; }
+.onboarding-skip { display:block; width:100%; min-height:44px; margin-top:8px; background:transparent; color:var(--text); font-size:14px; }
+.onboarding-note { display:block; margin-top:8px; text-align:center; color:var(--muted); font-size:11px; line-height:1.7; }
 .home-fixed { display:flex; flex-direction:column; position:relative; height:100vh; min-height:0; padding:0 14px 12px; overflow:hidden; }
 .home-safe-top { display:block; flex:none; }
 .nav-bar { flex:none; min-height:52px; gap:12px; }

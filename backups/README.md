@@ -1,6 +1,6 @@
 ---
-version: 0.2
-last_updated: 2026-11-01
+version: 0.3
+last_updated: 2026-11-02
 ---
 
 # 两个版本的备份与恢复
@@ -12,7 +12,9 @@ last_updated: 2026-11-01
 | **1.0 · 已上线版归档** | [v1.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v1.0) | 09-21、09-23、10-08 的早期源码；代表提交 `2a8e9cc` |
 | **2.0 · 体验版** | [v2.0](https://github.com/ZHIRUOANHAO/qingchuang-pinpin/releases/tag/v2.0) | 10-25 起的首页行星、手机布局与资产卡等优化，及 `91b2c75` 的模型随页面滚动修复 |
 
-**只恢复小程序代码时，打开对应版本，下载 Source code (zip)，无需下载下面的历史分卷。** 两个版本保留固定标签；后续日常修改在主分支提交，正式更新时再按用户确认的版本号归档。
+1.0 下载发布页的 **Source code (zip)**。**恢复含新手引导的 2.0 当前代码时，下载同页的 `qingchuang-pinpin-2.0-source.zip`，无需历史分卷。** 两个标签仍保留原冻结快照；日常改动保存在主分支，本次补充源码附件与主分支对应，不强推旧标签。
+
+2.0 当前备份还附 `qingchuang-pinpin-2.0-video-project.zip`（教程视频可编辑工程、真实预览素材与母版）、`qingchuang-pinpin-2.0-backup.json`（源提交和逐文件校验清单）、`qingchuang-pinpin-2.0-SHA256SUMS.txt`（附件 SHA256）。这些归在原有 2.0 入口中，没有新增版本。备份不含本机私有配置、认证资料、开发缓存或无关后台截图。
 
 ## 版本对应依据
 
@@ -51,10 +53,10 @@ git clone .\project-history-2026-10-26.bundle qingchuang-pinpin-history
 
 ```powershell
 git clone --branch v1.0 https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-1.0
-git clone --branch v2.0 https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-2.0
+git clone --branch master https://github.com/ZHIRUOANHAO/qingchuang-pinpin.git qingchuang-pinpin-2.0
 ```
 
-选择需要的一个命令即可；不要覆盖当前开发目录。两个标签均冻结，后续不要强推覆盖。
+选择需要的一个命令即可；不要覆盖当前开发目录。`master` 获取当前开发代码；精确恢复本次备份，应下载源码附件，或按 `qingchuang-pinpin-2.0-backup.json` 的 `commit` 检出对应提交。两个标签均冻结，后续不要强推覆盖。
 
 ## 维护和本轮交付
 
